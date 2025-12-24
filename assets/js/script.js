@@ -76,7 +76,6 @@ const textPool = [
 const columns = Math.floor(fallingWidth / 20);
 const drops = [];
 
-
 for (let i = 0; i < columns; i++) {
     drops[i] = {
         y: Math.random() * -800,
@@ -89,7 +88,6 @@ for (let i = 0; i < columns; i++) {
 let fallingAnimationFrame;
 
 function drawFallingText() {
-    
     fallingCtx.fillStyle = 'rgba(34, 34, 34, 0.05)';
     fallingCtx.fillRect(0, 0, fallingWidth, fallingHeight);
 
@@ -103,7 +101,6 @@ function drawFallingText() {
 
         drop.y += drop.speed;
 
-        
         if (drop.y > fallingHeight) {
             drop.y = Math.random() * -300;
             drop.text = textPool[Math.floor(Math.random() * textPool.length)];
@@ -124,7 +121,6 @@ const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.section');
 const barsBox = document.querySelector('.bars-box');
 
-
 menuToggle.addEventListener('click', () => {
     const isActive = menuToggle.classList.toggle('active');
     mainNav.classList.toggle('active');
@@ -138,7 +134,6 @@ document.addEventListener('click', (e) => {
         menuToggle.setAttribute('aria-expanded', 'false');
     }
 });
-
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mainNav.classList.contains('active')) {
@@ -182,7 +177,6 @@ function switchSection(targetSection) {
     mainNav.classList.remove('active');
     menuToggle.setAttribute('aria-expanded', 'false');
 
-    
     if (currentSection) {
         currentSection.classList.add('transitioning-out');
     }
@@ -192,27 +186,21 @@ function switchSection(targetSection) {
         barsBox.classList.add('active');
     }, 200);
 
-    
     setTimeout(() => {
-        
         sections.forEach(section => {
             section.classList.remove('active', 'transitioning-out');
         });
 
-        
         targetSection.classList.add('active');
-        
         
         const sectionInner = targetSection.querySelector('.section-inner');
         if (sectionInner) {
             sectionInner.scrollTop = 0;
         }
 
-        
         checkSectionOverflow();
     }, 600);
 
-    
     setTimeout(() => {
         barsBox.classList.remove('active');
         isTransitioning = false;
@@ -224,21 +212,17 @@ navLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // Don't proceed if transitioning
         if (isTransitioning) return;
         
         const sectionId = link.getAttribute('data-section');
         const targetSection = document.getElementById(sectionId);
         
         if (targetSection) {
-            // Update active nav link
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
             
-            // Switch section
             switchSection(targetSection);
             
-            // Update URL hash
             history.pushState(null, null, `#${sectionId}`);
         }
     });
@@ -310,6 +294,51 @@ window.addEventListener('popstate', () => {
         switchSection(targetSection);
     }
 });
+
+//  PROFILE IMAGE HOVER EFFECT (MOBILE TAP SUPPORT) 
+const imageContainer = document.querySelector('.image-container');
+
+if (imageContainer) {
+    // Check if device doesn't support hover (mobile/tablet)
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    
+    if (isTouchDevice) {
+        // Mobile: tap to toggle
+        imageContainer.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+        });
+        
+        // Close on outside tap
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.image-container')) {
+                imageContainer.classList.remove('active');
+            }
+        });
+    }
+}
+
+const aboutImageWrapper = document.querySelector('.about-image-wrapper');
+
+if (aboutImageWrapper) {
+    // Check if device doesn't support hover (mobile/tablet)
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    
+    if (isTouchDevice) {
+        // Mobile: tap to toggle
+        aboutImageWrapper.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+        });
+        
+        // Close on outside tap (optional)
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.about-image-wrapper')) {
+                aboutImageWrapper.classList.remove('active');
+            }
+        });
+    }
+}
 
 //  PROJECT CAROUSEL 
 const carouselTrack = document.querySelector('.carousel-track');
@@ -480,11 +509,9 @@ window.addEventListener('resize', () => {
 // Pause animations when tab is not visible
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        
         if (gridAnimationFrame) cancelAnimationFrame(gridAnimationFrame);
         if (fallingAnimationFrame) cancelAnimationFrame(fallingAnimationFrame);
     } else {
-        
         drawGrid();
         drawFallingText();
     }
@@ -494,7 +521,6 @@ document.addEventListener('visibilitychange', () => {
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 if (prefersReducedMotion.matches) {
-   
     if (gridAnimationFrame) cancelAnimationFrame(gridAnimationFrame);
     if (fallingAnimationFrame) cancelAnimationFrame(fallingAnimationFrame);
     gridOffset = { x: 0, y: 0 };
@@ -539,4 +565,3 @@ function throttle(func, limit) {
         }
     };
 }
-

@@ -308,14 +308,14 @@ nav {
     padding: 0 clamp(2rem, 5vw, 8%);
 }
 
-/*  HOME SECTION = */
+/*  HOME SECTION  */
 .home-container {
     width: 100%;
     min-height: calc(100vh - var(--header-height));
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(2rem, 4vh, 4rem) ;
+    padding: clamp(2rem, 4vh, 4rem);
 }
 
 .home-content {
@@ -516,22 +516,25 @@ nav {
     transform: translateY(-3px);
 }
 
-/* Home Image */
+/*  UPDATED HOME IMAGE SECTION */
 .home-image {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem 0;
 }
 
+/* Image Wrapper  */
 .image-wrapper {
     position: relative;
-    width: clamp(280px, 35vw, 380px);
-    height: clamp(280px, 35vw, 380px);
+    width: clamp(380px, 45vw, 520px);
+    height: clamp(380px, 45vw, 520px);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Animated Border Ring */
 .image-border {
     position: absolute;
     width: 100%;
@@ -545,6 +548,7 @@ nav {
         transparent
     );
     animation: rotateBorder 6s linear infinite;
+    filter: blur(2px);
 }
 
 @keyframes rotateBorder {
@@ -556,6 +560,7 @@ nav {
     }
 }
 
+/* Image Container */
 .image-container {
     position: relative;
     width: 94%;
@@ -564,16 +569,109 @@ nav {
     background: var(--primary);
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     overflow: hidden;
     z-index: 1;
+    cursor: pointer;
+    transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.image-container img {
-    width: 85%;
-    height: auto;
+/* Profile Images - Dual Image Setup */
+.profile-img {
+    position: absolute;
+    width: auto;
+    height: 100%;
     object-fit: cover;
+    object-position: center bottom;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Default Image - Visible by default */
+.default-img {
+    opacity: 1;
+    z-index: 2;
+    transform: scale(1);
+}
+
+/* Hover Image - Hidden by default */
+.hover-img {
+    opacity: 0;
+    z-index: 1;
+    transform: scale(1.05);
+}
+
+/*  DESKTOP HOVER EFFECT */
+@media (hover: hover) and (pointer: fine) {
+    .image-container:hover .default-img {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .image-container:hover .hover-img {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .image-container:hover {
+        box-shadow: 0 20px 60px rgba(18, 139, 68, 0.4);
+    }
+
+    .image-container:hover .image-border {
+        animation-duration: 3s;
+        filter: blur(3px);
+    }
+
+     .about-image-wrapper:hover .default-about-img {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .about-image-wrapper:hover .hover-about-img {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .about-image-wrapper:hover {
+        border-color: var(--accent);
+        box-shadow: 0 15px 40px rgba(18, 139, 68, 0.3);
+        transform: translateY(-5px);
+    }
+}
+
+
+/*  MOBILE/TABLET TAP EFFECT*/
+@media (hover: none) and (pointer: coarse) {
+    .image-container.active .default-img {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .image-container.active .hover-img {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .image-container.active {
+        box-shadow: 0 20px 60px rgba(18, 139, 68, 0.4);
+    }
+     .about-image-wrapper.active .default-about-img {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .about-image-wrapper.active .hover-about-img {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .about-image-wrapper.active {
+        border-color: var(--accent);
+        box-shadow: 0 15px 40px rgba(18, 139, 68, 0.3);
+        transform: translateY(-5px);
+    }
+}
+
 
 /*  ABOUT SECTION  */
 .about-wrapper {
@@ -606,13 +704,46 @@ nav {
 .about-image-container {
     display: flex;
     justify-content: center;
+
 }
 
-.about-image {
+.about-image-wrapper {
+    position: relative;
     width: 100%;
     max-width: 350px;
     border-radius: 1.2rem;
-    border: 2px solid rgba(123, 123, 123, 0.15);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* About Images - Dual Image Setup */
+.about-image {
+    width: 100%;
+    height: auto;
+    border:none;
+    display: block;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                
+}
+
+/* Default Image - Visible by default */
+.default-about-img {
+    position: relative;
+    opacity: 1;
+    z-index: 2;
+    transform: scale(1);
+}
+
+/* Hover Image - Hidden by default */
+.hover-about-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+    transform: scale(1.05);
 }
 
 .about-text p {
@@ -898,6 +1029,8 @@ nav {
 .project-image-link:hover img {
     transform: scale(1.1);
 }
+
+/* CONTINUATION FROM PROJECT OVERLAY */
 
 .project-overlay {
     position: absolute;
@@ -1241,8 +1374,8 @@ footer p {
     }
 
     .image-wrapper {
-        width: 300px;
-        height: 300px;
+        width: 320px;
+        height: 320px;
     }
 
     /* About Section */
@@ -1365,8 +1498,8 @@ footer p {
     }
 
     .image-wrapper {
-        width: 260px;
-        height: 260px;
+        width: 280px;
+        height: 280px;
     }
 
     .project-carousel {
@@ -1389,8 +1522,8 @@ footer p {
     }
 
     .image-wrapper {
-        width: 240px;
-        height: 240px;
+        width: 250px;
+        height: 250px;
     }
 
     .project-carousel {
