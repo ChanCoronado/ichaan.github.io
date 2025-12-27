@@ -4,11 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ichaaan Portfolio</title>
+    <title>Ichaaan's Portfolio</title>
     <meta name="description" content="Portfolio of Chan Coronado - IT Student, Web Developer, and Designer">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Boxicons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS (loads after Bootstrap) -->
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="icon" href="Image/logoChan.png">
+    
+    <link rel="icon" href="assets/img/image.png">
 </head>
 
 <body>
@@ -55,59 +63,63 @@
     <main id="mainContent">
         <!-- Home Section -->
         <section class="section active" id="home" data-section="home">
-            <div class="section-inner">
-                <div class="container home-container">
-                    <div class="home-content">
-                        <div class="home-text">
-                            <h1 class="home-title">Chan Coronado</h1>
-                            <div class="home-subtitle">
-                                <span class="subtitle-text">I'm a </span>
-                                <span class="animated-text">
-                                    <span class="text-item active-text" data-text="Student">Student</span>
-                                    <span class="text-item" data-text="Developer">Developer</span>
-                                    <span class="text-item" data-text="Designer">Designer</span>
-                                    <span class="text-item" data-text="Creator">Creator</span>
-                                </span>
-                            </div>
-                            <p class="home-description">
-                                Hi, I'm Chan, a 21-year-old BSIT student at the Polytechnic University of the
-                                Philippines Sto. Tomas Campus.
-                                I'm passionate about coding and building creative, user-friendly websites as I work
-                                towards becoming a web developer.
-                            </p>
-                            <div class="home-actions">
-                                <a href="assets/files/Christian_Coronado_CV.pdf" class="btn btn-primary" download>
-                                    <i class='bx bx-download'></i>
-                                    <span>Download CV</span>
-                                </a>
-                                <div class="social-links">
-                                    <a href="https://github.com" target="_blank" rel="noopener noreferrer"
-                                        class="social-link" aria-label="GitHub">
-                                        <i class='bx bxl-github'></i>
+            <div class="section-inner pb-0">
+                <div class="container-fluid container-custom home-container">
+                    <div class="row home-content-row g-0">
+                        <div class="col-12 col-lg-6 home-text-col">
+                            <div class="home-text">
+                                <h1 class="home-title">Chan Coronado</h1>
+                                <div class="home-subtitle">
+                                    <span class="subtitle-text">I'm a </span>
+                                    <span class="animated-text">
+                                        <span class="text-item active-text" data-text="Student">Student</span>
+                                        <span class="text-item" data-text="Developer">Developer</span>
+                                        <span class="text-item" data-text="Designer">Designer</span>
+                                        <span class="text-item" data-text="Creator">Creator</span>
+                                    </span>
+                                </div>
+                                <p class="home-description">
+                                    Hi, I'm Chan, a 21-year-old BSIT student at the Polytechnic University of the
+                                    Philippines Sto. Tomas Campus.
+                                    I'm passionate about coding and building creative, user-friendly websites as I work
+                                    towards becoming a web developer.
+                                </p>
+                                <div class="home-actions">
+                                    <a href="assets/files/Christian_Coronado_CV.pdf" class="btn btn-primary" download>
+                                        <i class='bx bx-download'></i>
+                                        <span>Download CV</span>
                                     </a>
-                                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                                        class="social-link" aria-label="LinkedIn">
-                                        <i class='bx bxl-linkedin'></i>
-                                    </a>
-                                    <a href="https://discord.com" target="_blank" rel="noopener noreferrer"
-                                        class="social-link" aria-label="Discord">
-                                        <i class='bx bxl-discord-alt'></i>
-                                    </a>
-                                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-                                        class="social-link" aria-label="YouTube">
-                                        <i class='bx bxl-youtube'></i>
-                                    </a>
+                                    <div class="social-links">
+                                        <a href="https://github.com" target="_blank" rel="noopener noreferrer"
+                                            class="social-link" aria-label="GitHub">
+                                            <i class='bx bxl-github'></i>
+                                        </a>
+                                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                                            class="social-link" aria-label="LinkedIn">
+                                            <i class='bx bxl-linkedin'></i>
+                                        </a>
+                                        <a href="https://discord.com" target="_blank" rel="noopener noreferrer"
+                                            class="social-link" aria-label="Discord">
+                                            <i class='bx bxl-discord-alt'></i>
+                                        </a>
+                                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
+                                            class="social-link" aria-label="YouTube">
+                                            <i class='bx bxl-youtube'></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="home-image">
-                            <div class="image-wrapper">
-                                <div class="image-border"></div>
-                                <div class="image-container">
-                                    <img src="assets/img/home1.png" alt="Chan Coronado Profile"
-                                        class="profile-img default-img">
-                                    <img src="assets/img/home2.png" alt="Chan Coronado Profile Alt"
-                                        class="profile-img hover-img">
+                        <div class="col-12 col-lg-6 home-image-col">
+                            <div class="home-image">
+                                <div class="image-wrapper">
+                                    <div class="image-border"></div>
+                                    <div class="image-container">
+                                        <img src="assets/img/home1.png" alt="Chan Coronado Profile"
+                                            class="profile-img default-img">
+                                        <img src="assets/img/home2.png" alt="Chan Coronado Profile Alt"
+                                            class="profile-img hover-img">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -119,72 +131,88 @@
         <!-- About Section -->
         <section class="section" id="about" data-section="about">
             <div class="section-inner">
-                <div class="container about-wrapper">
-                    <h2 class="section-title">About <span class="highlight">Me</span></h2>
-
-                    <div class="about-intro">
-                        <div class="about-image-container">
-                            <div class="about-image-wrapper">
-                                <img src="assets/img/aboutpic1.png" alt="About Chan Coronado"
-                                    class="about-image default-about-img">
-                                <img src="assets/img/aboutpic2.jpg" alt="About Chan Coronado Alt"
-                                    class="about-image hover-about-img">
-                            </div>
-                        </div>
-                        <div class="about-text">
-                            <p>
-                                Hi, I'm Christian Coronado, an IT student at PUP with a passion for web development and
-                                technology.
-                                I love creating interactive and visually appealing websites while exploring new
-                                innovations in the digital world.
-                            </p>
+                <div class="container-fluid container-custom about-wrapper">
+                    <div class="row">
+                        <div class="col-12 pt-5">
+                            <h2 class="section-title">About <span class="highlight">Me</span></h2>
                         </div>
                     </div>
 
-                    <h3 class="subsection-title">My <span class="highlight">Education</span></h3>
-
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2010 - 2016</span>
-                                <h4>Elementary</h4>
-                                <p>Lazaan-Malinao Elementary School</p>
+                    <div class="row about-intro-row g-0">
+                        <div class="col-12 col-md-5 col-lg-4 about-image-col">
+                            <div class="about-image-container">
+                                <div class="about-image-wrapper">
+                                    <img src="assets/img/aboutpic1.png" alt="About Chan Coronado"
+                                        class="about-image default-about-img">
+                                    <img src="assets/img/aboutpic2.jpg" alt="About Chan Coronado Alt"
+                                        class="about-image hover-about-img">
+                                </div>
                             </div>
                         </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2016 - 2020</span>
-                                <h4>High School</h4>
-                                <p>Upland Integrated National High School</p>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2020 - 2022</span>
-                                <h4>Senior High School</h4>
-                                <p>Upland Integrated National High School</p>
+                        <div class="col-12 col-md-7 col-lg-8 about-text-col">
+                            <div class="about-text">
+                                <p>
+                                    Hi, I'm Christian Coronado, an IT student at PUP with a passion for web development and
+                                    technology.
+                                    I love creating interactive and visually appealing websites while exploring new
+                                    innovations in the digital world.
+                                </p>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="timeline-item">
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2022 - Present</span>
-                                <h4>College</h4>
-                                <p>Polytechnic University of the Philippines Sto. Tomas Campus</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="subsection-title">My <span class="highlight">Education</span></h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-dot">
+                                        <i class='bx bxs-graduation'></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <span class="timeline-date">2010 - 2016</span>
+                                        <h4>Elementary</h4>
+                                        <p>Lazaan-Malinao Elementary School</p>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-dot">
+                                        <i class='bx bxs-graduation'></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <span class="timeline-date">2016 - 2020</span>
+                                        <h4>High School</h4>
+                                        <p>Upland Integrated National High School</p>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-dot">
+                                        <i class='bx bxs-graduation'></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <span class="timeline-date">2020 - 2022</span>
+                                        <h4>Senior High School</h4>
+                                        <p>Upland Integrated National High School</p>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-dot">
+                                        <i class='bx bxs-graduation'></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <span class="timeline-date">2022 - Present</span>
+                                        <h4>College</h4>
+                                        <p>Polytechnic University of the Philippines Sto. Tomas Campus</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -195,90 +223,98 @@
         <!-- Projects Section -->
         <section class="section" id="projects" data-section="projects">
             <div class="section-inner">
-                <div class="container projects-wrapper">
-                    <h2 class="section-title">My <span class="highlight">Projects</span></h2>
+                <div class="container-fluid container-custom projects-wrapper">
+                    <div class="row">
+                        <div class="col-12 pt-5">
+                            <h2 class="section-title">My <span class="highlight">Projects</span></h2>
+                        </div>
+                    </div>
 
-                    <div class="projects-grid">
-                        <div class="project-details-col">
-                            <div class="project-detail active" data-project="0">
-                                <span class="project-number">01</span>
-                                <h3 class="project-title">Web Development</h3>
-                                <p class="project-description">
-                                    A comprehensive web development project showcasing modern design principles and
-                                    interactive user experiences.
-                                    Built with responsive layouts and optimized performance.
-                                </p>
-                                <div class="project-tech">
-                                    <span class="tech-tag">HTML</span>
-                                    <span class="tech-tag">CSS</span>
-                                    <span class="tech-tag">JavaScript</span>
+                    <div class="row projects-grid-row g-0">
+                        <div class="col-12 col-lg-5 project-details-col-wrapper">
+                            <div class="project-details-col">
+                                <div class="project-detail active" data-project="0">
+                                    <span class="project-number">01</span>
+                                    <h3 class="project-title">Web Development</h3>
+                                    <p class="project-description">
+                                        A comprehensive web development project showcasing modern design principles and
+                                        interactive user experiences.
+                                        Built with responsive layouts and optimized performance.
+                                    </p>
+                                    <div class="project-tech">
+                                        <span class="tech-tag">HTML</span>
+                                        <span class="tech-tag">CSS</span>
+                                        <span class="tech-tag">JavaScript</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="#" class="project-link" aria-label="View Live Project">
+                                            <i class='bx bx-link-external'></i>
+                                            <span class="link-tooltip">Live Project</span>
+                                        </a>
+                                        <a href="#" class="project-link" aria-label="View GitHub Repository">
+                                            <i class='bx bxl-github'></i>
+                                            <span class="link-tooltip">GitHub Repo</span>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="project-links">
-                                    <a href="#" class="project-link" aria-label="View Live Project">
-                                        <i class='bx bx-link-external'></i>
-                                        <span class="link-tooltip">Live Project</span>
-                                    </a>
-                                    <a href="#" class="project-link" aria-label="View GitHub Repository">
-                                        <i class='bx bxl-github'></i>
-                                        <span class="link-tooltip">GitHub Repo</span>
-                                    </a>
-                                </div>
-                            </div>
 
-                            <div class="project-detail" data-project="1">
-                                <span class="project-number">02</span>
-                                <h3 class="project-title">App Development</h3>
-                                <p class="project-description">
-                                    An innovative application featuring advanced functionality and seamless user
-                                    interaction.
-                                    Designed with scalability and maintainability in mind.
-                                </p>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Html</span>
-                                    <span class="tech-tag">CSS</span>
-                                    <span class="tech-tag">JavaScript</span>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" class="project-link" aria-label="View Live Project">
-                                        <i class='bx bx-link-external'></i>
-                                        <span class="link-tooltip">Live Project</span>
-                                    </a>
-                                    <a href="#" class="project-link" aria-label="View GitHub Repository">
-                                        <i class='bx bxl-github'></i>
-                                        <span class="link-tooltip">GitHub Repo</span>
-                                    </a>
+                                <div class="project-detail" data-project="1">
+                                    <span class="project-number">02</span>
+                                    <h3 class="project-title">App Development</h3>
+                                    <p class="project-description">
+                                        An innovative application featuring advanced functionality and seamless user
+                                        interaction.
+                                        Designed with scalability and maintainability in mind.
+                                    </p>
+                                    <div class="project-tech">
+                                        <span class="tech-tag">Html</span>
+                                        <span class="tech-tag">CSS</span>
+                                        <span class="tech-tag">JavaScript</span>
+                                    </div>
+                                    <div class="project-links">
+                                        <a href="#" class="project-link" aria-label="View Live Project">
+                                            <i class='bx bx-link-external'></i>
+                                            <span class="link-tooltip">Live Project</span>
+                                        </a>
+                                        <a href="#" class="project-link" aria-label="View GitHub Repository">
+                                            <i class='bx bxl-github'></i>
+                                            <span class="link-tooltip">GitHub Repo</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="project-carousel-col">
-                            <div class="project-carousel">
-                                <div class="carousel-track">
-                                    <div class="project-slide">
-                                        <a href="Web Dev/index.html" class="project-image-link">
-                                            <img src="Image/webDev.png" alt="Web Development Project">
-                                            <div class="project-overlay">
-                                                <h4>Web Development</h4>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="project-slide">
-                                        <a href="ADET/index.html" class="project-image-link">
-                                            <img src="Image/appDev.png" alt="App Development Project">
-                                            <div class="project-overlay">
-                                                <h4>App Development</h4>
-                                            </div>
-                                        </a>
+                        <div class="col-12 col-lg-7 project-carousel-col-wrapper pb-5">
+                            <div class="project-carousel-col">
+                                <div class="project-carousel">
+                                    <div class="carousel-track">
+                                        <div class="project-slide">
+                                            <a href="Web Dev/index.html" class="project-image-link">
+                                                <img src="Image/webDev.png" alt="Web Development Project">
+                                                <div class="project-overlay">
+                                                    <h4>Web Development</h4>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="project-slide">
+                                            <a href="ADET/index.html" class="project-image-link">
+                                                <img src="Image/appDev.png" alt="App Development Project">
+                                                <div class="project-overlay">
+                                                    <h4>App Development</h4>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="carousel-controls">
-                                <button class="carousel-btn prev-btn" aria-label="Previous Project">
-                                    <i class='bx bx-chevron-left'></i>
-                                </button>
-                                <button class="carousel-btn next-btn" aria-label="Next Project">
-                                    <i class='bx bx-chevron-right'></i>
-                                </button>
+                                <div class="carousel-controls">
+                                    <button class="carousel-btn prev-btn" aria-label="Previous Project">
+                                        <i class='bx bx-chevron-left'></i>
+                                    </button>
+                                    <button class="carousel-btn next-btn" aria-label="Next Project">
+                                        <i class='bx bx-chevron-right'></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -286,70 +322,83 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section class="section" id="contact" data-section="contact">
-            <div class="section-inner">
-                <div class="container contact-wrapper">
-                    <h2 class="section-title">Get In <span class="highlight">Touch</span></h2>
-                    <p class="section-subtitle">Have a project in mind or want to collaborate? Feel free to reach out!
-                    </p>
+        <!-- Contact Section - Replace your existing contact section with this -->
+<section class="section" id="contact" data-section="contact">
+    <div class="section-inner">
+        <div class="container-fluid container-custom contact-wrapper-oneview">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title-compact">Get In <span class="highlight">Touch</span></h2>
+                </div>
+            </div>
 
-                    <div class="contact-content">
-                        <div class="contact-form-wrapper">
-                            <form class="contact-form" id="contactForm">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <input type="text" name="name" class="form-input" placeholder="Your Name"
-                                            required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" name="email" class="form-input" placeholder="Your Email"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="subject" class="form-input" placeholder="Subject" required>
-                                </div>
-                                <div class="form-group">
-                                    <textarea name="message" class="form-input" rows="6" placeholder="Your Message"
-                                        required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-submit">
-                                    <i class='bx bx-send'></i>
-                                    <span>Send Message</span>
-                                </button>
-                            </form>
+            <div class="row contact-content-compact g-0">
+                <!-- Contact Info Cards - Left Side -->
+                <div class="col-12 col-lg-4 contact-info-col-compact">
+                    <div class="contact-info-compact">
+                        <div class="contact-card-compact">
+                            <div class="contact-icon-compact">
+                                <i class='bx bx-envelope'></i>
+                            </div>
+                            <h4>Email</h4>
+                            <p>coronadochristian415@gmail.com</p>
                         </div>
-
-                        <div class="contact-info">
-                            <div class="contact-card">
-                                <div class="contact-icon">
-                                    <i class='bx bx-envelope'></i>
-                                </div>
-                                <h4>Email</h4>
-                                <p>coronadochristian415@gmail.com</p>
+                        <div class="contact-card-compact">
+                            <div class="contact-icon-compact">
+                                <i class='bx bx-phone'></i>
                             </div>
-                            <div class="contact-card">
-                                <div class="contact-icon">
-                                    <i class='bx bx-phone'></i>
-                                </div>
-                                <h4>Phone</h4>
-                                <p><a href="tel:+639091436435">+63 909 143 6435</a></p>
+                            <h4>Phone</h4>
+                            <p><a href="tel:+639091436435">+63 909 143 6435</a></p>
+                        </div>
+                        <div class="contact-card-compact">
+                            <div class="contact-icon-compact">
+                                <i class='bx bx-map'></i>
                             </div>
-                            <div class="contact-card">
-                                <div class="contact-icon">
-                                    <i class='bx bx-map'></i>
-                                </div>
-                                <h4>Location</h4>
-                                <p>Nagcarlan, Laguna</p>
-                            </div>
+                            <h4>Location</h4>
+                            <p>Nagcarlan, Laguna</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Contact Form - Right Side -->
+                <div class="col-12 col-lg-8 contact-form-col-compact pb-3">
+                    <div class="contact-form-wrapper-compact">
+                        <form class="contact-form-compact" id="contactForm">
+                            <div class="row form-row-compact g-0">
+                                <div class="col-12 col-md-6 form-col-left">
+                                    <div class="form-group-compact">
+                                        <input type="text" name="name" class="form-input-compact" placeholder="Your Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 form-col-right">
+                                    <div class="form-group-compact">
+                                        <input type="email" name="email" class="form-input-compact" placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-compact">
+                                <input type="text" name="subject" class="form-input-compact" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group-compact">
+                                <textarea name="message" class="form-input-compact" rows="4" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-submit-compact">
+                                <i class='bx bx-send'></i>
+                                <span>Send Message</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
     </main>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Custom JavaScript -->
     <script src="assets/js/script.js"></script>
 </body>
 
