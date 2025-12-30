@@ -22,7 +22,6 @@ function drawGrid() {
     gridCtx.strokeStyle = 'rgba(0, 255, 159, 0.08)';
     gridCtx.lineWidth = 1;
 
-    // Vertical lines
     for (let x = -gridSize + (gridOffset.x % gridSize); x < gridWidth; x += gridSize) {
         gridCtx.beginPath();
         gridCtx.moveTo(x, 0);
@@ -30,7 +29,6 @@ function drawGrid() {
         gridCtx.stroke();
     }
 
-    // Horizontal lines
     for (let y = -gridSize + (gridOffset.y % gridSize); y < gridHeight; y += gridSize) {
         gridCtx.beginPath();
         gridCtx.moveTo(0, y);
@@ -38,7 +36,6 @@ function drawGrid() {
         gridCtx.stroke();
     }
 
-    // Smooth continuous movement
     gridOffset.x += 0.15;
     gridOffset.y += 0.15;
 
@@ -61,7 +58,6 @@ function resizeFalling() {
 resizeFalling();
 window.addEventListener('resize', resizeFalling);
 
-// Enhanced text pool
 const textPool = [
     'CHRISTIAN', 'CORONADO', 'CHAN', 'IT', 'STUDENT', 'WEB', 'DEV',
     'HTML', 'CSS', 'JS', 'REACT', 'NODE', 'CODE', 'PYTHON', 'JAVA',
@@ -114,33 +110,161 @@ function drawFallingText() {
 
 drawFallingText();
 
-// NAVIGATION & MOBILE MENU 
+// ============================================================
+// ENHANCED MOBILE MENU WITH PREMIUM INTERACTIONS
+// ============================================================
+
 const menuToggle = document.getElementById('menuToggle');
-const mainNav = document.getElementById('mainNav');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.section');
 const barsBox = document.querySelector('.bars-box');
 
-menuToggle.addEventListener('click', () => {
-    const isActive = menuToggle.classList.toggle('active');
-    mainNav.classList.toggle('active');
-    menuToggle.setAttribute('aria-expanded', isActive);
-});
+// Prevent body scroll when menu is open
+function lockScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${window.scrollY}px`;
+}
 
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('header') && mainNav.classList.contains('active')) {
-        menuToggle.classList.remove('active');
-        mainNav.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
+function unlockScroll() {
+    const scrollY = document.body.style.top;
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+}
+
+// Enhanced open mobile menu with haptic feedback simulation
+if (menuToggle) {
+    menuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Add vibration for supported devices
+        if (navigator.vibrate) {
+            navigator.vibrate(10);
+        }
+        
+        menuToggle.classList.add('active');
+        if (mobileMenu) {
+            mobileMenu.classList.add('active');
+        }
+        lockScroll();
+    });
+}
+
+// Enhanced close mobile menu with smooth exit
+function closeMobileMenu() {
+    if (navigator.vibrate) {
+        navigator.vibrate(10);
     }
-});
+    
+    if (menuToggle) {
+        menuToggle.classList.remove('active');
+    }
+    if (mobileMenu) {
+        mobileMenu.classList.remove('active');
+    }
+    
+    // Smooth unlock with slight delay
+    setTimeout(() => {
+        unlockScroll();
+    }, 100);
+}
 
+if (mobileClose) {
+    mobileClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMobileMenu();
+    });
+}
+
+// Close on background tap
+if (mobileMenu) {
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu || e.target.classList.contains('mobile-menu-bg')) {
+            closeMobileMenu();
+        }
+    });
+}
+
+// Close on ESC key with smooth transition
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mainNav.classList.contains('active')) {
-        menuToggle.classList.remove('active');
-        mainNav.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
+    if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
+        closeMobileMenu();
     }
+});
+
+// Enhanced mobile nav link clicks with smooth transitions
+mobileNavLinks.forEach((link) => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (isTransitioning) return;
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(15);
+        }
+        
+        const sectionId = link.getAttribute('data-section');
+        const targetSection = document.getElementById(sectionId);
+        
+        if (targetSection) {
+            // Update active states for both desktop and mobile nav
+            navLinks.forEach(l => l.classList.remove('active'));
+            mobileNavLinks.forEach(l => l.classList.remove('active'));
+            
+            const desktopLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+            if (desktopLink) {
+                desktopLink.classList.add('active');
+            }
+            link.classList.add('active');
+            
+            // Close menu first, then navigate
+            closeMobileMenu();
+            
+            // Smooth delay before section switch
+            setTimeout(() => {
+                switchSection(targetSection);
+                history.pushState(null, null, `#${sectionId}`);
+            }, 400);
+        }
+    });
+    
+    // Add touch feedback
+    link.addEventListener('touchstart', () => {
+        link.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+    
+    link.addEventListener('touchend', () => {
+        link.style.transition = '';
+    });
+});
+
+// Add smooth press effect to mobile nav links
+mobileNavLinks.forEach((link) => {
+    let pressTimer;
+    
+    link.addEventListener('touchstart', (e) => {
+        pressTimer = setTimeout(() => {
+            // Long press effect (optional - can be used for future features)
+        }, 500);
+    });
+    
+    link.addEventListener('touchend', () => {
+        clearTimeout(pressTimer);
+    });
+    
+    link.addEventListener('touchmove', () => {
+        clearTimeout(pressTimer);
+    });
 });
 
 //  SMART SCROLL DETECTION
@@ -173,15 +297,13 @@ function switchSection(targetSection) {
 
     isTransitioning = true;
 
-    menuToggle.classList.remove('active');
-    mainNav.classList.remove('active');
-    menuToggle.setAttribute('aria-expanded', 'false');
+    // Close mobile menu if open
+    closeMobileMenu();
 
     if (currentSection) {
         currentSection.classList.add('transitioning-out');
     }
 
-    // Show bars animation after brief delay
     setTimeout(() => {
         barsBox.classList.add('active');
     }, 200);
@@ -275,6 +397,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     checkSectionOverflow();
+    initAnimatedText();
 });
 
 // Handle browser back/forward buttons
@@ -295,21 +418,52 @@ window.addEventListener('popstate', () => {
     }
 });
 
+//  FIXED ANIMATED TEXT - PERFECTLY CENTERED
+function initAnimatedText() {
+    const containers = document.querySelectorAll('.animated-text-container');
+    
+    containers.forEach(container => {
+        const textItems = container.querySelectorAll('.text-item');
+        
+        if (textItems.length === 0) return;
+        
+        // Find the longest text
+        let maxWidth = 0;
+        textItems.forEach(item => {
+            // Temporarily make visible to measure
+            item.style.opacity = '1';
+            item.style.position = 'static';
+            const width = item.offsetWidth;
+            if (width > maxWidth) {
+                maxWidth = width;
+            }
+            // Reset
+            item.style.opacity = '';
+            item.style.position = 'absolute';
+        });
+        
+        // Set fixed width to prevent shifting
+        if (maxWidth > 0) {
+            container.style.minWidth = `${maxWidth + 5}px`;
+        }
+    });
+}
+
+// Re-initialize on resize
+window.addEventListener('resize', debounce(initAnimatedText, 250));
+
 //  PROFILE IMAGE HOVER EFFECT (MOBILE TAP SUPPORT) 
 const imageContainer = document.querySelector('.image-container');
 
 if (imageContainer) {
-    // Check if device doesn't support hover (mobile/tablet)
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     
     if (isTouchDevice) {
-        // Mobile: tap to toggle
         imageContainer.addEventListener('click', function(e) {
             e.preventDefault();
             this.classList.toggle('active');
         });
         
-        // Close on outside tap
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.image-container')) {
                 imageContainer.classList.remove('active');
@@ -321,17 +475,14 @@ if (imageContainer) {
 const aboutImageWrapper = document.querySelector('.about-image-wrapper');
 
 if (aboutImageWrapper) {
-    // Check if device doesn't support hover (mobile/tablet)
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     
     if (isTouchDevice) {
-        // Mobile: tap to toggle
         aboutImageWrapper.addEventListener('click', function(e) {
             e.preventDefault();
             this.classList.toggle('active');
         });
         
-        // Close on outside tap (optional)
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.about-image-wrapper')) {
                 aboutImageWrapper.classList.remove('active');
@@ -350,7 +501,6 @@ let currentProjectIndex = 0;
 const totalProjects = projectDetails.length;
 
 function updateCarousel() {
-    // Slide carousel
     if (carouselTrack) {
         carouselTrack.style.transform = `translateX(-${currentProjectIndex * 100}%)`;
     }
@@ -375,7 +525,6 @@ function updateCarousel() {
     }
 }
 
-// Next button
 if (nextBtn) {
     nextBtn.addEventListener('click', () => {
         if (currentProjectIndex < totalProjects - 1) {
@@ -385,7 +534,6 @@ if (nextBtn) {
     });
 }
 
-// Previous button
 if (prevBtn) {
     prevBtn.addEventListener('click', () => {
         if (currentProjectIndex > 0) {
@@ -395,7 +543,6 @@ if (prevBtn) {
     });
 }
 
-// Keyboard navigation for projects
 document.addEventListener('keydown', (e) => {
     const projectsSection = document.getElementById('projects');
     if (projectsSection && projectsSection.classList.contains('active')) {
@@ -418,14 +565,11 @@ if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Get form data
         const formData = new FormData(contactForm);
         const name = formData.get('name');
         
-        // Show success message
         alert(`Thank you for your message, ${name}! I will get back to you soon.`);
         
-        // Reset form
         contactForm.reset();
     });
 }
@@ -445,10 +589,9 @@ const scrollObserver = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe timeline items and contact cards when About/Contact sections are active
 function observeElements() {
     const timelineItems = document.querySelectorAll('.timeline-item');
-    const contactCards = document.querySelectorAll('.contact-card');
+    const contactCards = document.querySelectorAll('.contact-card-compact');
     
     [...timelineItems, ...contactCards].forEach(el => {
         if (!el.hasAttribute('data-observed')) {
@@ -469,34 +612,7 @@ navLinks.forEach(link => {
     });
 });
 
-//  ANIMATED TEXT CENTER FIX 
-function centerAnimatedText() {
-    const animatedTexts = document.querySelectorAll('.animated-text');
-    
-    animatedTexts.forEach(container => {
-        const textItems = container.querySelectorAll('.text-item');
-        
-        let maxWidth = 0;
-        textItems.forEach(item => {
-            const width = item.offsetWidth;
-            if (width > maxWidth) {
-                maxWidth = width;
-            }
-        });
-        
-        if (maxWidth > 0) {
-            container.style.minWidth = `${maxWidth + 10}px`;
-        }
-    });
-}
-
-// Center animated text on load and resize
-window.addEventListener('load', centerAnimatedText);
-window.addEventListener('resize', debounce(centerAnimatedText, 250));
-
 //  PERFORMANCE OPTIMIZATIONS
-
-// Throttle resize events
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
@@ -506,7 +622,6 @@ window.addEventListener('resize', () => {
     }, 150);
 });
 
-// Pause animations when tab is not visible
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         if (gridAnimationFrame) cancelAnimationFrame(gridAnimationFrame);
@@ -517,7 +632,6 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// Reduce motion for users who prefer it
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 if (prefersReducedMotion.matches) {
@@ -527,8 +641,6 @@ if (prefersReducedMotion.matches) {
 }
 
 //  ACCESSIBILITY ENHANCEMENTS 
-
-// Add focus visible styles
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Tab') {
         document.body.classList.add('keyboard-nav');
@@ -540,8 +652,6 @@ document.addEventListener('mousedown', () => {
 });
 
 //  UTILITY FUNCTIONS 
-
-// Debounce function
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -554,7 +664,6 @@ function debounce(func, wait) {
     };
 }
 
-// Throttle function
 function throttle(func, limit) {
     let inThrottle;
     return function(...args) {
