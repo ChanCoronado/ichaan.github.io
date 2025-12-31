@@ -1,3 +1,36 @@
+//  THEME TOGGLE FUNCTIONALITY
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.querySelector('.theme-icon');
+const body = document.body;
+
+// Check for saved theme preference or default to 'dark'
+const currentTheme = localStorage.getItem('theme') || 'dark';
+
+// Apply the saved theme on page load
+if (currentTheme === 'light') {
+    body.classList.add('light-mode');
+    themeIcon.classList.remove('bx-sun');
+    themeIcon.classList.add('bx-moon');
+}
+
+// Theme toggle event listener
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    
+    // Update icon
+    if (body.classList.contains('light-mode')) {
+        themeIcon.classList.remove('bx-sun');
+        themeIcon.classList.add('bx-moon');
+        localStorage.setItem('theme', 'light');
+        updateCanvasColors('light');
+    } else {
+        themeIcon.classList.remove('bx-moon');
+        themeIcon.classList.add('bx-sun');
+        localStorage.setItem('theme', 'dark');
+        updateCanvasColors('dark');
+    }
+});
+
 //  ANIMATED GRID BACKGROUND 
 const gridCanvas = document.getElementById('gridCanvas');
 const gridCtx = gridCanvas.getContext('2d');
@@ -15,11 +48,22 @@ window.addEventListener('resize', resizeGrid);
 const gridSize = 50;
 let gridOffset = { x: 0, y: 0 };
 let gridAnimationFrame;
+let gridColor = 'rgba(0, 255, 159, 0.08)';
+
+function updateCanvasColors(theme) {
+    if (theme === 'light') {
+        gridColor = 'rgba(18, 139, 68, 0.06)';
+        fallingTextColor = 'rgba(18, 139, 68, 0.08)';
+    } else {
+        gridColor = 'rgba(0, 255, 159, 0.08)';
+        fallingTextColor = 'rgba(0, 255, 159, 0.15)';
+    }
+}
 
 function drawGrid() {
     gridCtx.clearRect(0, 0, gridWidth, gridHeight);
     
-    gridCtx.strokeStyle = 'rgba(0, 255, 159, 0.08)';
+    gridCtx.strokeStyle = gridColor;
     gridCtx.lineWidth = 1;
 
     for (let x = -gridSize + (gridOffset.x % gridSize); x < gridWidth; x += gridSize) {
@@ -71,6 +115,7 @@ const textPool = [
 
 const columns = Math.floor(fallingWidth / 20);
 const drops = [];
+let fallingTextColor = 'rgba(0, 255, 159, 0.15)';
 
 for (let i = 0; i < columns; i++) {
     drops[i] = {
@@ -84,7 +129,11 @@ for (let i = 0; i < columns; i++) {
 let fallingAnimationFrame;
 
 function drawFallingText() {
-    fallingCtx.fillStyle = 'rgba(34, 34, 34, 0.05)';
+    const bgColor = body.classList.contains('light-mode') 
+        ? 'rgba(255, 255, 255, 0.05)' 
+        : 'rgba(34, 34, 34, 0.05)';
+    
+    fallingCtx.fillStyle = bgColor;
     fallingCtx.fillRect(0, 0, fallingWidth, fallingHeight);
 
     fallingCtx.font = '12px Inter, monospace';
@@ -92,7 +141,12 @@ function drawFallingText() {
     drops.forEach((drop, i) => {
         const x = i * 20;
         
-        fallingCtx.fillStyle = `rgba(0, 255, 159, ${drop.opacity})`;
+        const baseOpacity = body.classList.contains('light-mode') ? 0.08 : 0.15;
+        const color = body.classList.contains('light-mode') 
+            ? `rgba(18, 139, 68, ${drop.opacity})` 
+            : `rgba(0, 255, 159, ${drop.opacity})`;
+        
+        fallingCtx.fillStyle = color;
         fallingCtx.fillText(drop.text, x, drop.y);
 
         drop.y += drop.speed;
@@ -101,7 +155,7 @@ function drawFallingText() {
             drop.y = Math.random() * -300;
             drop.text = textPool[Math.floor(Math.random() * textPool.length)];
             drop.speed = Math.random() * 1.5 + 0.5;
-            drop.opacity = Math.random() * 0.15 + 0.08;
+            drop.opacity = Math.random() * baseOpacity + (baseOpacity / 2);
         }
     });
 
@@ -109,6 +163,9 @@ function drawFallingText() {
 }
 
 drawFallingText();
+
+// Initialize canvas colors based on current theme
+updateCanvasColors(currentTheme);
 
 // ============================================================
 // ENHANCED MOBILE MENU WITH PREMIUM INTERACTIONS
