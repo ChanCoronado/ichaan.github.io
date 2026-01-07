@@ -4,24 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ichaaan's Portfolio</title>
+    <title>Ichaan's Portfolio</title>
     <meta name="description" content="Portfolio of Chan Coronado - IT Student, Web Developer, and Designer">
 
-    <!-- Google Fonts  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Bootstrap 5 CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <!-- Boxicons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
-    <!-- Custom CSS Files - Organized by Section -->
+    <!-- Custom CSS Files -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/home.css">
     <link rel="stylesheet" href="assets/css/about.css">
@@ -32,16 +25,13 @@
 </head>
 
 <body>
-    <!-- Animated Grid Background -->
+
     <canvas id="gridCanvas"></canvas>
 
-    <!-- Falling Text Background -->
     <canvas id="fallingTextCanvas"></canvas>
 
-    <!-- Dark Overlay -->
     <div class="content-overlay"></div>
 
-    <!-- Header -->
     <header>
         <a href="#home" class="logo">
             <img src="assets/img/image.png" alt="Chan Coronado Logo">
@@ -50,23 +40,27 @@
         <nav id="mainNav" aria-label="Main Navigation">
             <div class="nav-links-wrapper">
                 <a href="#home" class="nav-link active" data-section="home">
+                    <i class='bx bx-home-alt'></i>
                     <span>Home</span>
                 </a>
                 <a href="#about" class="nav-link" data-section="about">
+                    <i class='bx bx-user'></i>
                     <span>About</span>
                 </a>
                 <a href="#projects" class="nav-link" data-section="projects">
+                    <i class='bx bx-briefcase-alt-2'></i>
                     <span>Projects</span>
                 </a>
                 <a href="#contact" class="nav-link" data-section="contact">
+                    <i class='bx bx-envelope'></i>
                     <span>Contact</span>
                 </a>
             </div>
         </nav>
 
-        <!-- Header Controls  -->
+       
         <div class="header-controls">
-            <!-- Theme Toggle Button -->
+            
             <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle Theme">
                 <i class='bx bx-sun theme-icon'></i>
             </button>
@@ -79,7 +73,6 @@
             </button>
         </div>
 
-        <!-- Mobile Full Page Menu -->
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-bg"></div>
             <div class="mobile-menu-content">
@@ -139,7 +132,7 @@
         </div>
     </header>
 
-    <!-- Bars Transition -->
+    <!-- Bars -->
     <div class="bars-box">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -169,7 +162,7 @@
                                     </span>
                                 </div>
                                 <p class="home-description">
-                                    Hi, I'm Chan, a 21-year-old BSIT student at the Polytechnic University of the
+                                    Hi, I'm Chan, a 22-year-old BSIT student at the Polytechnic University of the
                                     Philippines Sto. Tomas Campus.
                                     I'm passionate about coding and building creative, user-friendly websites as I work
                                     towards becoming a web developer.
@@ -424,7 +417,6 @@
                     </div>
 
                     <div class="row contact-content-compact g-0">
-                        <!-- Contact Info Cards - Left Side -->
                         <div class="col-12 col-lg-4 contact-info-col-compact">
                             <div class="contact-info-compact">
                                 <div class="contact-card-compact">
@@ -451,7 +443,6 @@
                             </div>
                         </div>
 
-                        <!-- Contact Form - Right Side -->
                         <div class="col-12 col-lg-8 contact-form-col-compact pb-3">
                             <div class="contact-form-wrapper-compact">
                                 <form class="contact-form-compact" id="contactForm">
@@ -490,12 +481,12 @@
         </section>
     </main>
 
-    <!-- Bootstrap 5 JS Bundle -->
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-    <!-- Custom JavaScript -->
+    <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
 </body>
 

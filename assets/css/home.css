@@ -11,7 +11,7 @@
 .home-content-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 6rem);
+    gap: clamp(3rem, 6vw, 9rem);
     align-items: center;
     width: 100%;
 }
