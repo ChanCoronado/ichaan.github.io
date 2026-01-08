@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAN'S Typing Test</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="particles-bg" id="particlesBg"></div>
+    
+   
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+       
+        <header class="text-center mt-5 mb-5">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <i class="fas fa-keyboard-o"></i>
+                </div>
+            </div>
+            <h1 class="main-title">
+                <span class="title-accent">CHAN's</span>
+                <span class="title-main">Typing Test</span>
+            </h1>
+            <p class="subtitle">
+                <i class="fas fa-bolt"></i> Test your typing speed and accuracy
+            </p>
+            <div class="title-underline"></div>
+        </header>
+
+        <!-- Main Content Card -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="main-card">
+                    <div class="card-shine"></div>
+                    
+                    
+                    <div class="row mb-4 stats-row">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="stat-box">
+                                <div class="stat-icon-wrapper">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">Time Left</div>
+                                    <div class="stat-value" id="timer">60</div>
+                                    <div class="stat-unit">seconds</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <div class="stat-box stat-box-highlight">
+                                <div class="stat-icon-wrapper">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">Speed</div>
+                                    <div class="stat-value" id="wpm">0</div>
+                                    <div class="stat-unit">words/min</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-box">
+                                <div class="stat-icon-wrapper">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-bullseye"></i>
+                                    </div>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">Accuracy</div>
+                                    <div class="stat-value" id="accuracy">100%</div>
+                                    <div class="stat-unit">correct</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-container mb-4">
+                        <div class="progress-label">
+                            <span>Progress</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" id="progressFill"></div>
+                            <div class="progress-glow"></div>
+                        </div>
+                    </div>
+
+                    <!-- Text Display Area -->
+                    <div class="text-display-container mb-4">
+                        <div class="terminal-header">
+                            <div class="terminal-controls">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <span class="terminal-title">
+                                <i class="fas fa-file-code"></i> typing_test.txt
+                            </span>
+                            <div class="terminal-menu">
+                                <i class="fas fa-bars"></i>
+                            </div>
+                        </div>
+                        <div class="text-display" id="textDisplay">
+                            <!-- Text will be inserted here by JavaScript -->
+                        </div>
+                        <div class="cursor-follower" id="cursorFollower"></div>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="input-container mb-4">
+                        <div class="input-label">
+                            <i class="fas fa-pen"></i> Type here
+                        </div>
+                        <textarea 
+                            class="typing-input" 
+                            id="typingInput" 
+                            placeholder="Click START to begin typing..."
+                            disabled
+                            spellcheck="false"
+                        ></textarea>
+                        <div class="input-border-effect"></div>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div class="text-center button-group">
+                        <button class="main-btn primary-btn" id="startBtn">
+                            <span class="btn-content">
+                                <i class="fas fa-play"></i>
+                                <span>Start Test</span>
+                            </span>
+                            <div class="btn-ripple"></div>
+                        </button>
+                        <button class="main-btn secondary-btn" id="resetBtn">
+                            <span class="btn-content">
+                                <i class="fas fa-redo"></i>
+                                <span>Reset</span>
+                            </span>
+                            <div class="btn-ripple"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- High Score Panel -->
+                <div class="main-card mt-4 high-score-card" id="highScorePanel">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 class="section-title">Personal Best Records</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="score-item">
+                                <div class="score-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="score-details">
+                                    <span class="score-label">Fastest Speed</span>
+                                    <span class="score-value" id="bestWPM">0</span>
+                                    <span class="score-unit">WPM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="score-item">
+                                <div class="score-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="score-details">
+                                    <span class="score-label">Best Accuracy</span>
+                                    <span class="score-value" id="bestAccuracy">0%</span>
+                                    <span class="score-unit">correct</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-5 mb-4">
+            <p class="footer-text">
+                @ CHAN CORONADO
+            </p>
+        </footer>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="result-modal">
+            <div class="modal-decoration">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+            </div>
+            
+            <div class="modal-header-section">
+                <div class="modal-icon">
+                    <i class="fas fa-flag-checkered"></i>
+                </div>
+                <h2 class="modal-title">Test Complete!</h2>
+                <p class="modal-subtitle">Here are your results</p>
+            </div>
+            
+            <div class="modal-content">
+                <div class="result-stat">
+                    <div class="result-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-label">Words Per Minute</div>
+                        <div class="result-value" id="finalWPM">0</div>
+                    </div>
+                </div>
+                
+                <div class="result-stat">
+                    <div class="result-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-label">Accuracy</div>
+                        <div class="result-value" id="finalAccuracy">0%</div>
+                    </div>
+                </div>
+                
+                <div class="result-stat">
+                    <div class="result-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-label">Total Characters</div>
+                        <div class="result-value" id="finalChars">0</div>
+                    </div>
+                </div>
+                
+                <div id="newRecordBadge" class="new-record" style="display: none;">
+                    <div class="badge-shine"></div>
+                    <i class="fas fa-crown"></i>
+                    <span>New Personal Record!</span>
+                    <i class="fas fa-crown"></i>
+                </div>
+            </div>
+            
+            <button class="main-btn primary-btn" id="closeModal">
+                <span class="btn-content">
+                    <i class="fas fa-check"></i>
+                    <span>Continue</span>
+                </span>
+                <div class="btn-ripple"></div>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
