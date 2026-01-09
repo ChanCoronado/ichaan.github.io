@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHAN'S Typing Test</title>
-    
+    <title>CHAN's Typing Test</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" href="../../../../../assets/img/001 logo2.png">
 </head>
+
 <body>
-    
+
     <div class="particles-bg" id="particlesBg"></div>
-    
-   
+
+
     <div class="floating-shapes">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
@@ -27,11 +33,11 @@
 
     <!-- Main Container -->
     <div class="container">
-       
+
         <header class="text-center mt-5 mb-5">
             <div class="logo-container">
-                <div class="logo-circle">
-                    <i class="fas fa-keyboard-o"></i>
+                <div class="logo-container">
+                    <img src="../../../../../assets/img/001 logo2.png" alt="Logo" class="logo-circle">
                 </div>
             </div>
             <h1 class="main-title">
@@ -49,8 +55,8 @@
             <div class="col-lg-10">
                 <div class="main-card">
                     <div class="card-shine"></div>
-                    
-                    
+
+
                     <div class="row mb-4 stats-row">
                         <div class="col-md-4 mb-3 mb-md-0">
                             <div class="stat-box">
@@ -134,13 +140,8 @@
                         <div class="input-label">
                             <i class="fas fa-pen"></i> Type here
                         </div>
-                        <textarea 
-                            class="typing-input" 
-                            id="typingInput" 
-                            placeholder="Click START to begin typing..."
-                            disabled
-                            spellcheck="false"
-                        ></textarea>
+                        <textarea class="typing-input" id="typingInput" placeholder="Click START to begin typing..."
+                            disabled spellcheck="false"></textarea>
                         <div class="input-border-effect"></div>
                     </div>
 
@@ -217,7 +218,7 @@
                 <div class="deco-circle"></div>
                 <div class="deco-circle"></div>
             </div>
-            
+
             <div class="modal-header-section">
                 <div class="modal-icon">
                     <i class="fas fa-flag-checkered"></i>
@@ -225,7 +226,7 @@
                 <h2 class="modal-title">Test Complete!</h2>
                 <p class="modal-subtitle">Here are your results</p>
             </div>
-            
+
             <div class="modal-content">
                 <div class="result-stat">
                     <div class="result-icon">
@@ -236,7 +237,7 @@
                         <div class="result-value" id="finalWPM">0</div>
                     </div>
                 </div>
-                
+
                 <div class="result-stat">
                     <div class="result-icon">
                         <i class="fas fa-bullseye"></i>
@@ -246,7 +247,7 @@
                         <div class="result-value" id="finalAccuracy">0%</div>
                     </div>
                 </div>
-                
+
                 <div class="result-stat">
                     <div class="result-icon">
                         <i class="fas fa-keyboard"></i>
@@ -256,7 +257,7 @@
                         <div class="result-value" id="finalChars">0</div>
                     </div>
                 </div>
-                
+
                 <div id="newRecordBadge" class="new-record" style="display: none;">
                     <div class="badge-shine"></div>
                     <i class="fas fa-crown"></i>
@@ -264,7 +265,7 @@
                     <i class="fas fa-crown"></i>
                 </div>
             </div>
-            
+
             <button class="main-btn primary-btn" id="closeModal">
                 <span class="btn-content">
                     <i class="fas fa-check"></i>
@@ -278,4 +279,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
