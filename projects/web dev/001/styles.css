@@ -138,16 +138,18 @@ body {
 .logo-circle {
     width: 80px;
     height: 80px;
-    background: var(--accent-gradient);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin: 0 auto;
-    font-size: 2rem;
-    color: white;
-    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+    box-shadow: transparent;
     animation: pulse 2s ease-in-out infinite;
+    object-fit: cover; 
+    display: block; 
+}
+
+.logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 @keyframes pulse {
