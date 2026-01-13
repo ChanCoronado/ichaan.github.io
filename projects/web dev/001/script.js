@@ -1,28 +1,63 @@
-const textSamples = [
-    "The quick brown fox jumps over the lazy dog while debugging a complex algorithm in the middle of the night.",
-    "Programming is the art of telling another human what one wants the computer to do with precision and clarity.",
-    "In the world of technology, every keystroke matters and every second counts when creating something amazing.",
-    "Code is like humor. When you have to explain it, it is bad. Good code should be self-explanatory and elegant.",
-    "The best way to predict the future is to implement it yourself through lines of carefully crafted code.",
-    "Software development is a journey of continuous learning and improvement through dedication and practice.",
-    "Clean code always looks like it was written by someone who cares deeply about their craft and their community.",
-    "Testing leads to failure and failure leads to understanding. Understanding leads to better code and better solutions.",
-    "Any developer can write code that a computer can understand. Great developers write code that humans can understand.",
-    "The most important property of a program is whether it accomplishes the intention of its user and solves real problems."
-];
+// Text samples for different difficulty levels
+const textSamples = {
+    easy: [
+        "The cat sat on the mat and looked at the dog.",
+        "I like to eat pizza and drink cold water.",
+        "The sun is bright and the sky is blue today.",
+        "She went to the store to buy some fresh milk.",
+        "We can play games and have fun with friends.",
+        "The bird flies high in the clear morning sky.",
+        "He reads books and writes stories every day.",
+        "They walk in the park and enjoy the weather.",
+        "My dog likes to run and play in the yard.",
+        "The tree has green leaves and pretty flowers."
+    ],
+    medium: [
+        "Technology advances rapidly and changes how we communicate with others around the world.",
+        "Learning new skills requires dedication, practice, and patience to achieve mastery.",
+        "The ocean contains mysterious creatures that scientists continue to discover each year.",
+        "Reading books expands your imagination and improves your vocabulary significantly over time.",
+        "Exercise and healthy eating contribute to a better lifestyle and increased energy levels.",
+        "Music has the power to influence our emotions and bring people together.",
+        "Traveling to different countries exposes you to diverse cultures and perspectives.",
+        "Problem solving skills are essential in both personal and professional environments.",
+        "Creative thinking helps you find innovative solutions to challenging situations.",
+        "Time management is crucial for achieving goals and maintaining work-life balance."
+    ],
+    hard: [
+        "The quick brown fox jumps over the lazy dog while debugging a complex algorithm in the middle of the night.",
+        "Programming is the art of telling another human what one wants the computer to do with precision and clarity.",
+        "In the world of technology, every keystroke matters and every second counts when creating something amazing.",
+        "Code is like humor. When you have to explain it, it is bad. Good code should be self-explanatory and elegant.",
+        "The best way to predict the future is to implement it yourself through lines of carefully crafted code.",
+        "Software development is a journey of continuous learning and improvement through dedication and practice.",
+        "Clean code always looks like it was written by someone who cares deeply about their craft and their community.",
+        "Testing leads to failure and failure leads to understanding. Understanding leads to better code and better solutions.",
+        "Any developer can write code that a computer can understand. Great developers write code that humans can understand.",
+        "The most important property of a program is whether it accomplishes the intention of its user and solves real problems."
+    ]
+};
 
+// Game state variables
 let currentText = '';
 let currentPosition = 0;
 let startTime = null;
 let timerInterval = null;
-let timeRemaining = 60;
+let timeRemaining = 30;
+let selectedTime = 30;
+let selectedDifficulty = 'easy';
 let isTestActive = false;
 
 let correctChars = 0;
 let incorrectChars = 0;
 let totalCharsTyped = 0;
+let currentCombo = 0;
+let maxCombo = 0;
+let totalGamesPlayed = 0;
 
-
+// DOM Elements
+const startMenuOverlay = document.getElementById('startMenuOverlay');
+const gameContainer = document.getElementById('gameContainer');
 const textDisplay = document.getElementById('textDisplay');
 const typingInput = document.getElementById('typingInput');
 const startBtn = document.getElementById('startBtn');
@@ -33,30 +68,149 @@ const accuracyElement = document.getElementById('accuracy');
 const progressFill = document.getElementById('progressFill');
 const progressPercent = document.getElementById('progressPercent');
 const resultModal = document.getElementById('resultModal');
-const closeModalBtn = document.getElementById('closeModal');
+const statsModal = document.getElementById('statsModal');
+const comboDisplay = document.getElementById('comboDisplay');
+const comboValue = document.getElementById('comboValue');
 
+// Menu elements
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const menuDropdown = document.getElementById('menuDropdown');
+const closeMenuBtn = document.getElementById('closeMenu');
 
+// Start menu elements
+const startGameBtn = document.getElementById('startGameBtn');
+const timeButtons = document.querySelectorAll('.time-btn');
+const difficultyCards = document.querySelectorAll('.difficulty-card');
+const customTimeInput = document.getElementById('customTime');
+const applyCustomTimeBtn = document.getElementById('applyCustomTime');
+
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadHighScores();
-    initializeTest();
+    loadStatistics();
     createParticles();
     addButtonEffects();
+    setupEventListeners();
+    showStartMenu();
 });
 
+// Setup all event listeners
+function setupEventListeners() {
+    // Start menu events
+    startGameBtn.addEventListener('click', startGameFromMenu);
+    timeButtons.forEach(btn => {
+        btn.addEventListener('click', () => selectTime(btn));
+    });
+    difficultyCards.forEach(card => {
+        card.addEventListener('click', () => selectDifficulty(card));
+    });
+    applyCustomTimeBtn.addEventListener('click', applyCustomTime);
 
-startBtn.addEventListener('click', startTest);
-resetBtn.addEventListener('click', resetTest);
-typingInput.addEventListener('input', handleTyping);
-closeModalBtn.addEventListener('click', closeModal);
+    // Game events
+    startBtn.addEventListener('click', startTest);
+    resetBtn.addEventListener('click', resetTest);
+    typingInput.addEventListener('input', handleTyping);
+    typingInput.addEventListener('paste', (e) => {
+        e.preventDefault();
+        showNotification('Pasting is not allowed! 😊', 'warning');
+    });
 
-typingInput.addEventListener('paste', (e) => {
-    e.preventDefault();
-    showNotification('Pasting is not allowed! 😊', 'warning');
-});
+    // Modal events
+    document.getElementById('closeModal').addEventListener('click', closeResultModal);
+    document.getElementById('playAgainBtn').addEventListener('click', playAgain);
+    document.getElementById('closeStatsModal').addEventListener('click', closeStatsModal);
 
+    // Hamburger menu events
+    hamburgerBtn.addEventListener('click', toggleMenu);
+    closeMenuBtn.addEventListener('click', toggleMenu);
+    
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', (e) => handleMenuAction(e.currentTarget.dataset.action));
+    });
+}
 
+// Start Menu Functions
+function showStartMenu() {
+    startMenuOverlay.classList.remove('hidden');
+    gameContainer.style.display = 'none';
+}
+
+function hideStartMenu() {
+    startMenuOverlay.classList.add('hidden');
+    gameContainer.style.display = 'block';
+}
+
+function selectTime(button) {
+    timeButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    selectedTime = parseInt(button.dataset.time);
+    customTimeInput.value = '';
+}
+
+function applyCustomTime() {
+    const customValue = parseInt(customTimeInput.value);
+    if (customValue >= 10 && customValue <= 300) {
+        timeButtons.forEach(btn => btn.classList.remove('active'));
+        selectedTime = customValue;
+        showNotification(`Custom time set: ${customValue}s`, 'info');
+    } else {
+        showNotification('Please enter a time between 10 and 300 seconds', 'warning');
+    }
+}
+
+function selectDifficulty(card) {
+    difficultyCards.forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    selectedDifficulty = card.dataset.difficulty;
+}
+
+function startGameFromMenu() {
+    timeRemaining = selectedTime;
+    hideStartMenu();
+    updateDifficultyDisplay();
+    initializeTest();
+}
+
+function updateDifficultyDisplay() {
+    const difficultyNames = {
+        easy: 'Easy Mode',
+        medium: 'Medium Mode',
+        hard: 'Difficult Mode'
+    };
+    document.getElementById('currentDifficultyDisplay').textContent = difficultyNames[selectedDifficulty];
+    document.getElementById('currentTimeDisplay').textContent = selectedTime;
+}
+
+// Hamburger Menu Functions
+function toggleMenu() {
+    menuDropdown.classList.toggle('show');
+}
+
+function handleMenuAction(action) {
+    toggleMenu();
+    
+    switch(action) {
+        case 'newGame':
+            showStartMenu();
+            break;
+        case 'difficulty':
+            showStartMenu();
+            break;
+        case 'stats':
+            showStatsModal();
+            break;
+        case 'reset':
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                resetAllData();
+            }
+            break;
+    }
+}
+
+// Game Initialization
 function initializeTest() {
-    currentText = textSamples[Math.floor(Math.random() * textSamples.length)];
+    const samples = textSamples[selectedDifficulty];
+    currentText = samples[Math.floor(Math.random() * samples.length)];
     
     textDisplay.innerHTML = currentText
         .split('')
@@ -67,13 +221,21 @@ function initializeTest() {
     correctChars = 0;
     incorrectChars = 0;
     totalCharsTyped = 0;
-    timeRemaining = 60;
+    currentCombo = 0;
+    maxCombo = 0;
+    timeRemaining = selectedTime;
     
     updateStats();
     updateProgress();
+    updateComboDisplay();
     highlightCurrentChar();
+    
+    timerElement.textContent = timeRemaining;
+    typingInput.value = '';
+    typingInput.disabled = true;
 }
 
+// Test Control Functions
 function startTest() {
     if (isTestActive) return;
     
@@ -116,11 +278,16 @@ function handleTyping(e) {
                 chars[pos].classList.add('correct');
                 chars[pos].classList.remove('incorrect');
                 correctChars++;
+                currentCombo++;
+                if (currentCombo > maxCombo) {
+                    maxCombo = currentCombo;
+                }
                 createCharEffect(chars[pos], 'correct');
             } else {
                 chars[pos].classList.add('incorrect');
                 chars[pos].classList.remove('correct');
                 incorrectChars++;
+                currentCombo = 0;
                 createCharEffect(chars[pos], 'incorrect');
             }
         }
@@ -134,7 +301,10 @@ function handleTyping(e) {
             
             chars[i].classList.remove('correct', 'incorrect');
             
-            if (wasCorrect) correctChars--;
+            if (wasCorrect) {
+                correctChars--;
+                currentCombo--;
+            }
             if (wasIncorrect) incorrectChars--;
             totalCharsTyped--;
         }
@@ -144,6 +314,7 @@ function handleTyping(e) {
     
     updateStats();
     updateProgress();
+    updateComboDisplay();
     highlightCurrentChar();
     
     if (currentPosition >= currentText.length) {
@@ -206,6 +377,15 @@ function updateProgress() {
     progressPercent.textContent = Math.round(progress) + '%';
 }
 
+function updateComboDisplay() {
+    if (currentCombo >= 5) {
+        comboDisplay.style.display = 'flex';
+        comboValue.textContent = currentCombo;
+    } else {
+        comboDisplay.style.display = 'none';
+    }
+}
+
 function endTest() {
     if (!isTestActive) return;
     
@@ -225,7 +405,10 @@ function endTest() {
         ? Math.round((correctChars / totalCharsTyped) * 100) 
         : 100;
     
-    showResults(finalWPM, finalAccuracy, totalCharsTyped);
+    totalGamesPlayed++;
+    saveStatistics(finalWPM, finalAccuracy);
+    
+    showResults(finalWPM, finalAccuracy, totalCharsTyped, maxCombo);
     updateHighScores(finalWPM, finalAccuracy);
 }
 
@@ -242,27 +425,30 @@ function resetTest() {
     startBtn.style.opacity = '1';
     startBtn.style.pointerEvents = 'auto';
     
-    timerElement.textContent = '60';
+    timerElement.textContent = selectedTime;
     timerElement.style.color = '';
     timerElement.parentElement.style.animation = '';
     
     progressFill.style.width = '0%';
     progressPercent.textContent = '0%';
     
+    comboDisplay.style.display = 'none';
+    
     initializeTest();
     addResetAnimation();
 }
 
-
-function showResults(wpm, accuracy, chars) {
+// Results and Modals
+function showResults(wpm, accuracy, chars, combo) {
     document.getElementById('finalWPM').textContent = wpm;
     document.getElementById('finalAccuracy').textContent = accuracy + '%';
     document.getElementById('finalChars').textContent = chars;
+    document.getElementById('finalCombo').textContent = combo;
     
-    const bestWPM = parseInt(localStorage.getItem('bestWPM') || '0');
-    const bestAccuracy = parseInt(localStorage.getItem('bestAccuracy') || '0');
+    const difficultyKey = `bestWPM_${selectedDifficulty}`;
+    const bestWPM = parseInt(localStorage.getItem(difficultyKey) || '0');
     
-    if (wpm > bestWPM || accuracy > bestAccuracy) {
+    if (wpm > bestWPM) {
         document.getElementById('newRecordBadge').style.display = 'flex';
         celebrateRecord();
     } else {
@@ -272,36 +458,88 @@ function showResults(wpm, accuracy, chars) {
     resultModal.classList.add('show');
 }
 
-function closeModal() {
+function closeResultModal() {
     resultModal.classList.remove('show');
-    setTimeout(() => {
-        resetTest();
-    }, 300);
 }
 
+function playAgain() {
+    closeResultModal();
+    resetTest();
+}
+
+function showStatsModal() {
+    updateStatsDisplay();
+    statsModal.classList.add('show');
+}
+
+function closeStatsModal() {
+    statsModal.classList.remove('show');
+}
+
+function updateStatsDisplay() {
+    const totalGames = parseInt(localStorage.getItem('totalGames') || '0');
+    const totalWPM = parseInt(localStorage.getItem('totalWPM') || '0');
+    const totalAcc = parseInt(localStorage.getItem('totalAccuracy') || '0');
+    
+    const avgWPM = totalGames > 0 ? Math.round(totalWPM / totalGames) : 0;
+    const avgAcc = totalGames > 0 ? Math.round(totalAcc / totalGames) : 0;
+    
+    document.getElementById('totalGames').textContent = totalGames;
+    document.getElementById('avgWPM').textContent = avgWPM;
+    document.getElementById('avgAccuracy').textContent = avgAcc + '%';
+    
+    document.getElementById('statsEasyWPM').textContent = 
+        (localStorage.getItem('bestWPM_easy') || '0') + ' WPM';
+    document.getElementById('statsMediumWPM').textContent = 
+        (localStorage.getItem('bestWPM_medium') || '0') + ' WPM';
+    document.getElementById('statsHardWPM').textContent = 
+        (localStorage.getItem('bestWPM_hard') || '0') + ' WPM';
+}
+
+// Storage Functions
 function updateHighScores(wpm, accuracy) {
-    const bestWPM = parseInt(localStorage.getItem('bestWPM') || '0');
-    const bestAccuracy = parseInt(localStorage.getItem('bestAccuracy') || '0');
+    const difficultyKey = `bestWPM_${selectedDifficulty}`;
+    const bestWPM = parseInt(localStorage.getItem(difficultyKey) || '0');
     
     if (wpm > bestWPM) {
-        localStorage.setItem('bestWPM', wpm.toString());
-        animateNumber(document.getElementById('bestWPM'), wpm);
+        localStorage.setItem(difficultyKey, wpm.toString());
     }
     
-    if (accuracy > bestAccuracy) {
-        localStorage.setItem('bestAccuracy', accuracy.toString());
-        document.getElementById('bestAccuracy').textContent = accuracy + '%';
-    }
+    loadHighScores();
 }
 
 function loadHighScores() {
-    const bestWPM = localStorage.getItem('bestWPM') || '0';
-    const bestAccuracy = localStorage.getItem('bestAccuracy') || '0';
+    const easyBest = localStorage.getItem('bestWPM_easy') || '0';
+    const mediumBest = localStorage.getItem('bestWPM_medium') || '0';
+    const hardBest = localStorage.getItem('bestWPM_hard') || '0';
     
-    document.getElementById('bestWPM').textContent = bestWPM;
-    document.getElementById('bestAccuracy').textContent = bestAccuracy + '%';
+    document.getElementById('bestWPMEasy').textContent = easyBest;
+    document.getElementById('bestWPMMedium').textContent = mediumBest;
+    document.getElementById('bestWPMHard').textContent = hardBest;
 }
 
+function saveStatistics(wpm, accuracy) {
+    const totalGames = parseInt(localStorage.getItem('totalGames') || '0') + 1;
+    const totalWPM = parseInt(localStorage.getItem('totalWPM') || '0') + wpm;
+    const totalAcc = parseInt(localStorage.getItem('totalAccuracy') || '0') + accuracy;
+    
+    localStorage.setItem('totalGames', totalGames.toString());
+    localStorage.setItem('totalWPM', totalWPM.toString());
+    localStorage.setItem('totalAccuracy', totalAcc.toString());
+}
+
+function loadStatistics() {
+    // Statistics are loaded when needed in updateStatsDisplay
+}
+
+function resetAllData() {
+    localStorage.clear();
+    loadHighScores();
+    updateStatsDisplay();
+    showNotification('All data has been reset!', 'info');
+}
+
+// Visual Effects
 function createParticles() {
     const particlesBg = document.getElementById('particlesBg');
     const particleCount = 50;
@@ -321,32 +559,35 @@ function createParticles() {
         particlesBg.appendChild(particle);
     }
     
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
+    if (!document.getElementById('particleStyle')) {
+        const style = document.createElement('style');
+        style.id = 'particleStyle';
+        style.textContent = `
+            @keyframes particleFloat {
+                0% {
+                    transform: translateY(0) translateX(0);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.5;
+                }
+                90% {
+                    opacity: 0.5;
+                }
+                100% {
+                    transform: translateY(-100vh) translateX(${Math.random() * 100 - 50}px);
+                    opacity: 0;
+                }
             }
-            10% {
-                opacity: 0.5;
+            
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
             }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(${Math.random() * 100 - 50}px);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-    `;
-    document.head.appendChild(style);
+        `;
+        document.head.appendChild(style);
+    }
 }
 
 function createCharEffect(charElement, type) {
@@ -494,6 +735,7 @@ function showNotification(message, type = 'info') {
     notification.style.zIndex = '10000';
     notification.style.fontWeight = '500';
     notification.style.animation = 'slideInRight 0.3s ease';
+    notification.style.maxWidth = '300px';
     
     document.body.appendChild(notification);
     

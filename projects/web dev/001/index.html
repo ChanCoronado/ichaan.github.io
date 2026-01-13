@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHAN's Typing Test</title>
-
+    <title>CHAN's Typing Test - Enhanced</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-
-    <link rel="icon" href="../../../../../assets/img/001 logo2.png">
 </head>
-
 <body>
 
     <div class="particles-bg" id="particlesBg"></div>
-
-
+    
     <div class="floating-shapes">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
@@ -31,13 +24,146 @@
         <div class="shape shape-5"></div>
     </div>
 
-    <!-- Main Container -->
-    <div class="container">
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <button class="hamburger-btn" id="hamburgerBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="menu-dropdown" id="menuDropdown">
+            <div class="menu-header">
+                <h4>Game Menu</h4>
+                <button class="close-menu" id="closeMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="menu-items">
+                <button class="menu-item" data-action="newGame">
+                    <i class="fas fa-play"></i>
+                    <span>New Game</span>
+                </button>
+                <button class="menu-item" data-action="difficulty">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Change Difficulty</span>
+                </button>
+                <button class="menu-item" data-action="stats">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>View Statistics</span>
+                </button>
+                <button class="menu-item" data-action="reset">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Reset All Data</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-        <header class="text-center mt-5 mb-5">
+    <!-- Start Menu Screen -->
+    <div class="start-menu-overlay" id="startMenuOverlay">
+        <div class="start-menu-container">
+            <div class="logo-container-menu">
+                <div class="logo-circle-menu">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+            </div>
+            
+            <h1 class="menu-title">
+                <span class="title-accent">CHAN's</span>
+                <span class="title-main">Typing Test</span>
+            </h1>
+            <p class="menu-subtitle">
+                <i class="fas fa-bolt"></i> Test your typing speed and accuracy
+            </p>
+
+            <div class="setup-section">
+                <h3 class="setup-title">
+                    <i class="fas fa-cog"></i> Game Setup
+                </h3>
+
+                <!-- Time Selection -->
+                <div class="setup-group">
+                    <label class="setup-label">
+                        <i class="fas fa-clock"></i> Select Duration
+                    </label>
+                    <div class="time-options">
+                        <button class="time-btn active" data-time="30">30s</button>
+                        <button class="time-btn" data-time="60">60s</button>
+                        <button class="time-btn" data-time="90">90s</button>
+                        <button class="time-btn" data-time="120">120s</button>
+                    </div>
+                    <div class="custom-time-group">
+                        <input type="number" id="customTime" class="custom-time-input" placeholder="Custom (seconds)" min="10" max="300">
+                        <button class="custom-time-btn" id="applyCustomTime">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Difficulty Selection -->
+                <div class="setup-group">
+                    <label class="setup-label">
+                        <i class="fas fa-trophy"></i> Select Difficulty
+                    </label>
+                    <div class="difficulty-cards">
+                        <div class="difficulty-card active" data-difficulty="easy">
+                            <div class="difficulty-icon easy-icon">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                            <h4>Easy</h4>
+                            <p>Short common words</p>
+                            <ul class="difficulty-features">
+                                <li><i class="fas fa-check"></i> Simple vocabulary</li>
+                                <li><i class="fas fa-check"></i> Forgiving accuracy</li>
+                                <li><i class="fas fa-check"></i> Perfect for beginners</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="difficulty-card" data-difficulty="medium">
+                            <div class="difficulty-icon medium-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h4>Medium</h4>
+                            <p>Mixed words & phrases</p>
+                            <ul class="difficulty-features">
+                                <li><i class="fas fa-check"></i> Longer words</li>
+                                <li><i class="fas fa-check"></i> Moderate pace</li>
+                                <li><i class="fas fa-check"></i> Good challenge</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="difficulty-card" data-difficulty="hard">
+                            <div class="difficulty-icon hard-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h4>Difficult</h4>
+                            <p>Complex sentences</p>
+                            <ul class="difficulty-features">
+                                <li><i class="fas fa-check"></i> Long sentences</li>
+                                <li><i class="fas fa-check"></i> High accuracy required</li>
+                                <li><i class="fas fa-check"></i> Expert level</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Start Button -->
+                <button class="start-game-btn" id="startGameBtn">
+                    <span class="btn-content">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Start Game</span>
+                    </span>
+                    <div class="btn-ripple"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="container game-container" id="gameContainer" style="display: none;">
+        
+        <header class="text-center mt-4 mb-4">
             <div class="logo-container">
-                <div class="logo-container">
-                    <img src="../../../../../assets/img/001 logo2.png" alt="Logo" class="logo-circle">
+                <div class="logo-circle">
+                    <i class="fas fa-keyboard"></i>
                 </div>
             </div>
             <h1 class="main-title">
@@ -45,7 +171,9 @@
                 <span class="title-main">Typing Test</span>
             </h1>
             <p class="subtitle">
-                <i class="fas fa-bolt"></i> Test your typing speed and accuracy
+                <i class="fas fa-bolt"></i> 
+                <span id="currentDifficultyDisplay">Easy Mode</span> - 
+                <span id="currentTimeDisplay">30</span>s
             </p>
             <div class="title-underline"></div>
         </header>
@@ -56,7 +184,7 @@
                 <div class="main-card">
                     <div class="card-shine"></div>
 
-
+                    <!-- Stats Row -->
                     <div class="row mb-4 stats-row">
                         <div class="col-md-4 mb-3 mb-md-0">
                             <div class="stat-box">
@@ -67,7 +195,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-label">Time Left</div>
-                                    <div class="stat-value" id="timer">60</div>
+                                    <div class="stat-value" id="timer">30</div>
                                     <div class="stat-unit">seconds</div>
                                 </div>
                             </div>
@@ -102,6 +230,17 @@
                         </div>
                     </div>
 
+                    <!-- Combo/Streak Display -->
+                    <div class="combo-display" id="comboDisplay" style="display: none;">
+                        <div class="combo-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="combo-text">
+                            <span class="combo-value" id="comboValue">0</span>
+                            <span class="combo-label">COMBO!</span>
+                        </div>
+                    </div>
+
                     <!-- Progress Bar -->
                     <div class="progress-container mb-4">
                         <div class="progress-label">
@@ -110,7 +249,6 @@
                         </div>
                         <div class="progress-bar-custom">
                             <div class="progress-fill" id="progressFill"></div>
-                            <div class="progress-glow"></div>
                         </div>
                     </div>
 
@@ -129,10 +267,7 @@
                                 <i class="fas fa-bars"></i>
                             </div>
                         </div>
-                        <div class="text-display" id="textDisplay">
-                            <!-- Text will be inserted here by JavaScript -->
-                        </div>
-                        <div class="cursor-follower" id="cursorFollower"></div>
+                        <div class="text-display" id="textDisplay"></div>
                     </div>
 
                     <!-- Input Area -->
@@ -140,9 +275,7 @@
                         <div class="input-label">
                             <i class="fas fa-pen"></i> Type here
                         </div>
-                        <textarea class="typing-input" id="typingInput" placeholder="Click START to begin typing..."
-                            disabled spellcheck="false"></textarea>
-                        <div class="input-border-effect"></div>
+                        <textarea class="typing-input" id="typingInput" placeholder="Click START TEST to begin typing..." disabled spellcheck="false"></textarea>
                     </div>
 
                     <!-- Control Buttons -->
@@ -173,27 +306,39 @@
                         <h3 class="section-title">Personal Best Records</h3>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="score-item">
                                 <div class="score-icon">
                                     <i class="fas fa-fire"></i>
                                 </div>
                                 <div class="score-details">
-                                    <span class="score-label">Fastest Speed</span>
-                                    <span class="score-value" id="bestWPM">0</span>
+                                    <span class="score-label">Easy Best</span>
+                                    <span class="score-value" id="bestWPMEasy">0</span>
                                     <span class="score-unit">WPM</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="score-item">
                                 <div class="score-icon">
-                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-bolt"></i>
                                 </div>
                                 <div class="score-details">
-                                    <span class="score-label">Best Accuracy</span>
-                                    <span class="score-value" id="bestAccuracy">0%</span>
-                                    <span class="score-unit">correct</span>
+                                    <span class="score-label">Medium Best</span>
+                                    <span class="score-value" id="bestWPMMedium">0</span>
+                                    <span class="score-unit">WPM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="score-item">
+                                <div class="score-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <div class="score-details">
+                                    <span class="score-label">Hard Best</span>
+                                    <span class="score-value" id="bestWPMHard">0</span>
+                                    <span class="score-unit">WPM</span>
                                 </div>
                             </div>
                         </div>
@@ -203,10 +348,8 @@
         </div>
 
         <!-- Footer -->
-        <footer class="text-center mt-5 mb-4">
-            <p class="footer-text">
-                @ CHAN CORONADO
-            </p>
+        <footer class="text-center mt-4 mb-4">
+            <p class="footer-text">© CHAN CORONADO</p>
         </footer>
     </div>
 
@@ -258,6 +401,16 @@
                     </div>
                 </div>
 
+                <div class="result-stat">
+                    <div class="result-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="result-details">
+                        <div class="result-label">Max Combo</div>
+                        <div class="result-value" id="finalCombo">0</div>
+                    </div>
+                </div>
+
                 <div id="newRecordBadge" class="new-record" style="display: none;">
                     <div class="badge-shine"></div>
                     <i class="fas fa-crown"></i>
@@ -266,10 +419,92 @@
                 </div>
             </div>
 
-            <button class="main-btn primary-btn" id="closeModal">
+            <div class="modal-footer-buttons">
+                <button class="main-btn primary-btn" id="playAgainBtn">
+                    <span class="btn-content">
+                        <i class="fas fa-redo"></i>
+                        <span>Play Again</span>
+                    </span>
+                    <div class="btn-ripple"></div>
+                </button>
+                <button class="main-btn secondary-btn" id="closeModal">
+                    <span class="btn-content">
+                        <i class="fas fa-home"></i>
+                        <span>Main Menu</span>
+                    </span>
+                    <div class="btn-ripple"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div class="modal-overlay" id="statsModal">
+        <div class="result-modal stats-modal-content">
+            <div class="modal-header-section">
+                <div class="modal-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h2 class="modal-title">Your Statistics</h2>
+                <p class="modal-subtitle">Track your progress</p>
+            </div>
+
+            <div class="modal-content stats-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="stat-card-value" id="totalGames">0</div>
+                        <div class="stat-card-label">Total Games</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-card-value" id="avgWPM">0</div>
+                        <div class="stat-card-label">Average WPM</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="stat-card-value" id="avgAccuracy">0%</div>
+                        <div class="stat-card-label">Avg Accuracy</div>
+                    </div>
+                </div>
+
+                <div class="difficulty-stats">
+                    <h4 class="difficulty-stats-title">
+                        <i class="fas fa-chart-bar"></i> Best by Difficulty
+                    </h4>
+                    <div class="difficulty-stat-item">
+                        <span class="difficulty-stat-label">
+                            <i class="fas fa-smile"></i> Easy
+                        </span>
+                        <span class="difficulty-stat-value" id="statsEasyWPM">0 WPM</span>
+                    </div>
+                    <div class="difficulty-stat-item">
+                        <span class="difficulty-stat-label">
+                            <i class="fas fa-fire"></i> Medium
+                        </span>
+                        <span class="difficulty-stat-value" id="statsMediumWPM">0 WPM</span>
+                    </div>
+                    <div class="difficulty-stat-item">
+                        <span class="difficulty-stat-label">
+                            <i class="fas fa-bolt"></i> Hard
+                        </span>
+                        <span class="difficulty-stat-value" id="statsHardWPM">0 WPM</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="main-btn primary-btn" id="closeStatsModal">
                 <span class="btn-content">
                     <i class="fas fa-check"></i>
-                    <span>Continue</span>
+                    <span>Close</span>
                 </span>
                 <div class="btn-ripple"></div>
             </button>
@@ -279,5 +514,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>
