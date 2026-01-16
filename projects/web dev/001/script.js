@@ -56,7 +56,7 @@ let maxCombo = 0;
 let totalGamesPlayed = 0;
 
 // DOM Elements
-const startMenuOverlay = document.getElementById('startMenuOverlay');
+const startMenuSection = document.getElementById('startMenuSection');
 const gameContainer = document.getElementById('gameContainer');
 const textDisplay = document.getElementById('textDisplay');
 const typingInput = document.getElementById('typingInput');
@@ -76,6 +76,7 @@ const comboValue = document.getElementById('comboValue');
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const menuDropdown = document.getElementById('menuDropdown');
 const closeMenuBtn = document.getElementById('closeMenu');
+const menuOverlay = document.getElementById('menuOverlay');
 
 // Start menu elements
 const startGameBtn = document.getElementById('startGameBtn');
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     addButtonEffects();
     setupEventListeners();
-    showStartMenu();
+    showStartMenu(); // Show menu on load
 });
 
 // Setup all event listeners
@@ -120,24 +121,34 @@ function setupEventListeners() {
     document.getElementById('playAgainBtn').addEventListener('click', playAgain);
     document.getElementById('closeStatsModal').addEventListener('click', closeStatsModal);
 
-    // Hamburger menu events
-    hamburgerBtn.addEventListener('click', toggleMenu);
-    closeMenuBtn.addEventListener('click', toggleMenu);
+    // Hamburger menu events - improved
+    hamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+    closeMenuBtn.addEventListener('click', closeMenu);
+    menuOverlay.addEventListener('click', closeMenu);
     
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', (e) => handleMenuAction(e.currentTarget.dataset.action));
     });
 }
 
-// Start Menu Functions
+// ============================================
+// START MENU FUNCTIONS
+// ============================================
 function showStartMenu() {
-    startMenuOverlay.classList.remove('hidden');
-    gameContainer.style.display = 'none';
+    startMenuSection.classList.remove('hidden');
+    gameContainer.classList.remove('active');
+    updateBurgerMenuItems('menu'); // Update burger for menu state
 }
 
 function hideStartMenu() {
-    startMenuOverlay.classList.add('hidden');
-    gameContainer.style.display = 'block';
+    startMenuSection.classList.add('hidden');
+    setTimeout(() => {
+        gameContainer.classList.add('active');
+        updateBurgerMenuItems('game'); // Update burger for game state
+    }, 300);
 }
 
 function selectTime(button) {
@@ -181,17 +192,79 @@ function updateDifficultyDisplay() {
     document.getElementById('currentTimeDisplay').textContent = selectedTime;
 }
 
-// Hamburger Menu Functions
+// ============================================
+// BURGER MENU FUNCTIONS (DYNAMIC CONTENT)
+// ============================================
+function updateBurgerMenuItems(state) {
+    const menuItems = document.querySelector('.menu-items');
+    
+    if (state === 'menu') {
+        // On start menu - show limited options
+        menuItems.innerHTML = `
+            <button class="menu-item" data-action="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>View Statistics</span>
+            </button>
+            <button class="menu-item" data-action="reset">
+                <i class="fas fa-trash-alt"></i>
+                <span>Reset All Data</span>
+            </button>
+        `;
+    } else {
+        // In game - show full options
+        menuItems.innerHTML = `
+            <button class="menu-item" data-action="newGame">
+                <i class="fas fa-redo"></i>
+                <span>Restart Game</span>
+            </button>
+            <button class="menu-item" data-action="menu">
+                <i class="fas fa-home"></i>
+                <span>Back to Menu</span>
+            </button>
+            <button class="menu-item" data-action="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>View Statistics</span>
+            </button>
+            <button class="menu-item" data-action="reset">
+                <i class="fas fa-trash-alt"></i>
+                <span>Reset All Data</span>
+            </button>
+        `;
+    }
+    
+    // Re-attach event listeners
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', (e) => handleMenuAction(e.currentTarget.dataset.action));
+    });
+}
+
 function toggleMenu() {
-    menuDropdown.classList.toggle('show');
+    const isOpen = menuDropdown.classList.contains('show');
+    if (isOpen) {
+        closeMenu();
+    } else {
+        openMenu();
+    }
+}
+
+function openMenu() {
+    menuDropdown.classList.add('show');
+    menuOverlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+    menuDropdown.classList.remove('show');
+    menuOverlay.classList.remove('show');
+    document.body.style.overflow = '';
 }
 
 function handleMenuAction(action) {
-    toggleMenu();
+    closeMenu();
     
     switch(action) {
         case 'newGame':
-            showStartMenu();
+            resetTest();
             break;
         case 'difficulty':
             showStartMenu();
@@ -203,6 +276,9 @@ function handleMenuAction(action) {
             if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
                 resetAllData();
             }
+            break;
+        case 'menu':
+            showStartMenu();
             break;
     }
 }

@@ -34,9 +34,9 @@ body {
     font-family: var(--font-primary);
     background: var(--bg-primary);
     color: var(--text-primary);
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     position: relative;
-    overflow-x: hidden;
 }
 
 .particles-bg {
@@ -128,7 +128,9 @@ body {
     }
 }
 
-/* Hamburger Menu */
+/* ============================================
+   BURGER MENU - ALWAYS VISIBLE
+   ============================================ */
 .hamburger-menu {
     position: fixed;
     top: 20px;
@@ -157,40 +159,60 @@ body {
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
 }
 
+.hamburger-btn:active {
+    transform: scale(0.95);
+}
+
 .menu-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 0;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
     background: var(--bg-card);
-    border-radius: 16px;
-    padding: 1.5rem;
-    min-width: 280px;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+    padding: 2rem 1.5rem;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    overflow-y: auto;
 }
 
 .menu-dropdown.show {
+    right: 0;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.menu-overlay.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
 }
 
 .menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .menu-header h4 {
     font-family: var(--font-secondary);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin: 0;
     color: var(--text-primary);
 }
@@ -199,27 +221,34 @@ body {
     background: none;
     border: none;
     color: var(--text-secondary);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     cursor: pointer;
     padding: 5px;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
 }
 
 .close-menu:hover {
     color: var(--text-primary);
+    background: var(--bg-elevated);
 }
 
 .menu-items {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .menu-item {
     background: var(--bg-elevated);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    padding: 1rem;
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -233,7 +262,11 @@ body {
 .menu-item:hover {
     background: var(--bg-secondary);
     border-color: var(--accent-primary);
-    transform: translateX(5px);
+    transform: translateX(-5px);
+}
+
+.menu-item:active {
+    transform: translateX(-3px);
 }
 
 .menu-item i {
@@ -243,48 +276,52 @@ body {
     text-align: center;
 }
 
-/* Start Menu Overlay */
-.start-menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* Show burger menu only on mobile */
+@media (max-width: 768px) {
+    /* Burger is always visible now */
+}
+
+/* ============================================
+   START MENU SECTION - INTEGRATED IN MAIN VIEW
+   ============================================ */
+.start-menu-section {
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(10px);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
-    overflow-y: auto;
     padding: 20px;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.start-menu-overlay.hidden {
-    display: none;
+.start-menu-section.hidden {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
 }
 
 .start-menu-container {
     background: var(--bg-card);
     border-radius: 24px;
-    padding: 3rem 2rem;
-    max-width: 900px;
+    padding: 2.5rem 2rem;
+    max-width: 800px;
     width: 100%;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slideInUp 0.5s ease;
-    max-height: 90vh;
-    overflow-y: auto;
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(50px);
+        transform: translateY(50px) scale(0.95);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -313,15 +350,29 @@ body {
 }
 
 .menu-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 800;
     text-align: center;
     margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.title-accent {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: var(--font-secondary);
+}
+
+.title-main {
+    color: var(--text-primary);
+    font-family: var(--font-primary);
 }
 
 .menu-subtitle {
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
     margin-bottom: 2rem;
     display: flex;
@@ -335,10 +386,10 @@ body {
 }
 
 .setup-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -347,14 +398,14 @@ body {
 }
 
 .setup-group {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .setup-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -365,17 +416,17 @@ body {
 .time-options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 
 .time-btn {
     background: var(--bg-elevated);
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 1rem;
+    padding: 0.85rem;
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -395,7 +446,7 @@ body {
 
 .custom-time-group {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .custom-time-input {
@@ -413,6 +464,10 @@ body {
     outline: none;
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.custom-time-input::placeholder {
+    color: var(--text-muted);
 }
 
 .custom-time-btn {
@@ -433,15 +488,15 @@ body {
 
 .difficulty-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
 }
 
 .difficulty-card {
     background: var(--bg-elevated);
     border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -460,14 +515,14 @@ body {
 }
 
 .difficulty-icon {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     border-radius: 12px;
-    margin: 0 auto 1rem;
+    margin: 0 auto 0.85rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: white;
 }
 
@@ -484,16 +539,16 @@ body {
 }
 
 .difficulty-card h4 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     color: var(--text-primary);
 }
 
 .difficulty-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
 }
 
 .difficulty-features {
@@ -504,9 +559,9 @@ body {
 }
 
 .difficulty-features li {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -522,15 +577,15 @@ body {
     background: var(--accent-gradient);
     border: none;
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     font-family: var(--font-secondary);
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     position: relative;
     overflow: hidden;
 }
@@ -544,24 +599,73 @@ body {
     transform: translateY(-1px);
 }
 
+.btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.start-game-btn:active .btn-ripple {
+    width: 300px;
+    height: 300px;
+}
+
+/* ============================================
+   GAME CONTAINER - SAME LEVEL AS START MENU
+   ============================================ */
+.game-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 20px;
+    pointer-events: none;
+}
+
+.game-container.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+    pointer-events: auto;
+}
+
 .logo-container {
     margin-bottom: 1.5rem;
     animation: fadeInDown 0.8s ease;
 }
 
 .logo-circle {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: var(--accent-gradient);
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: white;
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes fadeInDown {
@@ -576,27 +680,14 @@ body {
 }
 
 .main-title {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 0.5rem;
     animation: fadeInUp 0.8s ease 0.2s both;
 }
 
-.title-accent {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-family: var(--font-secondary);
-}
-
-.title-main {
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-}
-
 .subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     margin-bottom: 1rem;
     animation: fadeInUp 0.8s ease 0.4s both;
@@ -627,14 +718,10 @@ body {
     to { width: 100px; }
 }
 
-.game-container {
-    padding: 20px;
-}
-
 .main-card {
     background: var(--bg-card);
     border-radius: 24px;
-    padding: 2.5rem;
+    padding: 2rem;
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
@@ -665,7 +752,7 @@ body {
 .stat-box {
     background: var(--bg-elevated);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -708,14 +795,14 @@ body {
 }
 
 .stat-icon {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     border-radius: 12px;
     background: var(--accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: white;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
@@ -737,7 +824,7 @@ body {
 
 .stat-value {
     font-family: var(--font-secondary);
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1;
@@ -923,7 +1010,7 @@ body {
     padding: 2rem;
     font-size: 1.4rem;
     line-height: 2.2;
-    min-height: 200px;
+    min-height: 150px;
     font-family: 'Courier New', monospace;
     color: var(--text-primary);
     letter-spacing: 0.5px;
@@ -1031,31 +1118,6 @@ body {
     position: relative;
     overflow: hidden;
     text-transform: uppercase;
-}
-
-.btn-content {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    position: relative;
-    z-index: 2;
-}
-
-.btn-ripple {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
-}
-
-.main-btn:active .btn-ripple {
-    width: 300px;
-    height: 300px;
 }
 
 .primary-btn {
@@ -1503,20 +1565,30 @@ body {
     animation: fadeInUp 0.8s ease 0.9s both;
 }
 
-/* Responsive Design */
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
 @media (max-width: 992px) {
     .main-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
     
     .menu-title {
         font-size: 2rem;
     }
+    
+    .stat-value {
+        font-size: 1.8rem;
+    }
 }
 
 @media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+    
     .main-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .menu-title {
@@ -1558,13 +1630,13 @@ body {
     }
     
     .stat-value {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
     .text-display {
         font-size: 1.2rem;
         padding: 1.5rem;
-        min-height: 150px;
+        min-height: 120px;
         line-height: 2;
     }
     
@@ -1608,22 +1680,11 @@ body {
         flex-direction: column;
         text-align: center;
     }
-    
-    .hamburger-menu {
-        top: 15px;
-        right: 15px;
-    }
-    
-    .hamburger-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
-    }
 }
 
 @media (max-width: 576px) {
     .main-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
     .subtitle {
@@ -1662,5 +1723,9 @@ body {
     
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .start-menu-container {
+        padding: 1.75rem 1.25rem;
     }
 }
