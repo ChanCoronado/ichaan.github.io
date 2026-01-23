@@ -37,9 +37,8 @@ const textSamples = {
     ]
 };
 
-// ============================================
+
 // GAME STATE VARIABLES
-// ============================================
 let currentText = '';
 let currentPosition = 0;
 let startTime = null;
@@ -55,9 +54,9 @@ let totalCharsTyped = 0;
 let currentCombo = 0;
 let maxCombo = 0;
 
-// ============================================
+ 
 // DOM ELEMENTS
-// ============================================
+
 const menuSection = document.getElementById('menuSection');
 const gameSection = document.getElementById('gameSection');
 const textDisplay = document.getElementById('textDisplay');
@@ -85,9 +84,9 @@ const difficultyCards = document.querySelectorAll('.difficulty-card');
 const customTimeInput = document.getElementById('customTime');
 const applyCustomTimeBtn = document.getElementById('applyCustomTime');
 
-// ============================================
+ 
 // INITIALIZATION
-// ============================================
+ 
 document.addEventListener('DOMContentLoaded', () => {
     loadHighScores();
     createParticles();
@@ -95,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
     showMenu();
 });
 
-// ============================================
+ 
 // EVENT LISTENERS SETUP
-// ============================================
+ 
 function setupEventListeners() {
     // Menu interactions
     startGameBtn.addEventListener('click', startGameFromMenu);
@@ -143,9 +142,9 @@ function setupEventListeners() {
     document.getElementById('playAgainBtn').addEventListener('click', playAgain);
 }
 
-// ============================================
+ 
 // MENU FUNCTIONS
-// ============================================
+ 
 function showMenu() {
     menuSection.classList.remove('hidden');
     gameSection.classList.remove('active');
@@ -206,9 +205,9 @@ function updateDifficultyDisplay() {
     document.getElementById('currentTimeDisplay').textContent = selectedTime;
 }
 
-// ============================================
+ 
 // TYPING TRANSITION EFFECT (FAST TYPING)
-// ============================================
+ 
 function addTypingTransitionEffect() {
     const textDisplayEl = document.getElementById('textDisplay');
     textDisplayEl.style.overflow = 'hidden';
@@ -224,9 +223,9 @@ function addTypingTransitionEffect() {
     }, 900);
 }
 
-// ============================================
+ 
 // BURGER MENU (DYNAMIC CONTENT)
-// ============================================
+ 
 function updateBurgerMenuItems(state) {
     const menuItems = document.querySelector('.menu-items');
     
@@ -318,7 +317,7 @@ function pauseTest() {
         clearInterval(timerInterval);
         typingInput.disabled = true;
         
-        // ✅ SHOW START BUTTON AGAIN
+        //   SHOW START BUTTON AGAIN
         startBtn.disabled = false;
         startBtn.style.opacity = '1';
         
@@ -326,9 +325,9 @@ function pauseTest() {
     }
 }
 
-// ============================================
+ 
 // GAME INITIALIZATION
-// ============================================
+ 
 function initializeTest() {
     const samples = textSamples[selectedDifficulty];
     currentText = samples[Math.floor(Math.random() * samples.length)];
@@ -358,9 +357,9 @@ function initializeTest() {
     startBtn.disabled = false;
 }
 
-// ============================================
+ 
 // TEST CONTROL
-// ============================================
+ 
 function startTest() {
     if (isTestActive) return;
     
@@ -401,9 +400,9 @@ function resetTest() {
     initializeTest();
 }
 
-// ============================================
+ 
 // TYPING HANDLER
-// ============================================
+ 
 function handleTyping(e) {
     if (!isTestActive) return;
     
@@ -479,9 +478,9 @@ function highlightCurrentChar() {
     }
 }
 
-// ============================================
+ 
 // TIMER
-// ============================================
+ 
 function startTimer() {
     updateTimerDisplay();
     
@@ -506,9 +505,9 @@ function updateTimerDisplay() {
     timerElement.textContent = timeRemaining;
 }
 
-// ============================================
+ 
 // STATS UPDATE
-// ============================================
+ 
 function updateStats() {
     const timeElapsed = startTime ? (Date.now() - startTime) / 1000 / 60 : 0;
     const wordsTyped = correctChars / 5;
@@ -537,9 +536,9 @@ function updateComboDisplay() {
     }
 }
 
-// ============================================
+ 
 // END TEST
-// ============================================
+ 
 function endTest() {
     if (!isTestActive) return;
     
@@ -563,9 +562,9 @@ function endTest() {
     showResultsModal(finalWPM, finalAccuracy, totalCharsTyped, maxCombo);
 }
 
-// ============================================
+ 
 // MODALS
-// ============================================
+ 
 function showResultsModal(wpm, accuracy, chars, combo) {
     document.getElementById('finalWPM').textContent = wpm;
     document.getElementById('finalAccuracy').textContent = accuracy + '%';
@@ -618,9 +617,9 @@ function playAgain() {
     resetTest();
 }
 
-// ============================================
+ 
 // STORAGE
-// ============================================
+ 
 function updateHighScores(wpm, accuracy) {
     const difficultyKey = `bestWPM_${selectedDifficulty}`;
     const bestWPM = parseInt(localStorage.getItem(difficultyKey) || '0');
@@ -659,9 +658,9 @@ function resetAllData() {
     showNotification('All data has been reset! 🔄', 'success');
 }
 
-// ============================================
+ 
 // VISUAL EFFECTS
-// ============================================
+ 
 function createParticles() {
     const particlesBg = document.getElementById('particlesBg');
     const particleCount = 40;
@@ -785,9 +784,9 @@ function showNotification(message, type = 'info') {
     }, 2500);
 }
 
-// ============================================
+ 
 // DYNAMIC ANIMATIONS (CSS IN JS)
-// ============================================
+ 
 const dynamicStyles = document.createElement('style');
 dynamicStyles.textContent = `
     @keyframes particleFloat {
