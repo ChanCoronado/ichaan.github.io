@@ -23,20 +23,19 @@ const textSamples = {
         "Effective communication requires clarity, precision, contextual awareness, emotional intelligence, and comprehensive understanding of audience perspectives.",
         "Innovation ecosystems cultivate entrepreneurial thinking, facilitate collaborative problem-solving, and accelerate technological advancement through synergistic partnerships."
     ],
-   hard: [
-    "const comprehensiveDataStructure = {userId: 'USER_12345', sessionToken: 'abc-def-ghi-jkl-mno', timestamp: Date.now(), performanceMetrics: [98.7, 99.2, 97.5]}; // Advanced implementation",
-    "Interdisciplinary neuroscientific investigations utilizing electroencephalographic methodologies revealed unprecedented neuroplasticity phenomena: synaptic reorganization occurs continuously throughout developmental stages.",
-    "function processComplexAlgorithm(dataSet, parameters) { return dataSet.filter(item => item.value > parameters.threshold).map(element => ({...element, processed: true})); }",
-    "Quantum computational architectures leverage superposition principles & entanglement phenomena for exponentially accelerating cryptographic calculations: O(n) -> O(log n) complexity reduction.",
-    "https://api.enterprise-system.com/v2/endpoints/user-management?authentication=Bearer_TOKEN&queryParameters={filter: 'active', sortBy: 'timestamp', limit: 1000}",
-    "Pharmacological interventions targeting serotonergic, dopaminergic, noradrenergic neurotransmitter systems demonstrate efficacy through receptor modulation mechanisms: 5-HT2A antagonism & dopamine reuptake inhibition.",
-    "Biochemical synthesis protocols: C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP (adenosine triphosphate); cellular respiration efficiency = approximately 38-40% energy conservation.",
-    "Machine learning architectures implement backpropagation algorithms: dL/dw = (dL/dy)(dy/dw) where L represents loss function, w denotes weights, y signifies output predictions.",
-    "Cryptocurrency blockchain validation: SHA-256(previousHash + timestamp + data + nonce) < target_difficulty; decentralized consensus mechanisms ensure immutability & distributed trust.",
-    "Electromagnetic wave propagation: lambda = c/f (wavelength = speed_of_light / frequency); Maxwell's equations: curl(E) = -dB/dt, curl(B) = mu0(J + epsilon0*dE/dt) describe fundamental relationships."
+    hard: [
+        "const comprehensiveDataStructure = {userId: 'USER_12345', sessionToken: 'abc-def-ghi-jkl-mno', timestamp: Date.now(), performanceMetrics: [98.7, 99.2, 97.5]}; // Advanced implementation",
+        "Interdisciplinary neuroscientific investigations utilizing electroencephalographic methodologies revealed unprecedented neuroplasticity phenomena: synaptic reorganization occurs continuously throughout developmental stages.",
+        "function processComplexAlgorithm(dataSet, parameters) { return dataSet.filter(item => item.value > parameters.threshold).map(element => ({...element, processed: true})); }",
+        "Quantum computational architectures leverage superposition principles & entanglement phenomena for exponentially accelerating cryptographic calculations: O(n) -> O(log n) complexity reduction.",
+        "https://api.enterprise-system.com/v2/endpoints/user-management?authentication=Bearer_TOKEN&queryParameters={filter: 'active', sortBy: 'timestamp', limit: 1000}",
+        "Pharmacological interventions targeting serotonergic, dopaminergic, noradrenergic neurotransmitter systems demonstrate efficacy through receptor modulation mechanisms: 5-HT2A antagonism & dopamine reuptake inhibition.",
+        "Biochemical synthesis protocols: C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP (adenosine triphosphate); cellular respiration efficiency = approximately 38-40% energy conservation.",
+        "Machine learning architectures implement backpropagation algorithms: dL/dw = (dL/dy)(dy/dw) where L represents loss function, w denotes weights, y signifies output predictions.",
+        "Cryptocurrency blockchain validation: SHA-256(previousHash + timestamp + data + nonce) < target_difficulty; decentralized consensus mechanisms ensure immutability & distributed trust.",
+        "Electromagnetic wave propagation: lambda = c/f (wavelength = speed_of_light / frequency); Maxwell's equations: curl(E) = -dB/dt, curl(B) = mu0(J + epsilon0*dE/dt) describe fundamental relationships."
     ]
 };
-
 
 // GAME STATE VARIABLES
 let currentText = '';
@@ -54,9 +53,10 @@ let totalCharsTyped = 0;
 let currentCombo = 0;
 let maxCombo = 0;
 
- 
-// DOM ELEMENTS
+// COMBO AUTO-HIDE TIMER
+let comboHideTimeout = null;
 
+// DOM ELEMENTS
 const menuSection = document.getElementById('menuSection');
 const gameSection = document.getElementById('gameSection');
 const textDisplay = document.getElementById('textDisplay');
@@ -84,9 +84,7 @@ const difficultyCards = document.querySelectorAll('.difficulty-card');
 const customTimeInput = document.getElementById('customTime');
 const applyCustomTimeBtn = document.getElementById('applyCustomTime');
 
- 
 // INITIALIZATION
- 
 document.addEventListener('DOMContentLoaded', () => {
     loadHighScores();
     createParticles();
@@ -94,9 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showMenu();
 });
 
- 
 // EVENT LISTENERS SETUP
- 
 function setupEventListeners() {
     // Menu interactions
     startGameBtn.addEventListener('click', startGameFromMenu);
@@ -142,9 +138,7 @@ function setupEventListeners() {
     document.getElementById('playAgainBtn').addEventListener('click', playAgain);
 }
 
- 
 // MENU FUNCTIONS
- 
 function showMenu() {
     menuSection.classList.remove('hidden');
     gameSection.classList.remove('active');
@@ -205,9 +199,7 @@ function updateDifficultyDisplay() {
     document.getElementById('currentTimeDisplay').textContent = selectedTime;
 }
 
- 
 // TYPING TRANSITION EFFECT (FAST TYPING)
- 
 function addTypingTransitionEffect() {
     const textDisplayEl = document.getElementById('textDisplay');
     textDisplayEl.style.overflow = 'hidden';
@@ -223,9 +215,7 @@ function addTypingTransitionEffect() {
     }, 900);
 }
 
- 
 // BURGER MENU (DYNAMIC CONTENT)
- 
 function updateBurgerMenuItems(state) {
     const menuItems = document.querySelector('.menu-items');
     
@@ -317,7 +307,7 @@ function pauseTest() {
         clearInterval(timerInterval);
         typingInput.disabled = true;
         
-        //   SHOW START BUTTON AGAIN
+        // SHOW START BUTTON AGAIN
         startBtn.disabled = false;
         startBtn.style.opacity = '1';
         
@@ -325,17 +315,37 @@ function pauseTest() {
     }
 }
 
- 
 // GAME INITIALIZATION
- 
 function initializeTest() {
     const samples = textSamples[selectedDifficulty];
     currentText = samples[Math.floor(Math.random() * samples.length)];
     
-    textDisplay.innerHTML = currentText
-        .split('')
-        .map((char, index) => `<span class="char" data-index="${index}">${char === ' ' ? '&nbsp;' : char}</span>`)
-        .join('');
+    // ⚡ FIXED: Render text with word-grouping to prevent word breaks
+    const words = currentText.split(' ');
+    let charIndex = 0;
+    let html = '';
+    
+    words.forEach((word, wordIdx) => {
+        // Create word wrapper
+        html += '<span class="word">';
+        
+        // Add characters for this word
+        for (let i = 0; i < word.length; i++) {
+            const char = word[i];
+            html += `<span class="char" data-index="${charIndex}">${char}</span>`;
+            charIndex++;
+        }
+        
+        html += '</span>';
+        
+        // Add space after word (except last word)
+        if (wordIdx < words.length - 1) {
+            html += `<span class="char space" data-index="${charIndex}">&nbsp;</span>`;
+            charIndex++;
+        }
+    });
+    
+    textDisplay.innerHTML = html;
     
     currentPosition = 0;
     correctChars = 0;
@@ -347,7 +357,7 @@ function initializeTest() {
     
     updateStats();
     updateProgress();
-    updateComboDisplay();
+    hideComboDisplay(); // Ensure combo is hidden on init
     highlightCurrentChar();
     
     timerElement.textContent = timeRemaining;
@@ -357,9 +367,7 @@ function initializeTest() {
     startBtn.disabled = false;
 }
 
- 
 // TEST CONTROL
- 
 function startTest() {
     if (isTestActive) return;
     
@@ -395,14 +403,12 @@ function resetTest() {
     progressFill.style.width = '0%';
     progressPercent.textContent = '0%';
     
-    comboDisplay.style.display = 'none';
+    hideComboDisplay();
     
     initializeTest();
 }
 
- 
 // TYPING HANDLER
- 
 function handleTyping(e) {
     if (!isTestActive) return;
     
@@ -461,7 +467,7 @@ function handleTyping(e) {
     
     updateStats();
     updateProgress();
-    updateComboDisplay();
+    updateComboDisplay(); // NEW: Handles auto-hide
     highlightCurrentChar();
     
     if (currentPosition >= currentText.length) {
@@ -478,9 +484,7 @@ function highlightCurrentChar() {
     }
 }
 
- 
 // TIMER
- 
 function startTimer() {
     updateTimerDisplay();
     
@@ -505,9 +509,7 @@ function updateTimerDisplay() {
     timerElement.textContent = timeRemaining;
 }
 
- 
 // STATS UPDATE
- 
 function updateStats() {
     const timeElapsed = startTime ? (Date.now() - startTime) / 1000 / 60 : 0;
     const wordsTyped = correctChars / 5;
@@ -527,23 +529,52 @@ function updateProgress() {
     progressPercent.textContent = Math.round(progress) + '%';
 }
 
+// ⚡ IMPROVED COMBO DISPLAY WITH AUTO-HIDE
 function updateComboDisplay() {
+    // Clear existing timeout
+    if (comboHideTimeout) {
+        clearTimeout(comboHideTimeout);
+        comboHideTimeout = null;
+    }
+    
     if (currentCombo >= 5) {
-        comboDisplay.style.display = 'flex';
         comboValue.textContent = currentCombo;
+        
+        // Remove hiding class and show
+        comboDisplay.classList.remove('hiding');
+        comboDisplay.classList.add('show');
+        
+        // Set auto-hide after 2.5 seconds
+        comboHideTimeout = setTimeout(() => {
+            hideComboDisplay();
+        }, 2500);
     } else {
-        comboDisplay.style.display = 'none';
+        hideComboDisplay();
     }
 }
 
- 
+function hideComboDisplay() {
+    if (comboHideTimeout) {
+        clearTimeout(comboHideTimeout);
+        comboHideTimeout = null;
+    }
+    
+    comboDisplay.classList.remove('show');
+    comboDisplay.classList.add('hiding');
+    
+    // After animation completes, reset classes
+    setTimeout(() => {
+        comboDisplay.classList.remove('hiding');
+    }, 500);
+}
+
 // END TEST
- 
 function endTest() {
     if (!isTestActive) return;
     
     isTestActive = false;
     clearInterval(timerInterval);
+    hideComboDisplay();
     
     typingInput.disabled = true;
     startBtn.disabled = false;
@@ -562,9 +593,7 @@ function endTest() {
     showResultsModal(finalWPM, finalAccuracy, totalCharsTyped, maxCombo);
 }
 
- 
 // MODALS
- 
 function showResultsModal(wpm, accuracy, chars, combo) {
     document.getElementById('finalWPM').textContent = wpm;
     document.getElementById('finalAccuracy').textContent = accuracy + '%';
@@ -617,9 +646,7 @@ function playAgain() {
     resetTest();
 }
 
- 
 // STORAGE
- 
 function updateHighScores(wpm, accuracy) {
     const difficultyKey = `bestWPM_${selectedDifficulty}`;
     const bestWPM = parseInt(localStorage.getItem(difficultyKey) || '0');
@@ -658,9 +685,7 @@ function resetAllData() {
     showNotification('All data has been reset! 🔄', 'success');
 }
 
- 
 // VISUAL EFFECTS
- 
 function createParticles() {
     const particlesBg = document.getElementById('particlesBg');
     const particleCount = 40;
@@ -784,9 +809,7 @@ function showNotification(message, type = 'info') {
     }, 2500);
 }
 
- 
 // DYNAMIC ANIMATIONS (CSS IN JS)
- 
 const dynamicStyles = document.createElement('style');
 dynamicStyles.textContent = `
     @keyframes particleFloat {
