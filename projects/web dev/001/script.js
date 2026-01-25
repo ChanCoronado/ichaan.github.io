@@ -1,5 +1,6 @@
 const textSamples = {
     easy: [
+        
         "The magnificent butterfly gracefully transformed throughout the beautiful springtime season.",
         "Everyone appreciates wonderful opportunities for developing extraordinary communication skills.",
         "Remarkable achievements require dedication, persistence, determination, and continuous improvement.",
@@ -9,9 +10,32 @@ const textSamples = {
         "Professional development opportunities strengthen organizational capabilities and employee satisfaction levels.",
         "Collaborative teamwork consistently generates outstanding results through combined intellectual contributions.",
         "Educational institutions continuously implement progressive teaching methodologies for student advancement.",
-        "Environmental sustainability initiatives promote responsible consumption and conservation awareness globally."
+        "Environmental sustainability initiatives promote responsible consumption and conservation awareness globally.",
+        
+        "Magnificent architecture demonstrates remarkable engineering excellence throughout historical civilizations and modern developments.",
+        "Scientific discoveries continuously revolutionize medical treatments improving healthcare accessibility for communities worldwide.",
+        "Photographic documentation preserves memorable experiences creating lasting impressions for future generations to appreciate.",
+        "Agricultural innovations significantly increase productivity ensuring sustainable food production for growing populations globally.",
+        "Technological advancement facilitates instantaneous communication connecting individuals across geographical boundaries seamlessly today.",
+        "Educational excellence requires passionate teachers dedicated resources and comprehensive curriculum development programs consistently.",
+        "Environmental protection demands immediate action sustainable practices and global cooperation among nations worldwide.",
+        "Financial literacy provides essential knowledge empowering individuals to make informed decisions about investments wisely.",
+        "Creative expression through artistic endeavors enriches cultural heritage inspiring generations with timeless masterpieces beautifully.",
+        "Transportation infrastructure development strengthens economic growth facilitating efficient movement of goods and services nationwide.",
+        
+        "Beautiful mountain landscapes provide breathtaking panoramic views attracting thousands of adventurous tourists throughout the year.",
+        "Delicious homemade cooking requires quality ingredients patience creativity and traditional recipes passed down through generations.",
+        "Historical monuments preserve ancient wisdom architectural marvels and cultural traditions for educational purposes worldwide.",
+        "Passionate musicians practice countless hours perfecting complicated melodies harmonies rhythms and performing techniques daily.",
+        "Effective leadership involves inspiring motivation strategic planning excellent communication and empowering team members consistently.",
+        "Successful businesses prioritize customer satisfaction innovative products exceptional service quality and sustainable growth strategies.",
+        "Modern healthcare systems integrate advanced technologies comprehensive treatments preventive care and personalized medicine approaches.",
+        "International relationships strengthen through diplomatic dialogue mutual respect cultural exchange and collaborative partnership agreements.",
+        "Outstanding athletes demonstrate exceptional discipline rigorous training mental toughness and unwavering commitment towards excellence.",
+        "Kindergarten teachers nurture young children encouraging curiosity creativity social skills and foundational learning experiences everyday."
     ],
     medium: [
+        
         "Interdisciplinary collaboration facilitates comprehensive understanding of multifaceted challenges requiring synchronized efforts across organizational boundaries and specialized knowledge domains.",
         "Technological advancements continuously revolutionize communication methodologies, enabling instantaneous information transmission across geographical boundaries while fundamentally transforming interpersonal interactions.",
         "Sophisticated analytical frameworks enable comprehensive evaluation of multidimensional problems through systematic examination of interconnected variables and interdependent relationships.",
@@ -21,19 +45,64 @@ const textSamples = {
         "Environmental consciousness necessitates responsible consumption, sustainable practices, renewable resources utilization, and comprehensive ecological awareness.",
         "Professional development encompasses continuous learning, skill enhancement, knowledge acquisition, networking opportunities, and career advancement strategies.",
         "Effective communication requires clarity, precision, contextual awareness, emotional intelligence, and comprehensive understanding of audience perspectives.",
-        "Innovation ecosystems cultivate entrepreneurial thinking, facilitate collaborative problem-solving, and accelerate technological advancement through synergistic partnerships."
+        "Innovation ecosystems cultivate entrepreneurial thinking, facilitate collaborative problem-solving, and accelerate technological advancement through synergistic partnerships.",
+        
+        "Neuroscientific research methodologies investigate cognitive processes utilizing advanced neuroimaging technologies revealing intricate brain functionality mechanisms comprehensively.",
+        "Geopolitical dynamics influence international trade agreements, diplomatic relationships, economic partnerships, and multinational cooperation frameworks significantly today.",
+        "Cryptocurrency blockchain architecture implements decentralized consensus mechanisms ensuring transparent transactional verification and immutable ledger integrity constantly.",
+        "Biomechanical engineering principles optimize prosthetic device functionality, enhancing mobility capabilities and improving quality of life substantially.",
+        "Psycholinguistic studies examine language acquisition processes, cognitive development patterns, and communication disorders affecting neurological pathways extensively.",
+        "Sustainable urban planning integrates green infrastructure, renewable energy systems, efficient transportation networks, and community-centric development approaches holistically.",
+        "Epidemiological surveillance systems monitor infectious disease transmission patterns, enabling preventive intervention strategies and public health responses effectively.",
+        "Quantum computing paradigms leverage superposition principles and entanglement phenomena to process complex calculations exponentially faster than classical methods.",
+        "Sociocultural anthropology investigates behavioral patterns, belief systems, traditional practices, and evolutionary adaptations across diverse human societies comprehensively.",
+        "Astronomical observations utilizing space-based telescopes reveal unprecedented cosmic phenomena, expanding understanding of universe formation and celestial mechanics profoundly.",
+        
+        "Pharmaceutical research laboratories develop innovative therapeutic solutions targeting previously untreatable medical conditions through rigorous clinical trials and experimental protocols.",
+        "Digital transformation initiatives revolutionize traditional business operations enabling automated workflows streamlined processes enhanced productivity and competitive advantages.",
+        "Cybersecurity frameworks establish comprehensive protection mechanisms safeguarding sensitive information preventing unauthorized access and mitigating potential security vulnerabilities.",
+        "Organizational psychology examines workplace dynamics employee motivation leadership effectiveness team collaboration and performance optimization strategies systematically.",
+        "Educational technology platforms facilitate personalized learning experiences adaptive curriculum delivery interactive engagement and measurable academic achievement outcomes.",
+        "Climate change mitigation strategies encompass carbon emission reduction renewable energy adoption sustainable agriculture and international environmental policy coordination.",
+        "Corporate governance structures ensure accountability transparency ethical decision-making stakeholder engagement and regulatory compliance throughout organizational operations.",
+        "Artificial intelligence algorithms process massive datasets identifying patterns generating predictions automating decisions and enhancing operational capabilities significantly.",
+        "Supply chain management optimizes inventory control logistics coordination vendor relationships quality assurance and delivery efficiency across global networks.",
+        "Financial planning encompasses budgeting investment allocation risk management retirement preparation and wealth accumulation through disciplined strategic approaches."
     ],
     hard: [
+        
         "const comprehensiveDataStructure = {userId: 'USER_12345', sessionToken: 'abc-def-ghi-jkl-mno', timestamp: Date.now(), performanceMetrics: [98.7, 99.2, 97.5]}; // Advanced implementation",
         "Interdisciplinary neuroscientific investigations utilizing electroencephalographic methodologies revealed unprecedented neuroplasticity phenomena: synaptic reorganization occurs continuously throughout developmental stages.",
         "function processComplexAlgorithm(dataSet, parameters) { return dataSet.filter(item => item.value > parameters.threshold).map(element => ({...element, processed: true})); }",
-        "Quantum computational architectures leverage superposition principles & entanglement phenomena for exponentially accelerating cryptographic calculations: O(n) -> O(log n) complexity reduction.",
+        "Quantum computational architectures leverage superposition principles and entanglement phenomena for exponentially accelerating cryptographic calculations: O(n) to O(log n) complexity reduction.",
         "https://api.enterprise-system.com/v2/endpoints/user-management?authentication=Bearer_TOKEN&queryParameters={filter: 'active', sortBy: 'timestamp', limit: 1000}",
-        "Pharmacological interventions targeting serotonergic, dopaminergic, noradrenergic neurotransmitter systems demonstrate efficacy through receptor modulation mechanisms: 5-HT2A antagonism & dopamine reuptake inhibition.",
-        "Biochemical synthesis protocols: C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP (adenosine triphosphate); cellular respiration efficiency = approximately 38-40% energy conservation.",
+        "Pharmacological interventions targeting serotonergic, dopaminergic, noradrenergic neurotransmitter systems demonstrate efficacy through receptor modulation mechanisms: 5-HT2A antagonism and dopamine reuptake inhibition.",
+        "Biochemical synthesis protocols: C6H12O6 + 6O2 produces 6CO2 + 6H2O + ATP adenosine triphosphate; cellular respiration efficiency equals approximately 38 to 40 percent energy conservation.",
         "Machine learning architectures implement backpropagation algorithms: dL/dw = (dL/dy)(dy/dw) where L represents loss function, w denotes weights, y signifies output predictions.",
-        "Cryptocurrency blockchain validation: SHA-256(previousHash + timestamp + data + nonce) < target_difficulty; decentralized consensus mechanisms ensure immutability & distributed trust.",
-        "Electromagnetic wave propagation: lambda = c/f (wavelength = speed_of_light / frequency); Maxwell's equations: curl(E) = -dB/dt, curl(B) = mu0(J + epsilon0*dE/dt) describe fundamental relationships."
+        "Cryptocurrency blockchain validation: SHA-256 hash function validates previousHash + timestamp + data + nonce less than target difficulty; decentralized consensus mechanisms ensure immutability and distributed trust.",
+        "Electromagnetic wave propagation: lambda = c/f where wavelength equals speed of light divided by frequency; Maxwell equations describe fundamental electromagnetic relationships.",
+        
+        "import { useState, useEffect, useCallback } from 'react'; const [state, setState] = useState({data: [], loading: false, error: null}); useEffect(() => fetchData(), [dependency]);",
+        "Neurochemical pathways: Glutamate excitatory plus GABA inhibitory equals synaptic transmission modulation; NMDA receptors facilitate long-term potentiation LTP via calcium influx mechanisms.",
+        "SELECT users.id, COUNT(orders.order_id) AS total_orders FROM users LEFT JOIN orders ON users.id = orders.user_id WHERE users.created_at >= '2024-01-01' GROUP BY users.id HAVING total_orders > 5;",
+        "Thermodynamic principles: dS >= dQ/T Clausius inequality; Gibbs free energy: delta G = delta H minus T delta S determines spontaneity; equilibrium constant K equals exp(-delta G / RT) quantifies reaction favorability.",
+        "class NeuralNetwork extends tf.layers.Layer { constructor(config) { super(config); this.dense1 = tf.layers.dense({units: 128, activation: 'relu'}); } call(inputs) { return this.dense1.apply(inputs); } }",
+        "DNA replication: 5 prime ATGCGTACG 3 prime template strand produces 3 prime TACGCATGC 5 prime complementary; RNA polymerase synthesizes mRNA: promoter recognition, elongation 5 to 3 direction, termination at stop codons.",
+        "Fourier transform analysis: f(t) equals integral of F(omega) times exponential i omega t d omega; discrete implementation: X[k] equals sum of x[n] times exponential negative i 2 pi k n / N enables frequency domain signal processing.",
+        "async function fetchUserData(userId) { try { const response = await axios.get(`/api/users/${userId}`, {headers: {'Authorization': `Bearer ${token}`}}); return response.data; } catch(error) { throw new Error(error); } }",
+        "Relativity equations: E equals mc squared mass-energy equivalence; time dilation: delta t prime equals delta t divided by square root of (1 minus v squared / c squared); Lorentz transformation describes spacetime coordinates.",
+        "git checkout -b feature/user-authentication && git add src/auth/*.js && git commit -m 'feat: implement OAuth2 JWT-based authentication with refresh token rotation' && git push origin feature/user-authentication",
+        
+        "const apiEndpoint = 'https://jsonplaceholder.typicode.com/posts'; fetch(apiEndpoint).then(response => response.json()).then(data => console.log(data)).catch(error => console.error('Error:', error));",
+        "for (let i = 0; i < array.length; i++) { if (array[i] % 2 === 0) { evenNumbers.push(array[i]); } else { oddNumbers.push(array[i]); } } return {even: evenNumbers, odd: oddNumbers};",
+        "def fibonacci(n): if n <= 1: return n else: return fibonacci(n-1) + fibonacci(n-2) # Recursive implementation with time complexity O(2^n) requires optimization using memoization technique",
+        "CREATE TABLE employees (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100) NOT NULL, email VARCHAR(100) UNIQUE, department VARCHAR(50), salary DECIMAL(10,2), hire_date DATE);",
+        "import pandas as pd; import numpy as np; df = pd.read_csv('data.csv'); df['new_column'] = df['existing_column'].apply(lambda x: x * 2 if x > 0 else 0); df.to_csv('output.csv', index=False);",
+        "docker build -t myapp:latest . && docker run -d -p 8080:80 --name mycontainer -e NODE_ENV=production -v /host/path:/container/path myapp:latest",
+        "interface UserProfile { id: number; username: string; email: string; roles: string[]; createdAt: Date; } const createUser = (profile: UserProfile): Promise<UserProfile> => { return api.post('/users', profile); }",
+        "lambda x, y: x + y if x > 0 and y > 0 else 0 # Anonymous function implementation; map(lambda x: x ** 2, [1, 2, 3, 4, 5]) # Applies squaring operation to list elements",
+        "package main; import \"fmt\"; func main() { numbers := []int{1, 2, 3, 4, 5}; for index, value := range numbers { fmt.Printf(\"Index: %d, Value: %d\\n\", index, value) } }",
+        "const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/; const isValidEmail = (email) => regex.test(email); console.log(isValidEmail('test@example.com')); // Returns true or false"
     ]
 };
 
