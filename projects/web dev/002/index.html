@@ -5,25 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Student Life Organizer - Manage your tasks, schedule, and budget">
+    <meta name="theme-color" content="#800000">
     <title>Student Life Organizer</title>
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="../002/assets/css/styles.css">
 </head>
 
 <body>
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid px-4">
@@ -31,8 +27,13 @@
                 <i class="fas fa-graduation-cap me-2"></i>
                 Student Life Organizer
             </a>
-            <div class="navbar-text d-none d-md-block">
-                <span class="current-date" id="currentDate"></span>
+            <div class="navbar-actions">
+                <button class="btn btn-icon" id="themeToggle" aria-label="Toggle dark mode" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="navbar-text d-none d-md-block ms-3">
+                    <span class="current-date" id="currentDate"></span>
+                </div>
             </div>
         </div>
     </nav>
@@ -43,14 +44,14 @@
             <ul class="nav nav-tabs custom-tabs" id="mainTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview"
-                        type="button" role="tab">
+                        type="button" role="tab" aria-controls="overview" aria-selected="true">
                         <i class="fas fa-home me-2"></i>
                         <span>Overview</span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button"
-                        role="tab">
+                        role="tab" aria-controls="tasks" aria-selected="false">
                         <i class="fas fa-tasks me-2"></i>
                         <span>Tasks</span>
                         <span class="badge bg-danger ms-2" id="taskCounter">0</span>
@@ -58,14 +59,14 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule"
-                        type="button" role="tab">
+                        type="button" role="tab" aria-controls="schedule" aria-selected="false">
                         <i class="fas fa-calendar-alt me-2"></i>
                         <span>Schedule</span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="budget-tab" data-bs-toggle="tab" data-bs-target="#budget" type="button"
-                        role="tab">
+                        role="tab" aria-controls="budget" aria-selected="false">
                         <i class="fas fa-wallet me-2"></i>
                         <span>Budget</span>
                     </button>
@@ -76,15 +77,14 @@
 
     <!-- Tab Content -->
     <div class="tab-content container-fluid px-4 py-4" id="mainTabContent">
-
-        <!-- OVERVIEW TAB -->
-        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+        
+        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
             <div class="row g-4">
-                <!-- Quick Stats -->
+                
                 <div class="col-12">
                     <div class="row g-3">
                         <div class="col-md-3 col-sm-6">
-                            <div class="stat-card">
+                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
                                 <div class="stat-icon tasks-icon">
                                     <i class="fas fa-tasks"></i>
                                 </div>
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
-                            <div class="stat-card">
+                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('schedule-tab')">
                                 <div class="stat-icon schedule-icon">
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
-                            <div class="stat-card">
+                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('budget-tab')">
                                 <div class="stat-icon budget-icon">
                                     <i class="fas fa-peso-sign"></i>
                                 </div>
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
-                            <div class="stat-card">
+                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
                                 <div class="stat-icon priority-icon">
                                     <i class="fas fa-exclamation-circle"></i>
                                 </div>
@@ -139,7 +139,13 @@
                                 All</a>
                         </div>
                         <div class="overview-content" id="overviewTasks">
-                            <p class="text-muted text-center py-4">No tasks for today</p>
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <h4 class="empty-state-title">No tasks yet</h4>
+                                <p class="empty-state-description">Add your first task to get started</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -152,7 +158,13 @@
                                 All</a>
                         </div>
                         <div class="overview-content" id="overviewSchedule">
-                            <p class="text-muted text-center py-4">No classes today</p>
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <h4 class="empty-state-title">No classes today</h4>
+                                <p class="empty-state-description">Enjoy your free day!</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,7 +172,7 @@
         </div>
 
         <!-- TASKS TAB -->
-        <div class="tab-pane fade" id="tasks" role="tabpanel">
+        <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <div class="page-header">
@@ -172,31 +184,54 @@
                         <div class="card-body">
                             <!-- Add Task Form -->
                             <div class="add-task-section mb-4">
-                                <div class="input-group input-group-lg">
-                                    <input type="text" class="form-control task-input" id="taskInput"
-                                        placeholder="What needs to be done?" aria-label="Task description">
-                                    <select class="form-select priority-select" id="taskPriority"
-                                        aria-label="Task priority">
-                                        <option value="low">Low</option>
-                                        <option value="medium" selected>Medium</option>
-                                        <option value="high">High</option>
-                                    </select>
-                                    <button class="btn btn-primary-custom btn-add-task" type="button" id="addTaskBtn">
-                                        <i class="fas fa-plus me-2"></i>Add Task
-                                    </button>
-                                </div>
+                                <form id="taskForm" novalidate>
+                                    <div class="input-group input-group-lg">
+                                        <input type="text" class="form-control task-input" id="taskInput"
+                                            placeholder="What needs to be done?" aria-label="Task description" required
+                                            maxlength="200">
+                                        <select class="form-select priority-select" id="taskPriority"
+                                            aria-label="Task priority">
+                                            <option value="low">Low</option>
+                                            <option value="medium" selected>Medium</option>
+                                            <option value="high">High</option>
+                                        </select>
+                                        <button class="btn btn-primary-custom btn-add-task" type="submit"
+                                            id="addTaskBtn">
+                                            <i class="fas fa-plus me-2"></i>
+                                            <span>Add</span>
+                                        </button>
+                                    </div>
+                                    <div class="character-counter mt-2">
+                                        <small class="text-muted">
+                                            <span id="taskCharCount">0</span>/200 characters
+                                        </small>
+                                    </div>
+                                </form>
                             </div>
 
                             <!-- Task Filter -->
                             <div class="task-filter mb-3">
-                                <button class="filter-btn active" data-filter="all">All</button>
-                                <button class="filter-btn" data-filter="active">Active</button>
-                                <button class="filter-btn" data-filter="completed">Completed</button>
+                                <button class="filter-btn active" data-filter="all">
+                                    <i class="fas fa-list me-1"></i><span class="d-none d-sm-inline"> All</span>
+                                </button>
+                                <button class="filter-btn" data-filter="active">
+                                    <i class="fas fa-circle me-1"></i><span class="d-none d-sm-inline"> Active</span>
+                                </button>
+                                <button class="filter-btn" data-filter="completed">
+                                    <i class="fas fa-check-circle me-1"></i><span class="d-none d-sm-inline">
+                                        Completed</span>
+                                </button>
                             </div>
 
                             <!-- Task List -->
                             <div class="task-list" id="taskList">
-                                <!-- Tasks will be dynamically added here -->
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </div>
+                                    <h4 class="empty-state-title">No tasks yet</h4>
+                                    <p class="empty-state-description">Add your first task above to get started!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -205,9 +240,9 @@
         </div>
 
         <!-- SCHEDULE TAB -->
-        <div class="tab-pane fade" id="schedule" role="tabpanel">
+        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
             <div class="page-header">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                     <div>
                         <h2><i class="fas fa-calendar-alt me-2"></i>Weekly Schedule</h2>
                         <p class="text-muted">Organize your classes for the week</p>
@@ -218,7 +253,8 @@
                 </div>
             </div>
 
-            <div class="custom-card">
+            <!-- Desktop Schedule Table -->
+            <div class="custom-card d-none d-md-block">
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table schedule-table">
@@ -240,10 +276,21 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile Schedule Cards -->
+            <div class="d-md-none" id="scheduleMobileView">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <h4 class="empty-state-title">No classes scheduled</h4>
+                    <p class="empty-state-description">Click "Add Class" to create your schedule</p>
+                </div>
+            </div>
         </div>
 
         <!-- BUDGET TAB -->
-        <div class="tab-pane fade" id="budget" role="tabpanel">
+        <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="budget-tab">
             <div class="page-header">
                 <h2><i class="fas fa-wallet me-2"></i>Budget Tracker</h2>
                 <p class="text-muted">Track your income and expenses</p>
@@ -310,7 +357,7 @@
                             <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add Transaction</h5>
                         </div>
                         <div class="card-body">
-                            <form id="transactionForm">
+                            <form id="transactionForm" novalidate>
                                 <div class="mb-3">
                                     <label class="form-label">Type</label>
                                     <div class="btn-group w-100" role="group">
@@ -319,7 +366,6 @@
                                         <label class="btn btn-outline-success" for="incomeType">
                                             <i class="fas fa-arrow-up me-1"></i> Income
                                         </label>
-
                                         <input type="radio" class="btn-check" name="transactionType" id="expenseType"
                                             value="expense">
                                         <label class="btn btn-outline-danger" for="expenseType">
@@ -330,14 +376,16 @@
                                 <div class="mb-3">
                                     <label for="transactionDescription" class="form-label">Description</label>
                                     <input type="text" class="form-control" id="transactionDescription"
-                                        placeholder="e.g., Scholarship, Books" required>
+                                        placeholder="e.g., Scholarship, Books" required maxlength="100">
+                                    <div class="invalid-feedback">Please enter a description</div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="transactionAmount" class="form-label">Amount</label>
                                     <div class="input-group">
                                         <span class="input-group-text">₱</span>
                                         <input type="number" class="form-control" id="transactionAmount"
-                                            placeholder="0.00" step="0.01" min="0" required>
+                                            placeholder="0.00" step="0.01" min="0.01" required>
+                                        <div class="invalid-feedback">Please enter a valid amount</div>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -351,6 +399,7 @@
                                         <option value="entertainment">Entertainment</option>
                                         <option value="other">Other</option>
                                     </select>
+                                    <div class="invalid-feedback">Please select a category</div>
                                 </div>
                                 <button type="submit" class="btn btn-primary-custom w-100">
                                     <i class="fas fa-plus me-2"></i> Add Transaction
@@ -368,7 +417,13 @@
                         </div>
                         <div class="card-body">
                             <div class="transaction-list" id="transactionList">
-                                <p class="text-muted text-center py-4">No transactions yet</p>
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="fas fa-receipt"></i>
+                                    </div>
+                                    <h4 class="empty-state-title">No transactions yet</h4>
+                                    <p class="empty-state-description">Add your first transaction to start tracking</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -377,20 +432,22 @@
         </div>
     </div>
 
-    <!-- Add Class Modal with Color Picker -->
-    <div class="modal fade" id="addClassModal" tabindex="-1">
+    <!-- Add Class Modal -->
+    <div class="modal fade" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Add Class</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="addClassModalLabel"><i class="fas fa-plus-circle me-2"></i>Add Class
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addClassForm">
+                    <form id="addClassForm" novalidate>
                         <div class="mb-3">
                             <label for="className" class="form-label">Class Name</label>
-                            <input type="text" class="form-control" id="className" placeholder="e.g., Mathematics 101"
-                                required>
+                            <input type="text" class="form-control" id="className" placeholder="e.g., Technopreneurship"
+                                required maxlength="50">
+                            <div class="invalid-feedback">Please enter a class name</div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -404,11 +461,13 @@
                                     <option value="friday">Friday</option>
                                     <option value="saturday">Saturday</option>
                                 </select>
+                                <div class="invalid-feedback">Please select a day</div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="classTime" class="form-label">Time</label>
                                 <select class="form-select" id="classTime" required>
                                     <option value="">Select time</option>
+                                    <option value="07:00">07:00 AM</option>
                                     <option value="08:00">08:00 AM</option>
                                     <option value="09:00">09:00 AM</option>
                                     <option value="10:00">10:00 AM</option>
@@ -418,13 +477,18 @@
                                     <option value="14:00">02:00 PM</option>
                                     <option value="15:00">03:00 PM</option>
                                     <option value="16:00">04:00 PM</option>
-                                    <option value="17:00">05:00 PM</option>
+                                    <option value="18:00">06:00 PM</option> 
+                                    <option value="19:00">07:00 PM</option> 
+                                    <option value="20:00">08:00 PM</option>
+                                    <option value="21:00">09:00 PM</option>
                                 </select>
+                                <div class="invalid-feedback">Please select a time</div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="classRoom" class="form-label">Room / Location (Optional)</label>
-                            <input type="text" class="form-control" id="classRoom" placeholder="e.g., Room 204">
+                            <input type="text" class="form-control" id="classRoom" placeholder="e.g., Room 204"
+                                maxlength="50">
                         </div>
                         <div class="mb-3">
                             <label for="classColor" class="form-label">Choose Color</label>
@@ -432,7 +496,7 @@
                                 <input type="color" class="form-control form-control-color" id="classColor"
                                     value="#800000" title="Choose your color">
                                 <div class="color-presets">
-                                    <button type="button" class="color-preset" data-color="#800000"
+                                    <button type="button" class="color-preset active" data-color="#800000"
                                         style="background: #800000;" title="PUP Maroon"></button>
                                     <button type="button" class="color-preset" data-color="#9d2235"
                                         style="background: #9d2235;" title="Light Maroon"></button>
@@ -472,19 +536,20 @@
     </div>
 
     <!-- Edit Task Modal -->
-    <div class="modal fade" id="editTaskModal" tabindex="-1">
+    <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Task</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="editTaskModalLabel"><i class="fas fa-edit me-2"></i>Edit Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editTaskForm">
+                    <form id="editTaskForm" novalidate>
                         <input type="hidden" id="editTaskId">
                         <div class="mb-3">
                             <label for="editTaskText" class="form-label">Task Description</label>
-                            <input type="text" class="form-control" id="editTaskText" required>
+                            <input type="text" class="form-control" id="editTaskText" required maxlength="200">
+                            <div class="invalid-feedback">Please enter a task description</div>
                         </div>
                         <div class="mb-3">
                             <label for="editTaskPriority" class="form-label">Priority</label>
@@ -507,12 +572,14 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="deleteConfirmModalLabel"><i
+                            class="fas fa-exclamation-triangle me-2"></i>Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p id="deleteConfirmMessage">Are you sure you want to delete this item?</p>
@@ -527,10 +594,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom JS -->
     <script src="../002/assets/js/utils.js"></script>
     <script src="../002/assets/js/todo.js"></script>
     <script src="../002/assets/js/schedule.js"></script>
