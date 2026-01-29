@@ -1,16 +1,16 @@
 const TodoModule = (() => {
-   
     const STORAGE_KEY = 'student_organizer_tasks';
     let tasks = [];
     let currentFilter = 'all';
 
-  
     const elements = {
+        taskForm: null,
         taskInput: null,
         taskPriority: null,
         addTaskBtn: null,
         taskList: null,
         taskCounter: null,
+        taskCharCount: null,
         editTaskModal: null,
         editTaskId: null,
         editTaskText: null,
@@ -24,12 +24,14 @@ const TodoModule = (() => {
     let pendingDeleteId = null;
 
     function init() {
-     
+
+        elements.taskForm = document.getElementById('taskForm');
         elements.taskInput = document.getElementById('taskInput');
         elements.taskPriority = document.getElementById('taskPriority');
         elements.addTaskBtn = document.getElementById('addTaskBtn');
         elements.taskList = document.getElementById('taskList');
         elements.taskCounter = document.getElementById('taskCounter');
+        elements.taskCharCount = document.getElementById('taskCharCount');
         
         const editModal = document.getElementById('editTaskModal');
         if (editModal) {
@@ -48,32 +50,34 @@ const TodoModule = (() => {
         }
 
         loadTasks();
-
-      
         attachEventListeners();
-
-     
         renderTasks();
-     
         updateCounter();
     }
 
     function attachEventListeners() {
-    
-        if (elements.addTaskBtn) {
-            elements.addTaskBtn.addEventListener('click', handleAddTask);
+        if (elements.taskForm) {
+            elements.taskForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleAddTask();
+            });
         }
 
-  
-        if (elements.taskInput) {
-            elements.taskInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleAddTask();
+        if (elements.taskInput && elements.taskCharCount) {
+            elements.taskInput.addEventListener('input', () => {
+                const length = elements.taskInput.value.length;
+                elements.taskCharCount.textContent = length;
+                
+                if (length > 180) {
+                    elements.taskCharCount.style.color = 'var(--danger)';
+                } else if (length > 150) {
+                    elements.taskCharCount.style.color = 'var(--warning)';
+                } else {
+                    elements.taskCharCount.style.color = 'var(--text-muted)';
                 }
             });
         }
         
-       
         if (elements.saveEditTaskBtn) {
             elements.saveEditTaskBtn.addEventListener('click', handleSaveEditTask);
         }
@@ -83,82 +87,86 @@ const TodoModule = (() => {
         }
     }
 
-   
     function loadTasks() {
         const storedTasks = Storage.get(STORAGE_KEY);
         tasks = storedTasks || [];
     }
 
-   
     function saveTasks() {
-        Storage.set(STORAGE_KEY, tasks);
+        return Storage.set(STORAGE_KEY, tasks);
     }
 
     function handleAddTask() {
         const taskText = elements.taskInput.value.trim();
         const priority = elements.taskPriority.value;
 
-    
         if (Validators.isEmpty(taskText)) {
             elements.taskInput.focus();
-            AnimationUtils.pulseElement(elements.taskInput);
+            AnimationUtils.shakeElement(elements.taskInput);
+            showToast('Please enter a task description', 'warning');
             return;
         }
 
-   
-        const newTask = {
-            id: IDGenerator.generate('task'),
-            text: taskText,
-            priority: priority,
-            completed: false,
-            createdAt: DateUtils.getTimestamp()
-        };
-
-      
-        tasks.unshift(newTask);
-
-    
-        saveTasks();
-        renderTasks();
-        updateCounter();
-        
-  
-        updateOverview();
-
-  
-        elements.taskInput.value = '';
-        elements.taskInput.focus();
-
-      
-        if (elements.taskCounter) {
-            AnimationUtils.pulseElement(elements.taskCounter);
+        if (taskText.length > 200) {
+            showToast('Task description is too long (max 200 characters)', 'error');
+            return;
         }
+
+        LoadingState.show(elements.addTaskBtn);
+
+        setTimeout(() => {
+            const newTask = {
+                id: IDGenerator.generate('task'),
+                text: taskText,
+                priority: priority,
+                completed: false,
+                createdAt: DateUtils.getTimestamp()
+            };
+
+            tasks.unshift(newTask);
+
+            if (saveTasks()) {
+                renderTasks();
+                updateCounter();
+                updateOverview();
+
+                elements.taskForm.reset();
+                elements.taskCharCount.textContent = '0';
+                elements.taskCharCount.style.color = 'var(--text-muted)';
+                elements.taskInput.focus();
+
+                showToast('Task added successfully!', 'success');
+
+                if (elements.taskCounter) {
+                    AnimationUtils.pulseElement(elements.taskCounter);
+                }
+            }
+
+            LoadingState.hide(elements.addTaskBtn);
+        }, 300);
     }
 
-   
     function handleToggleTask(taskId) {
         const task = tasks.find(t => t.id === taskId);
         if (task) {
             task.completed = !task.completed;
-            saveTasks();
-            renderTasks();
-            updateCounter();
-            updateOverview();
+            if (saveTasks()) {
+                renderTasks();
+                updateCounter();
+                updateOverview();
+                
+                const message = task.completed ? 'Task completed! 🎉' : 'Task reopened';
+                showToast(message, task.completed ? 'success' : 'info');
+            }
         }
     }
 
-   
     function handleDeleteTask(taskId) {
         const task = tasks.find(t => t.id === taskId);
         if (!task) return;
         
-        
         pendingDeleteId = taskId;
-        
-    
         elements.deleteConfirmMessage.textContent = `Are you sure you want to delete "${task.text}"?`;
-        
-     
         elements.deleteConfirmModal.show();
     }
     
@@ -168,16 +176,17 @@ const TodoModule = (() => {
         const taskElement = document.querySelector(`[data-task-id="${pendingDeleteId}"]`);
         
         if (taskElement) {
-       
             taskElement.style.opacity = '0';
             taskElement.style.transform = 'translateX(-20px)';
             
             setTimeout(() => {
                 tasks = tasks.filter(t => t.id !== pendingDeleteId);
-                saveTasks();
-                renderTasks();
-                updateCounter();
-                updateOverview();
+                if (saveTasks()) {
+                    renderTasks();
+                    updateCounter();
+                    updateOverview();
+                    showToast('Task deleted', 'info');
+                }
                 pendingDeleteId = null;
             }, 300);
         }
@@ -194,6 +203,10 @@ const TodoModule = (() => {
         elements.editTaskPriority.value = task.priority;
         
         elements.editTaskModal.show();
+        
+        setTimeout(() => {
+            elements.editTaskText.focus();
+        }, 300);
     }
     
     function handleSaveEditTask() {
@@ -203,6 +216,8 @@ const TodoModule = (() => {
         
         if (Validators.isEmpty(newText)) {
             elements.editTaskText.focus();
+            AnimationUtils.shakeElement(elements.editTaskText);
+            showToast('Please enter a task description', 'warning');
             return;
         }
         
@@ -210,13 +225,15 @@ const TodoModule = (() => {
         if (task) {
             task.text = newText;
             task.priority = newPriority;
-            saveTasks();
-            renderTasks();
-            updateCounter();
-            updateOverview();
+            
+            if (saveTasks()) {
+                renderTasks();
+                updateCounter();
+                updateOverview();
+                showToast('Task updated successfully!', 'success');
+            }
         }
         
-       
         elements.editTaskModal.hide();
     }
 
@@ -224,9 +241,14 @@ const TodoModule = (() => {
         if (!elements.taskCounter) return;
         const pendingTasks = tasks.filter(t => !t.completed).length;
         elements.taskCounter.textContent = pendingTasks;
+        
+        if (pendingTasks === 0) {
+            elements.taskCounter.style.display = 'none';
+        } else {
+            elements.taskCounter.style.display = 'inline-block';
+        }
     }
 
-   
     function updateOverview() {
         if (window.StudentOrganizer && window.StudentOrganizer.updateOverview) {
             setTimeout(() => {
@@ -241,9 +263,15 @@ const TodoModule = (() => {
         DOM.clearElement(elements.taskList);
 
         if (tasks.length === 0) {
-            const emptyMessage = DOM.createElement('p', ['text-muted', 'text-center', 'py-4']);
-            emptyMessage.textContent = 'No tasks yet. Add one to get started!';
-            elements.taskList.appendChild(emptyMessage);
+            const emptyState = DOM.createElement('div', ['empty-state']);
+            emptyState.innerHTML = `
+                <div class="empty-state-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h4 class="empty-state-title">No tasks yet</h4>
+                <p class="empty-state-description">Add your first task above to get started!</p>
+            `;
+            elements.taskList.appendChild(emptyState);
             return;
         }
 
@@ -255,26 +283,32 @@ const TodoModule = (() => {
         }
 
         if (filteredTasks.length === 0) {
-            const emptyMessage = DOM.createElement('p', ['text-muted', 'text-center', 'py-4']);
-            emptyMessage.textContent = `No ${currentFilter} tasks`;
-            elements.taskList.appendChild(emptyMessage);
+            const emptyState = DOM.createElement('div', ['empty-state']);
+            emptyState.innerHTML = `
+                <div class="empty-state-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h4 class="empty-state-title">No ${currentFilter} tasks</h4>
+                <p class="empty-state-description">Switch filters to see other tasks</p>
+            `;
+            elements.taskList.appendChild(emptyState);
             return;
         }
 
-        filteredTasks.forEach(task => {
+        filteredTasks.forEach((task, index) => {
             const taskElement = createTaskElement(task);
+            taskElement.style.animationDelay = `${index * 0.05}s`;
+            taskElement.classList.add('fade-in');
             elements.taskList.appendChild(taskElement);
         });
     }
 
-    
     function setFilter(filter) {
         currentFilter = filter;
         renderTasks();
     }
 
     function createTaskElement(task) {
-      
         const taskItem = DOM.createElement('div', ['task-item'], {
             'data-task-id': task.id
         });
@@ -283,7 +317,6 @@ const TodoModule = (() => {
             taskItem.classList.add('completed');
         }
 
-      
         const checkbox = DOM.createElement('input', ['task-checkbox'], {
             type: 'checkbox',
             'aria-label': 'Mark task as complete'
@@ -291,43 +324,34 @@ const TodoModule = (() => {
         checkbox.checked = task.completed;
         checkbox.addEventListener('change', () => handleToggleTask(task.id));
 
-       
         const contentDiv = DOM.createElement('div', ['task-content']);
-
-      
         const taskText = DOM.createElement('div', ['task-text']);
         taskText.textContent = task.text;
 
-       
         const metaDiv = DOM.createElement('div', ['task-meta']);
-
-        
         const priorityBadge = DOM.createElement('span', ['task-priority', task.priority]);
         priorityBadge.textContent = task.priority;
 
-        
         const timeSpan = DOM.createElement('span', ['task-time']);
-        timeSpan.textContent = DateUtils.formatDate(task.createdAt);
+        timeSpan.innerHTML = `<i class="fas fa-clock me-1"></i>${DateUtils.formatDate(task.createdAt)}`;
 
         metaDiv.appendChild(priorityBadge);
         metaDiv.appendChild(timeSpan);
-
         contentDiv.appendChild(taskText);
         contentDiv.appendChild(metaDiv);
 
-        
         const actionsDiv = DOM.createElement('div', ['task-actions']);
 
-      
         const editBtn = DOM.createElement('button', ['task-btn', 'edit'], {
-            'aria-label': 'Edit task'
+            'aria-label': 'Edit task',
+            'title': 'Edit task'
         });
         editBtn.innerHTML = '<i class="fas fa-edit"></i>';
         editBtn.addEventListener('click', () => handleEditTask(task.id));
 
-        
         const deleteBtn = DOM.createElement('button', ['task-btn', 'delete'], {
-            'aria-label': 'Delete task'
+            'aria-label': 'Delete task',
+            'title': 'Delete task'
         });
         deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
         deleteBtn.addEventListener('click', () => handleDeleteTask(task.id));
@@ -335,7 +359,6 @@ const TodoModule = (() => {
         actionsDiv.appendChild(editBtn);
         actionsDiv.appendChild(deleteBtn);
 
-      
         taskItem.appendChild(checkbox);
         taskItem.appendChild(contentDiv);
         taskItem.appendChild(actionsDiv);
@@ -358,7 +381,6 @@ const TodoModule = (() => {
         };
     }
 
-
     return {
         init,
         getTasks,
@@ -368,12 +390,10 @@ const TodoModule = (() => {
     };
 })();
 
-
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', TodoModule.init);
 } else {
     TodoModule.init();
 }
-
 
 window.TodoModule = TodoModule;
