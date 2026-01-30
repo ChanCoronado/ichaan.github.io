@@ -17,10 +17,9 @@
 </head>
 
 <body>
-    <!-- Toast Container -->
+   
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
@@ -38,7 +37,7 @@
         </div>
     </nav>
 
-    <!-- Tab Navigation -->
+    <!-- Tab Navigation  -->
     <div class="tab-navigation">
         <div class="container-fluid px-4">
             <ul class="nav nav-tabs custom-tabs" id="mainTabs" role="tablist">
@@ -77,12 +76,12 @@
 
     <!-- Tab Content -->
     <div class="tab-content container-fluid px-4 py-4" id="mainTabContent">
-        
+
         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
             <div class="row g-4">
-                
+
                 <div class="col-12">
-                    <div class="row g-3">
+                    <div class="row g-0 g-sm-3 pt-4">
                         <div class="col-md-3 col-sm-6">
                             <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
                                 <div class="stat-icon tasks-icon">
@@ -182,7 +181,6 @@
 
                     <div class="custom-card">
                         <div class="card-body">
-                            <!-- Add Task Form -->
                             <div class="add-task-section mb-4">
                                 <form id="taskForm" novalidate>
                                     <div class="input-group input-group-lg">
@@ -209,7 +207,6 @@
                                 </form>
                             </div>
 
-                            <!-- Task Filter -->
                             <div class="task-filter mb-3">
                                 <button class="filter-btn active" data-filter="all">
                                     <i class="fas fa-list me-1"></i><span class="d-none d-sm-inline"> All</span>
@@ -223,7 +220,6 @@
                                 </button>
                             </div>
 
-                            <!-- Task List -->
                             <div class="task-list" id="taskList">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">
@@ -296,8 +292,7 @@
                 <p class="text-muted">Track your income and expenses</p>
             </div>
 
-            <div class="row g-4">
-                <!-- Budget Summary Cards -->
+            <div class="row g-2 g-sm-4">
                 <div class="col-lg-4">
                     <div class="budget-stat-card income-card">
                         <div class="budget-stat-icon">
@@ -477,8 +472,8 @@
                                     <option value="14:00">02:00 PM</option>
                                     <option value="15:00">03:00 PM</option>
                                     <option value="16:00">04:00 PM</option>
-                                    <option value="18:00">06:00 PM</option> 
-                                    <option value="19:00">07:00 PM</option> 
+                                    <option value="18:00">06:00 PM</option>
+                                    <option value="19:00">07:00 PM</option>
                                     <option value="20:00">08:00 PM</option>
                                     <option value="21:00">09:00 PM</option>
                                 </select>
@@ -594,12 +589,14 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../002/assets/js/utils.js"></script>
     <script src="../002/assets/js/todo.js"></script>
     <script src="../002/assets/js/schedule.js"></script>
     <script src="../002/assets/js/budget.js"></script>
     <script src="../002/assets/js/main.js"></script>
+    <script src="../002/assets/js/mobile-nav.js"></script>
 </body>
 
 </html>
