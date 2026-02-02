@@ -21,24 +21,21 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid px-4">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center">
                 <img src="../../../assets/img/002 logo.png" alt="Logo" height="40" class="me-2">
                 <span>Student Life Organizer</span>
             </a>
             <div class="navbar-actions">
+                <span class="current-date d-none d-md-block" id="currentDate"></span>
                 <button class="btn btn-icon" id="themeToggle" aria-label="Toggle dark mode" title="Toggle Dark Mode">
                     <i class="fas fa-moon"></i>
                 </button>
-                <div class="navbar-text d-none d-md-block ms-3">
-                    <span class="current-date" id="currentDate"></span>
-                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Tab Navigation  -->
     <div class="tab-navigation">
         <div class="container-fluid px-4">
             <ul class="nav nav-tabs custom-tabs" id="mainTabs" role="tablist">
@@ -75,63 +72,55 @@
         </div>
     </div>
 
-    <!-- Tab Content -->
-    <div class="tab-content container-fluid px-4 py-4" id="mainTabContent">
+    <div class="tab-content" id="mainTabContent">
 
         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-            <div class="row g-4">
+            <div class="overview-layout">
+                <div class="page-header">
+                    <h2><i class="fas fa-home me-2"></i>Overview</h2>
+                    <p>Your daily summary at a glance</p>
+                </div>
 
-                <div class="col-12">
-                    <div class="row g-0 g-sm-3 pt-4">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
-                                <div class="stat-icon tasks-icon">
-                                    <i class="fas fa-tasks"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-label">Pending Tasks</div>
-                                    <div class="stat-value" id="statPendingTasks">0</div>
-                                </div>
-                            </div>
+                <div class="stats-row">
+                    <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
+                        <div class="stat-icon tasks-icon">
+                            <i class="fas fa-tasks"></i>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('schedule-tab')">
-                                <div class="stat-icon schedule-icon">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-label">Today's Classes</div>
-                                    <div class="stat-value" id="statTodayClasses">0</div>
-                                </div>
-                            </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Pending Tasks</div>
+                            <div class="stat-value" id="statPendingTasks">0</div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('budget-tab')">
-                                <div class="stat-icon budget-icon">
-                                    <i class="fas fa-peso-sign"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-label">Balance</div>
-                                    <div class="stat-value" id="statBalance">₱0</div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('schedule-tab')">
+                        <div class="stat-icon schedule-icon">
+                            <i class="fas fa-calendar-check"></i>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
-                                <div class="stat-icon priority-icon">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="stat-label">High Priority</div>
-                                    <div class="stat-value" id="statHighPriority">0</div>
-                                </div>
-                            </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Today's Classes</div>
+                            <div class="stat-value" id="statTodayClasses">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('budget-tab')">
+                        <div class="stat-icon budget-icon">
+                            <i class="fas fa-peso-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Balance</div>
+                            <div class="stat-value" id="statBalance">₱0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" role="button" tabindex="0" onclick="switchToTab('tasks-tab')">
+                        <div class="stat-icon priority-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">High Priority</div>
+                            <div class="stat-value" id="statHighPriority">0</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Today's Overview -->
-                <div class="col-lg-6">
+                <div class="overview-cards">
                     <div class="overview-card">
                         <div class="overview-header">
                             <h3><i class="fas fa-sun me-2"></i>Today's Tasks</h3>
@@ -148,9 +137,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-6">
                     <div class="overview-card">
                         <div class="overview-header">
                             <h3><i class="fas fa-book me-2"></i>Today's Schedule</h3>
@@ -171,88 +158,83 @@
             </div>
         </div>
 
-        <!-- TASKS TAB -->
         <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="page-header">
-                        <h2><i class="fas fa-tasks me-2"></i>My Tasks</h2>
-                        <p class="text-muted">Manage your to-do list and stay productive</p>
+            <div class="tasks-layout">
+                <div class="page-header">
+                    <h2><i class="fas fa-tasks me-2"></i>My Tasks</h2>
+                    <p>Manage your to-do list and stay productive</p>
+                </div>
+
+                <div class="add-task-section">
+                    <form id="taskForm" novalidate>
+                        <div class="task-form">
+                            <input type="text" class="task-input" id="taskInput" placeholder="What needs to be done?"
+                                aria-label="Task description" required maxlength="200">
+                            <div class="select-wrapper">
+                                <select class="priority-select" id="taskPriority">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+
+                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+
+                            <button class="btn-primary-custom" type="submit" id="addTaskBtn">
+                                <i class="fas fa-plus me-2"></i>
+                                <span>Add</span>
+                            </button>
+                        </div>
+                        <div class="character-counter">
+                            <small>
+                                <span id="taskCharCount">0</span>/200 characters
+                            </small>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="custom-card">
+                    <div class="task-filter">
+                        <button class="filter-btn active" data-filter="all">
+                            <i class="fas fa-list me-1"></i><span> All</span>
+                        </button>
+                        <button class="filter-btn" data-filter="active">
+                            <i class="fas fa-circle me-1"></i><span> Active</span>
+                        </button>
+                        <button class="filter-btn" data-filter="completed">
+                            <i class="fas fa-check-circle me-1"></i><span> Completed</span>
+                        </button>
                     </div>
 
-                    <div class="custom-card">
-                        <div class="card-body">
-                            <div class="add-task-section mb-4">
-                                <form id="taskForm" novalidate>
-                                    <div class="input-group input-group-lg">
-                                        <input type="text" class="form-control task-input" id="taskInput"
-                                            placeholder="What needs to be done?" aria-label="Task description" required
-                                            maxlength="200">
-                                        <select class="form-select priority-select" id="taskPriority"
-                                            aria-label="Task priority">
-                                            <option value="low">Low</option>
-                                            <option value="medium" selected>Medium</option>
-                                            <option value="high">High</option>
-                                        </select>
-                                        <button class="btn btn-primary-custom btn-add-task" type="submit"
-                                            id="addTaskBtn">
-                                            <i class="fas fa-plus me-2"></i>
-                                            <span>Add</span>
-                                        </button>
-                                    </div>
-                                    <div class="character-counter mt-2">
-                                        <small class="text-muted">
-                                            <span id="taskCharCount">0</span>/200 characters
-                                        </small>
-                                    </div>
-                                </form>
+                    <div class="task-list" id="taskList">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-clipboard-list"></i>
                             </div>
-
-                            <div class="task-filter mb-3">
-                                <button class="filter-btn active" data-filter="all">
-                                    <i class="fas fa-list me-1"></i><span class="d-none d-sm-inline"> All</span>
-                                </button>
-                                <button class="filter-btn" data-filter="active">
-                                    <i class="fas fa-circle me-1"></i><span class="d-none d-sm-inline"> Active</span>
-                                </button>
-                                <button class="filter-btn" data-filter="completed">
-                                    <i class="fas fa-check-circle me-1"></i><span class="d-none d-sm-inline">
-                                        Completed</span>
-                                </button>
-                            </div>
-
-                            <div class="task-list" id="taskList">
-                                <div class="empty-state">
-                                    <div class="empty-state-icon">
-                                        <i class="fas fa-clipboard-list"></i>
-                                    </div>
-                                    <h4 class="empty-state-title">No tasks yet</h4>
-                                    <p class="empty-state-description">Add your first task above to get started!</p>
-                                </div>
-                            </div>
+                            <h4 class="empty-state-title">No tasks yet</h4>
+                            <p class="empty-state-description">Add your first task above to get started!</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SCHEDULE TAB -->
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
-            <div class="page-header">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div class="schedule-layout">
+                <div class="page-header schedule-header">
                     <div>
                         <h2><i class="fas fa-calendar-alt me-2"></i>Weekly Schedule</h2>
-                        <p class="text-muted">Organize your classes for the week</p>
+                        <p>Organize your classes for the week</p>
                     </div>
-                    <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addClassModal">
+                    <button class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addClassModal">
                         <i class="fas fa-plus me-2"></i>Add Class
                     </button>
                 </div>
-            </div>
 
-            <!-- Desktop Schedule Table -->
-            <div class="custom-card d-none d-md-block">
-                <div class="card-body p-0">
+                <div class="schedule-container">
                     <div class="table-responsive">
                         <table class="table schedule-table">
                             <thead>
@@ -267,34 +249,31 @@
                                 </tr>
                             </thead>
                             <tbody id="scheduleTableBody">
-                                <!-- Schedule rows will be dynamically added here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
 
-            <!-- Mobile Schedule Cards -->
-            <div class="d-md-none" id="scheduleMobileView">
-                <div class="empty-state">
-                    <div class="empty-state-icon">
-                        <i class="fas fa-calendar-week"></i>
+                <div class="d-md-none" id="scheduleMobileView">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <h4 class="empty-state-title">No classes scheduled</h4>
+                        <p class="empty-state-description">Click "Add Class" to create your schedule</p>
                     </div>
-                    <h4 class="empty-state-title">No classes scheduled</h4>
-                    <p class="empty-state-description">Click "Add Class" to create your schedule</p>
                 </div>
             </div>
         </div>
 
-        <!-- BUDGET TAB -->
         <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="budget-tab">
-            <div class="page-header">
-                <h2><i class="fas fa-wallet me-2"></i>Budget Tracker</h2>
-                <p class="text-muted">Track your income and expenses</p>
-            </div>
+            <div class="budget-layout">
+                <div class="page-header">
+                    <h2><i class="fas fa-wallet me-2"></i>Budget Tracker</h2>
+                    <p>Track your income and expenses</p>
+                </div>
 
-            <div class="row g-2 g-sm-4">
-                <div class="col-lg-4">
+                <div class="budget-stats-row">
                     <div class="budget-stat-card income-card">
                         <div class="budget-stat-icon">
                             <i class="fas fa-arrow-up"></i>
@@ -304,9 +283,7 @@
                             <div class="budget-stat-value" id="totalIncome">₱0.00</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-4">
                     <div class="budget-stat-card expense-card">
                         <div class="budget-stat-icon">
                             <i class="fas fa-arrow-down"></i>
@@ -316,9 +293,7 @@
                             <div class="budget-stat-value" id="totalExpenses">₱0.00</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-4">
                     <div class="budget-stat-card balance-card">
                         <div class="budget-stat-icon">
                             <i class="fas fa-wallet"></i>
@@ -330,31 +305,25 @@
                     </div>
                 </div>
 
-                <!-- Progress Bar -->
-                <div class="col-12">
-                    <div class="custom-card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h5 class="mb-0">Budget Usage</h5>
-                                <span class="badge bg-primary" id="budgetPercentage">0%</span>
-                            </div>
-                            <div class="progress budget-progress">
-                                <div class="progress-bar" role="progressbar" id="budgetProgressBar" aria-valuenow="0"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
+                <div class="budget-progress-container">
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5 class="mb-0">Budget Usage</h5>
+                        <span class="badge bg-primary" id="budgetPercentage">0%</span>
+                    </div>
+                    <div class="budget-progress">
+                        <div class="progress-bar" role="progressbar" id="budgetProgressBar" aria-valuenow="0"
+                            aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                     </div>
                 </div>
 
-                <!-- Add Transaction -->
-                <div class="col-lg-5">
-                    <div class="custom-card">
+                <div class="budget-content-row">
+                    <div class="transaction-form-card">
                         <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add Transaction</h5>
+                            <h5><i class="fas fa-plus-circle me-2"></i>Add Transaction</h5>
                         </div>
                         <div class="card-body">
                             <form id="transactionForm" novalidate>
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">Type</label>
                                     <div class="btn-group w-100" role="group">
                                         <input type="radio" class="btn-check" name="transactionType" id="incomeType"
@@ -369,13 +338,13 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label for="transactionDescription" class="form-label">Description</label>
                                     <input type="text" class="form-control" id="transactionDescription"
                                         placeholder="e.g., Scholarship, Books" required maxlength="100">
                                     <div class="invalid-feedback">Please enter a description</div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label for="transactionAmount" class="form-label">Amount</label>
                                     <div class="input-group">
                                         <span class="input-group-text">₱</span>
@@ -384,42 +353,37 @@
                                         <div class="invalid-feedback">Please enter a valid amount</div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label for="transactionCategory" class="form-label">Category</label>
                                     <select class="form-select" id="transactionCategory" required>
                                         <option value="">Select category</option>
-                                        <option value="education">Education</option>
-                                        <option value="food">Food & Dining</option>
-                                        <option value="transport">Transportation</option>
-                                        <option value="housing">Housing</option>
-                                        <option value="entertainment">Entertainment</option>
-                                        <option value="other">Other</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Food">Food & Dining</option>
+                                        <option value="Transport">Transportation</option>
+                                        <option value="Housing">Housing</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                     <div class="invalid-feedback">Please select a category</div>
                                 </div>
-                                <button type="submit" class="btn btn-primary-custom w-100">
+                                <button type="submit" class="btn-primary-custom w-100">
                                     <i class="fas fa-plus me-2"></i> Add Transaction
                                 </button>
                             </form>
                         </div>
                     </div>
-                </div>
 
-                <!-- Transaction History -->
-                <div class="col-lg-7">
-                    <div class="custom-card">
+                    <div class="transaction-history-card">
                         <div class="card-header">
-                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Transaction History</h5>
+                            <h5><i class="fas fa-history me-2"></i>Transaction History</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="transaction-list" id="transactionList">
-                                <div class="empty-state">
-                                    <div class="empty-state-icon">
-                                        <i class="fas fa-receipt"></i>
-                                    </div>
-                                    <h4 class="empty-state-title">No transactions yet</h4>
-                                    <p class="empty-state-description">Add your first transaction to start tracking</p>
+                        <div class="transaction-list" id="transactionList">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-receipt"></i>
                                 </div>
+                                <h4 class="empty-state-title">No transactions yet</h4>
+                                <p class="empty-state-description">Add your first transaction to start tracking</p>
                             </div>
                         </div>
                     </div>
@@ -428,7 +392,6 @@
         </div>
     </div>
 
-    <!-- Add Class Modal -->
     <div class="modal fade" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -439,58 +402,62 @@
                 </div>
                 <div class="modal-body">
                     <form id="addClassForm" novalidate>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="className" class="form-label">Class Name</label>
                             <input type="text" class="form-control" id="className" placeholder="e.g., Technopreneurship"
                                 required maxlength="50">
                             <div class="invalid-feedback">Please enter a class name</div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="classDay" class="form-label">Day</label>
-                                <select class="form-select" id="classDay" required>
-                                    <option value="">Select day</option>
-                                    <option value="monday">Monday</option>
-                                    <option value="tuesday">Tuesday</option>
-                                    <option value="wednesday">Wednesday</option>
-                                    <option value="thursday">Thursday</option>
-                                    <option value="friday">Friday</option>
-                                    <option value="saturday">Saturday</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a day</div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="classDay" class="form-label">Day</label>
+                                    <select class="form-select" id="classDay" required>
+                                        <option value="">Select day</option>
+                                        <option value="monday">Monday</option>
+                                        <option value="tuesday">Tuesday</option>
+                                        <option value="wednesday">Wednesday</option>
+                                        <option value="thursday">Thursday</option>
+                                        <option value="friday">Friday</option>
+                                        <option value="saturday">Saturday</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a day</div>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="classTime" class="form-label">Time</label>
-                                <select class="form-select" id="classTime" required>
-                                    <option value="">Select time</option>
-                                    <option value="07:00">07:00 AM</option>
-                                    <option value="08:00">08:00 AM</option>
-                                    <option value="09:00">09:00 AM</option>
-                                    <option value="10:00">10:00 AM</option>
-                                    <option value="11:00">11:00 AM</option>
-                                    <option value="12:00">12:00 PM</option>
-                                    <option value="13:00">01:00 PM</option>
-                                    <option value="14:00">02:00 PM</option>
-                                    <option value="15:00">03:00 PM</option>
-                                    <option value="16:00">04:00 PM</option>
-                                    <option value="18:00">06:00 PM</option>
-                                    <option value="19:00">07:00 PM</option>
-                                    <option value="20:00">08:00 PM</option>
-                                    <option value="21:00">09:00 PM</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a time</div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="classTime" class="form-label">Time</label>
+                                    <select class="form-select" id="classTime" required>
+                                        <option value="">Select time</option>
+                                        <option value="07:00">07:00 AM</option>
+                                        <option value="08:00">08:00 AM</option>
+                                        <option value="09:00">09:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">01:00 PM</option>
+                                        <option value="14:00">02:00 PM</option>
+                                        <option value="15:00">03:00 PM</option>
+                                        <option value="16:00">04:00 PM</option>
+                                        <option value="18:00">06:00 PM</option>
+                                        <option value="19:00">07:00 PM</option>
+                                        <option value="20:00">08:00 PM</option>
+                                        <option value="21:00">09:00 PM</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a time</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="classRoom" class="form-label">Room / Location (Optional)</label>
                             <input type="text" class="form-control" id="classRoom" placeholder="e.g., Room 204"
                                 maxlength="50">
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="classColor" class="form-label">Choose Color</label>
                             <div class="color-picker-container">
-                                <input type="color" class="form-control form-control-color" id="classColor"
-                                    value="#800000" title="Choose your color">
+                                <input type="color" class="form-control-color" id="classColor" value="#800000"
+                                    title="Choose your color">
                                 <div class="color-presets">
                                     <button type="button" class="color-preset active" data-color="#800000"
                                         style="background: #800000;" title="PUP Maroon"></button>
@@ -522,8 +489,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary-custom" id="saveClassBtn">
+                    <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-primary-custom" id="saveClassBtn">
                         <i class="fas fa-save me-2"></i>Save Class
                     </button>
                 </div>
@@ -531,7 +498,6 @@
         </div>
     </div>
 
-    <!-- Edit Task Modal -->
     <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -542,12 +508,12 @@
                 <div class="modal-body">
                     <form id="editTaskForm" novalidate>
                         <input type="hidden" id="editTaskId">
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="editTaskText" class="form-label">Task Description</label>
                             <input type="text" class="form-control" id="editTaskText" required maxlength="200">
                             <div class="invalid-feedback">Please enter a task description</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="editTaskPriority" class="form-label">Priority</label>
                             <select class="form-select" id="editTaskPriority" required>
                                 <option value="low">Low</option>
@@ -558,8 +524,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary-custom" id="saveEditTaskBtn">
+                    <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-primary-custom" id="saveEditTaskBtn">
                         <i class="fas fa-save me-2"></i>Save Changes
                     </button>
                 </div>
@@ -567,7 +533,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -581,7 +546,7 @@
                     <p id="deleteConfirmMessage">Are you sure you want to delete this item?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
                         <i class="fas fa-trash me-2"></i>Delete
                     </button>
@@ -590,7 +555,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../002/assets/js/utils.js"></script>
     <script src="../002/assets/js/todo.js"></script>
