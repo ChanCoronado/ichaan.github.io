@@ -34,7 +34,7 @@ const BudgetModule = (() => {
         loadTransactions();
         attachEventListeners();
         renderTransactions();
-        updateBudgetSummary();
+        updateBudgetSummary(false); // Initial load with animation
     }
 
     function attachEventListeners() {
@@ -89,8 +89,9 @@ const BudgetModule = (() => {
             transactions.unshift(newTransaction);
 
             if (saveTransactions()) {
+                // Update with real-time accurate values
                 renderTransactions();
-                updateBudgetSummary();
+                updateBudgetSummary(true); // true = direct update, no animation
                 updateOverview();
 
               
@@ -127,7 +128,7 @@ const BudgetModule = (() => {
 
                     if (saveTransactions()) {
                         renderTransactions();
-                        updateBudgetSummary();
+                        updateBudgetSummary(true); // true = direct update, no animation
                         updateOverview();
                         showToast('Transaction deleted', 'info');
                     }
@@ -137,31 +138,58 @@ const BudgetModule = (() => {
     }
 
     function calculateTotals() {
+        // Use reduce with proper decimal handling
         const income = transactions
             .filter(t => t.type === 'income')
-            .reduce((sum, t) => sum + t.amount, 0);
+            .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
         const expenses = transactions
             .filter(t => t.type === 'expense')
-            .reduce((sum, t) => sum + t.amount, 0);
+            .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
         const balance = income - expenses;
 
-        return { income, expenses, balance };
+        // Round to 2 decimal places to avoid floating point errors
+        return { 
+            income: Math.round(income * 100) / 100, 
+            expenses: Math.round(expenses * 100) / 100, 
+            balance: Math.round(balance * 100) / 100 
+        };
     }
 
-    function updateBudgetSummary() {
+    function updateBudgetSummary(immediate = false) {
         const { income, expenses, balance } = calculateTotals();
 
-      
-        const currentIncome = NumberUtils.parseCurrency(elements.totalIncome.textContent);
-        const currentExpenses = NumberUtils.parseCurrency(elements.totalExpenses.textContent);
-        const currentBalance = NumberUtils.parseCurrency(elements.remainingBalance.textContent);
+        if (immediate) {
+            // Direct update for accuracy - no animation
+            elements.totalIncome.textContent = NumberUtils.formatCurrency(income);
+            elements.totalExpenses.textContent = NumberUtils.formatCurrency(expenses);
+            elements.remainingBalance.textContent = NumberUtils.formatCurrency(balance);
+        } else {
+            // Animated update only for initial page load
+            const currentIncome = NumberUtils.parseCurrency(elements.totalIncome.textContent);
+            const currentExpenses = NumberUtils.parseCurrency(elements.totalExpenses.textContent);
+            const currentBalance = NumberUtils.parseCurrency(elements.remainingBalance.textContent);
 
-     
-        AnimationUtils.animateCounter(elements.totalIncome, currentIncome, income, 800);
-        AnimationUtils.animateCounter(elements.totalExpenses, currentExpenses, expenses, 800);
-        AnimationUtils.animateCounter(elements.remainingBalance, currentBalance, balance, 800);
+            // Only animate if there's a significant difference
+            if (Math.abs(currentIncome - income) > 0.01) {
+                AnimationUtils.animateCounter(elements.totalIncome, currentIncome, income, 800);
+            } else {
+                elements.totalIncome.textContent = NumberUtils.formatCurrency(income);
+            }
+
+            if (Math.abs(currentExpenses - expenses) > 0.01) {
+                AnimationUtils.animateCounter(elements.totalExpenses, currentExpenses, expenses, 800);
+            } else {
+                elements.totalExpenses.textContent = NumberUtils.formatCurrency(expenses);
+            }
+
+            if (Math.abs(currentBalance - balance) > 0.01) {
+                AnimationUtils.animateCounter(elements.remainingBalance, currentBalance, balance, 800);
+            } else {
+                elements.remainingBalance.textContent = NumberUtils.formatCurrency(balance);
+            }
+        }
 
        
         if (balance < 0) {
@@ -175,13 +203,22 @@ const BudgetModule = (() => {
             percentage = (expenses / income) * 100;
         }
 
+        // Update percentage badge
         elements.budgetPercentage.textContent = NumberUtils.formatPercentage(expenses, income);
-        AnimationUtils.animateProgressBar(elements.budgetProgressBar, percentage);
+        
+        // Update progress bar
+        if (immediate) {
+            // Direct update
+            elements.budgetProgressBar.style.width = `${Math.min(percentage, 100)}%`;
+        } else {
+            // Animated update
+            AnimationUtils.animateProgressBar(elements.budgetProgressBar, percentage);
+        }
 
       
         if (percentage >= 90) {
             elements.budgetProgressBar.style.background = 'var(--danger)';
-            if (percentage >= 100) {
+            if (percentage >= 100 && immediate) {
                 showToast('Warning: You have exceeded your budget!', 'warning', 5000);
             }
         } else if (percentage >= 70) {
@@ -247,7 +284,7 @@ const BudgetModule = (() => {
         categoryBadge.textContent = `${emoji} ${transaction.category}`;
 
         const metaDiv = DOM.createElement('div', ['d-flex', 'align-items-center', 'gap-2']);
-        const dateSpan = DOM.createElement('small', ['text-muted']);
+        const dateSpan = DOM.createElement('small');
         dateSpan.innerHTML = `<i class="fas fa-clock me-1"></i>${DateUtils.formatDate(transaction.createdAt)}`;
 
         const deleteBtn = DOM.createElement('button', ['transaction-delete'], {
@@ -284,7 +321,7 @@ const BudgetModule = (() => {
                 if (!byCategory[t.category]) {
                     byCategory[t.category] = 0;
                 }
-                byCategory[t.category] += t.amount;
+                byCategory[t.category] += parseFloat(t.amount);
             });
 
         return {

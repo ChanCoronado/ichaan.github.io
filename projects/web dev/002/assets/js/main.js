@@ -119,21 +119,19 @@
             return;
         }
         
-        let html = '<div class="list-group">';
+       let html = '<div class="list-group">';
         tasks.forEach(task => {
-            const priorityClass = task.priority === 'high' ? 'danger' : 
-                                 task.priority === 'medium' ? 'warning' : 'success';
             html += `
                 <div class="list-group-item">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="flex-grow-1">
                             <strong>${Validators.sanitize(task.text)}</strong>
                             <br>
-                            <small class="text-muted">
+                            <small >
                                 <i class="fas fa-clock me-1"></i>${DateUtils.formatDate(task.createdAt)}
                             </small>
                         </div>
-                        <span class="badge bg-${priorityClass}">${task.priority}</span>
+                        <span class="task-priority ${task.priority}">${task.priority}</span>
                     </div>
                 </div>
             `;
@@ -169,7 +167,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <strong>${Validators.sanitize(classItem.name)}</strong><br>
-                            <small class="text-muted">
+                            <small>
                                 <i class="fas fa-clock me-1"></i>${formatTime(classItem.time)}
                                 ${classItem.room ? `<i class="fas fa-map-marker-alt ms-2 me-1"></i>${Validators.sanitize(classItem.room)}` : ''}
                             </small>
