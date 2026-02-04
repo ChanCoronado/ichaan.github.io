@@ -22,7 +22,7 @@ const BudgetModule = (() => {
     };
 
     function init() {
-       
+
         elements.transactionForm = document.getElementById('transactionForm');
         elements.transactionList = document.getElementById('transactionList');
         elements.totalIncome = document.getElementById('totalIncome');
@@ -38,7 +38,7 @@ const BudgetModule = (() => {
     }
 
     function attachEventListeners() {
-       
+
         if (elements.transactionForm) {
             elements.transactionForm.addEventListener('submit', handleAddTransaction);
         }
@@ -56,7 +56,7 @@ const BudgetModule = (() => {
     function handleAddTransaction(e) {
         e.preventDefault();
 
-     
+
         if (!FormValidator.validate(elements.transactionForm)) {
             showToast('Please fill in all required fields', 'warning');
             return;
@@ -67,7 +67,7 @@ const BudgetModule = (() => {
         const amount = parseFloat(document.getElementById('transactionAmount').value);
         const category = document.getElementById('transactionCategory').value;
 
-       
+
         if (!Validators.isValidNumber(amount) || amount <= 0) {
             showToast('Please enter a valid amount', 'error');
             return;
@@ -94,7 +94,7 @@ const BudgetModule = (() => {
                 updateBudgetSummary(true); // true = direct update, no animation
                 updateOverview();
 
-              
+
                 elements.transactionForm.reset();
                 FormValidator.clearValidation(elements.transactionForm);
                 document.getElementById('incomeType').checked = true;
@@ -102,7 +102,7 @@ const BudgetModule = (() => {
                 const transactionType = type === 'income' ? 'Income' : 'Expense';
                 showToast(`${transactionType} added: ${NumberUtils.formatCurrency(amount)}`, 'success');
 
-                
+
                 AnimationUtils.pulseElement(elements.totalIncome);
                 AnimationUtils.pulseElement(elements.totalExpenses);
                 AnimationUtils.pulseElement(elements.remainingBalance);
@@ -116,24 +116,10 @@ const BudgetModule = (() => {
         const transaction = transactions.find(t => t.id === transactionId);
         if (!transaction) return;
 
-        if (confirm(`Delete this transaction?\n${transaction.description} - ${NumberUtils.formatCurrency(transaction.amount)}`)) {
-            const transactionElement = document.querySelector(`[data-transaction-id="${transactionId}"]`);
+        const itemText = `${transaction.description} - ${NumberUtils.formatCurrency(transaction.amount)}`;
 
-            if (transactionElement) {
-                transactionElement.style.opacity = '0';
-                transactionElement.style.transform = 'translateX(-20px)';
-
-                setTimeout(() => {
-                    transactions = transactions.filter(t => t.id !== transactionId);
-
-                    if (saveTransactions()) {
-                        renderTransactions();
-                        updateBudgetSummary(true); // true = direct update, no animation
-                        updateOverview();
-                        showToast('Transaction deleted', 'info');
-                    }
-                }, 300);
-            }
+        if (window.showDeleteTransactionModal) {
+            window.showDeleteTransactionModal(transactionId, itemText);
         }
     }
 
@@ -150,10 +136,10 @@ const BudgetModule = (() => {
         const balance = income - expenses;
 
         // Round to 2 decimal places to avoid floating point errors
-        return { 
-            income: Math.round(income * 100) / 100, 
-            expenses: Math.round(expenses * 100) / 100, 
-            balance: Math.round(balance * 100) / 100 
+        return {
+            income: Math.round(income * 100) / 100,
+            expenses: Math.round(expenses * 100) / 100,
+            balance: Math.round(balance * 100) / 100
         };
     }
 
@@ -191,7 +177,7 @@ const BudgetModule = (() => {
             }
         }
 
-       
+
         if (balance < 0) {
             elements.remainingBalance.classList.add('negative');
         } else {
@@ -205,7 +191,7 @@ const BudgetModule = (() => {
 
         // Update percentage badge
         elements.budgetPercentage.textContent = NumberUtils.formatPercentage(expenses, income);
-        
+
         // Update progress bar
         if (immediate) {
             // Direct update
@@ -215,7 +201,7 @@ const BudgetModule = (() => {
             AnimationUtils.animateProgressBar(elements.budgetProgressBar, percentage);
         }
 
-      
+
         if (percentage >= 90) {
             elements.budgetProgressBar.style.background = 'var(--danger)';
             if (percentage >= 100 && immediate) {
@@ -265,7 +251,7 @@ const BudgetModule = (() => {
             'data-transaction-id': transaction.id
         });
 
-      
+
         const headerDiv = DOM.createElement('div', ['transaction-header']);
         const descDiv = DOM.createElement('div', ['transaction-desc']);
         descDiv.textContent = transaction.description;
@@ -277,7 +263,7 @@ const BudgetModule = (() => {
         headerDiv.appendChild(descDiv);
         headerDiv.appendChild(amountDiv);
 
-     
+
         const footerDiv = DOM.createElement('div', ['transaction-footer']);
         const categoryBadge = DOM.createElement('span', ['transaction-category']);
         const emoji = CATEGORY_EMOJIS[transaction.category] || '📦';
@@ -313,7 +299,7 @@ const BudgetModule = (() => {
     function getStats() {
         const { income, expenses, balance } = calculateTotals();
 
-      
+
         const byCategory = {};
         transactions
             .filter(t => t.type === 'expense')
