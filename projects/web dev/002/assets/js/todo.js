@@ -1,7 +1,9 @@
 const TodoModule = (() => {
     const STORAGE_KEY = 'student_organizer_tasks';
+    const HIDE_COMPLETED_KEY = 'student_organizer_hide_completed';
     let tasks = [];
     let currentFilter = 'all';
+    let hideCompleted = false;
 
     const elements = {
         taskForm: null,
@@ -11,6 +13,7 @@ const TodoModule = (() => {
         taskList: null,
         taskCounter: null,
         taskCharCount: null,
+        hideCompletedToggle: null,
         editTaskModal: null,
         editTaskId: null,
         editTaskText: null,
@@ -23,8 +26,15 @@ const TodoModule = (() => {
 
     let pendingDeleteId = null;
 
-    function init() {
+    // Priority weights for sorting
+    const PRIORITY_WEIGHTS = {
+        high: 3,
+        medium: 2,
+        low: 1
+    };
 
+    function init() {
+        // Cache DOM elements
         elements.taskForm = document.getElementById('taskForm');
         elements.taskInput = document.getElementById('taskInput');
         elements.taskPriority = document.getElementById('taskPriority');
@@ -32,6 +42,7 @@ const TodoModule = (() => {
         elements.taskList = document.getElementById('taskList');
         elements.taskCounter = document.getElementById('taskCounter');
         elements.taskCharCount = document.getElementById('taskCharCount');
+        elements.hideCompletedToggle = document.getElementById('hideCompletedToggle');
         
         const editModal = document.getElementById('editTaskModal');
         if (editModal) {
@@ -50,6 +61,7 @@ const TodoModule = (() => {
         }
 
         loadTasks();
+        loadHideCompletedState();
         attachEventListeners();
         renderTasks();
         updateCounter();
@@ -85,6 +97,26 @@ const TodoModule = (() => {
         if (elements.confirmDeleteBtn) {
             elements.confirmDeleteBtn.addEventListener('click', handleConfirmDelete);
         }
+
+        // NEW: Hide completed toggle listener
+        if (elements.hideCompletedToggle) {
+            elements.hideCompletedToggle.addEventListener('change', handleToggleHideCompleted);
+        }
+
+        // Filter button listeners
+        setupFilterButtons();
+    }
+
+    function setupFilterButtons() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                setFilter(filter);
+            });
+        });
     }
 
     function loadTasks() {
@@ -94,6 +126,63 @@ const TodoModule = (() => {
 
     function saveTasks() {
         return Storage.set(STORAGE_KEY, tasks);
+    }
+
+    // NEW: Load hide completed state from localStorage
+    function loadHideCompletedState() {
+        const stored = Storage.get(HIDE_COMPLETED_KEY);
+        hideCompleted = stored !== null ? stored : false;
+        
+        if (elements.hideCompletedToggle) {
+            elements.hideCompletedToggle.checked = hideCompleted;
+        }
+    }
+
+    // NEW: Save hide completed state to localStorage
+    function saveHideCompletedState() {
+        return Storage.set(HIDE_COMPLETED_KEY, hideCompleted);
+    }
+
+    // NEW: Handle hide completed toggle
+    function handleToggleHideCompleted(e) {
+        hideCompleted = e.target.checked;
+        saveHideCompletedState();
+        renderTasks(true); // Animate the change
+        
+        const message = hideCompleted 
+            ? 'Completed tasks hidden' 
+            : 'Showing all tasks';
+        showToast(message, 'info', 2000);
+    }
+
+    // NEW: Smart task sorting function
+    function sortTasks(tasksToSort) {
+        return [...tasksToSort].sort((a, b) => {
+            // 1. Primary: Sort by completion status (incomplete first)
+            if (a.completed !== b.completed) {
+                return a.completed ? 1 : -1;
+            }
+            
+            // 2. Secondary: Sort by priority (high → medium → low)
+            if (!a.completed && !b.completed) {
+                const priorityDiff = PRIORITY_WEIGHTS[b.priority] - PRIORITY_WEIGHTS[a.priority];
+                if (priorityDiff !== 0) {
+                    return priorityDiff;
+                }
+            }
+            
+            // 3. Tertiary: Sort by date
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            
+            // For active tasks: newest first
+            // For completed tasks: oldest first (completed earlier stays at bottom)
+            if (!a.completed) {
+                return dateB - dateA; // Newest first
+            } else {
+                return dateA - dateB; // Oldest first
+            }
+        });
     }
 
     function handleAddTask() {
@@ -146,19 +235,30 @@ const TodoModule = (() => {
         }, 300);
     }
 
+    // ENHANCED: Toggle task with smooth reordering
     function handleToggleTask(taskId) {
         const task = tasks.find(t => t.id === taskId);
-        if (task) {
+        if (!task) return;
+
+        const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+        
+        // Add moving animation
+        if (taskElement) {
+            taskElement.classList.add('task-moving');
+        }
+
+        setTimeout(() => {
             task.completed = !task.completed;
+            
             if (saveTasks()) {
-                renderTasks();
+                renderTasks(true); // Animate the reorder
                 updateCounter();
                 updateOverview();
                 
                 const message = task.completed ? 'Task completed! 🎉' : 'Task reopened';
-                showToast(message, task.completed ? 'success' : 'info');
+                showToast(message, task.completed ? 'success' : 'info', 2000);
             }
-        }
+        }, 150);
     }
 
     function handleDeleteTask(taskId) {
@@ -176,8 +276,7 @@ const TodoModule = (() => {
         const taskElement = document.querySelector(`[data-task-id="${pendingDeleteId}"]`);
         
         if (taskElement) {
-            taskElement.style.opacity = '0';
-            taskElement.style.transform = 'translateX(-20px)';
+            taskElement.classList.add('task-hiding');
             
             setTimeout(() => {
                 tasks = tasks.filter(t => t.id !== pendingDeleteId);
@@ -223,11 +322,19 @@ const TodoModule = (() => {
         
         const task = tasks.find(t => t.id === taskId);
         if (task) {
+            const priorityChanged = task.priority !== newPriority;
+            
             task.text = newText;
             task.priority = newPriority;
             
             if (saveTasks()) {
-                renderTasks();
+                // If priority changed and task is active, re-sort
+                if (priorityChanged && !task.completed) {
+                    renderTasks(true);
+                } else {
+                    renderTasks();
+                }
+                
                 updateCounter();
                 updateOverview();
                 showToast('Task updated successfully!', 'success');
@@ -257,50 +364,71 @@ const TodoModule = (() => {
         }
     }
 
-    function renderTasks() {
+    // ENHANCED: Render tasks with sorting and hide completed logic
+    function renderTasks(animate = false) {
         if (!elements.taskList) return;
         
         DOM.clearElement(elements.taskList);
 
         if (tasks.length === 0) {
-            const emptyState = DOM.createElement('div', ['empty-state']);
-            emptyState.innerHTML = `
-                <div class="empty-state-icon">
-                    <i class="fas fa-clipboard-list"></i>
-                </div>
-                <h4 class="empty-state-title">No tasks yet</h4>
-                <p class="empty-state-description">Add your first task above to get started!</p>
-            `;
-            elements.taskList.appendChild(emptyState);
+            showEmptyState('No tasks yet', 'Add your first task above to get started!', 'fa-clipboard-list');
             return;
         }
 
-        let filteredTasks = tasks;
+        // Apply sorting
+        let sortedTasks = sortTasks(tasks);
+
+        // Apply filter
         if (currentFilter === 'active') {
-            filteredTasks = tasks.filter(t => !t.completed);
+            sortedTasks = sortedTasks.filter(t => !t.completed);
         } else if (currentFilter === 'completed') {
-            filteredTasks = tasks.filter(t => t.completed);
+            sortedTasks = sortedTasks.filter(t => t.completed);
         }
 
-        if (filteredTasks.length === 0) {
-            const emptyState = DOM.createElement('div', ['empty-state']);
-            emptyState.innerHTML = `
-                <div class="empty-state-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h4 class="empty-state-title">No ${currentFilter} tasks</h4>
-                <p class="empty-state-description">Switch filters to see other tasks</p>
-            `;
-            elements.taskList.appendChild(emptyState);
+        // Apply hide completed logic (only when filter is 'all')
+        if (currentFilter === 'all' && hideCompleted) {
+            sortedTasks = sortedTasks.filter(t => !t.completed);
+        }
+
+        if (sortedTasks.length === 0) {
+            const emptyMessages = {
+                active: ['No active tasks', 'All tasks are completed! 🎉'],
+                completed: ['No completed tasks', 'Complete some tasks to see them here'],
+                all: hideCompleted 
+                    ? ['No active tasks', 'All tasks completed or hidden']
+                    : ['No tasks yet', 'Add your first task above to get started!']
+            };
+            
+            const [title, desc] = emptyMessages[currentFilter] || emptyMessages.all;
+            showEmptyState(title, desc, 'fa-check-circle');
             return;
         }
 
-        filteredTasks.forEach((task, index) => {
+        // Render tasks
+        sortedTasks.forEach((task, index) => {
             const taskElement = createTaskElement(task);
-            taskElement.style.animationDelay = `${index * 0.05}s`;
-            taskElement.classList.add('fade-in');
+            
+            if (animate) {
+                taskElement.classList.add('task-showing');
+            } else {
+                taskElement.style.animationDelay = `${index * 0.05}s`;
+                taskElement.classList.add('fade-in');
+            }
+            
             elements.taskList.appendChild(taskElement);
         });
+    }
+
+    function showEmptyState(title, description, icon) {
+        const emptyState = DOM.createElement('div', ['empty-state']);
+        emptyState.innerHTML = `
+            <div class="empty-state-icon">
+                <i class="fas ${icon}"></i>
+            </div>
+            <h4 class="empty-state-title">${title}</h4>
+            <p class="empty-state-description">${description}</p>
+        `;
+        elements.taskList.appendChild(emptyState);
     }
 
     function setFilter(filter) {

@@ -198,15 +198,25 @@
 
                 <div class="custom-card">
                     <div class="task-filter">
-                        <button class="filter-btn active" data-filter="all">
-                            <i class="fas fa-list me-1"></i><span> All</span>
-                        </button>
-                        <button class="filter-btn" data-filter="active">
-                            <i class="fas fa-circle me-1"></i><span> Active</span>
-                        </button>
-                        <button class="filter-btn" data-filter="completed">
-                            <i class="fas fa-check-circle me-1"></i><span> Completed</span>
-                        </button>
+                        <div class="filter-buttons-group">
+                            <button class="filter-btn active" data-filter="all">
+                                <i class="fas fa-list me-1"></i><span> All</span>
+                            </button>
+                            <button class="filter-btn" data-filter="active">
+                                <i class="fas fa-circle me-1"></i><span> Active</span>
+                            </button>
+                            <button class="filter-btn" data-filter="completed">
+                                <i class="fas fa-check-circle me-1"></i><span> Completed</span>
+                            </button>
+                        </div>
+
+                        <div class="hide-completed-container">
+                            <label class="toggle-switch" title="Hide completed tasks from view">
+                                <input type="checkbox" id="hideCompletedToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">Hide completed</span>
+                        </div>
                     </div>
 
                     <div class="task-list" id="taskList">
@@ -393,7 +403,8 @@
     </div>
 
     <!-- Add Class Modal - Redesigned -->
-    <div class="modal fade custom-modal" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel" aria-hidden="true">
+    <div class="modal fade custom-modal" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -510,7 +521,8 @@
     </div>
 
     <!-- Edit Task Modal - Redesigned -->
-    <div class="modal fade custom-modal" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+    <div class="modal fade custom-modal" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -521,8 +533,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">
-                        <i class="fas fa-edit" style="color: #0d6efd;"></i>
+                    <div class="modal-icon" >
+                        <i class="fas fa-edit"></i>
                     </div>
                     <div class="modal-message">
                         <h6 class="modal-title-text">Edit Your Task</h6>
