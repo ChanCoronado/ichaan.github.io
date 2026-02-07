@@ -1,23 +1,28 @@
 const TodoModule = (() => {
     const STORAGE_KEY = 'student_organizer_tasks';
-    const HIDE_COMPLETED_KEY = 'student_organizer_hide_completed';
+    const SORT_KEY = 'student_organizer_task_sort';
+    const PRIORITY_FILTER_KEY = 'student_organizer_priority_filter';
     let tasks = [];
     let currentFilter = 'all';
-    let hideCompleted = false;
+    let currentSort = 'newest';
+    let currentPriorityFilter = 'all';
 
     const elements = {
         taskForm: null,
         taskInput: null,
         taskPriority: null,
+        taskDueDate: null,
         addTaskBtn: null,
         taskList: null,
         taskCounter: null,
         taskCharCount: null,
-        hideCompletedToggle: null,
+        taskSort: null,
+        taskPriorityFilter: null,
         editTaskModal: null,
         editTaskId: null,
         editTaskText: null,
         editTaskPriority: null,
+        editTaskDueDate: null,
         saveEditTaskBtn: null,
         deleteConfirmModal: null,
         deleteConfirmMessage: null,
@@ -26,33 +31,28 @@ const TodoModule = (() => {
 
     let pendingDeleteId = null;
 
-    // Priority weights for sorting
-    const PRIORITY_WEIGHTS = {
-        high: 3,
-        medium: 2,
-        low: 1
-    };
-
     function init() {
-        // Cache DOM elements
         elements.taskForm = document.getElementById('taskForm');
         elements.taskInput = document.getElementById('taskInput');
         elements.taskPriority = document.getElementById('taskPriority');
+        elements.taskDueDate = document.getElementById('taskDueDate');
         elements.addTaskBtn = document.getElementById('addTaskBtn');
         elements.taskList = document.getElementById('taskList');
         elements.taskCounter = document.getElementById('taskCounter');
         elements.taskCharCount = document.getElementById('taskCharCount');
-        elements.hideCompletedToggle = document.getElementById('hideCompletedToggle');
-        
+        elements.taskSort = document.getElementById('taskSort');
+        elements.taskPriorityFilter = document.getElementById('taskPriorityFilter');
+
         const editModal = document.getElementById('editTaskModal');
         if (editModal) {
             elements.editTaskModal = new bootstrap.Modal(editModal);
             elements.editTaskId = document.getElementById('editTaskId');
             elements.editTaskText = document.getElementById('editTaskText');
             elements.editTaskPriority = document.getElementById('editTaskPriority');
+            elements.editTaskDueDate = document.getElementById('editTaskDueDate');
             elements.saveEditTaskBtn = document.getElementById('saveEditTaskBtn');
         }
-        
+
         const deleteModal = document.getElementById('deleteConfirmModal');
         if (deleteModal) {
             elements.deleteConfirmModal = new bootstrap.Modal(deleteModal);
@@ -61,7 +61,8 @@ const TodoModule = (() => {
         }
 
         loadTasks();
-        loadHideCompletedState();
+        loadSortPreference();
+        loadPriorityFilterPreference();
         attachEventListeners();
         renderTasks();
         updateCounter();
@@ -79,7 +80,7 @@ const TodoModule = (() => {
             elements.taskInput.addEventListener('input', () => {
                 const length = elements.taskInput.value.length;
                 elements.taskCharCount.textContent = length;
-                
+
                 if (length > 180) {
                     elements.taskCharCount.style.color = 'var(--danger)';
                 } else if (length > 150) {
@@ -89,21 +90,23 @@ const TodoModule = (() => {
                 }
             });
         }
-        
+
         if (elements.saveEditTaskBtn) {
             elements.saveEditTaskBtn.addEventListener('click', handleSaveEditTask);
         }
-        
+
         if (elements.confirmDeleteBtn) {
             elements.confirmDeleteBtn.addEventListener('click', handleConfirmDelete);
         }
 
-        // NEW: Hide completed toggle listener
-        if (elements.hideCompletedToggle) {
-            elements.hideCompletedToggle.addEventListener('change', handleToggleHideCompleted);
+        if (elements.taskSort) {
+            elements.taskSort.addEventListener('change', handleSortChange);
         }
 
-        // Filter button listeners
+        if (elements.taskPriorityFilter) {
+            elements.taskPriorityFilter.addEventListener('change', handlePriorityFilterChange);
+        }
+
         setupFilterButtons();
     }
 
@@ -128,59 +131,76 @@ const TodoModule = (() => {
         return Storage.set(STORAGE_KEY, tasks);
     }
 
-    // NEW: Load hide completed state from localStorage
-    function loadHideCompletedState() {
-        const stored = Storage.get(HIDE_COMPLETED_KEY);
-        hideCompleted = stored !== null ? stored : false;
-        
-        if (elements.hideCompletedToggle) {
-            elements.hideCompletedToggle.checked = hideCompleted;
+    function loadSortPreference() {
+        const stored = Storage.get(SORT_KEY);
+        currentSort = stored || 'newest';
+
+        if (elements.taskSort) {
+            elements.taskSort.value = currentSort;
         }
     }
 
-    // NEW: Save hide completed state to localStorage
-    function saveHideCompletedState() {
-        return Storage.set(HIDE_COMPLETED_KEY, hideCompleted);
+    function saveSortPreference() {
+        return Storage.set(SORT_KEY, currentSort);
     }
 
-    // NEW: Handle hide completed toggle
-    function handleToggleHideCompleted(e) {
-        hideCompleted = e.target.checked;
-        saveHideCompletedState();
-        renderTasks(true); // Animate the change
-        
-        const message = hideCompleted 
-            ? 'Completed tasks hidden' 
-            : 'Showing all tasks';
-        showToast(message, 'info', 2000);
+    function loadPriorityFilterPreference() {
+        const stored = Storage.get(PRIORITY_FILTER_KEY);
+        currentPriorityFilter = stored || 'all';
+
+        if (elements.taskPriorityFilter) {
+            elements.taskPriorityFilter.value = currentPriorityFilter;
+        }
     }
 
-    // NEW: Smart task sorting function
+    function savePriorityFilterPreference() {
+        return Storage.set(PRIORITY_FILTER_KEY, currentPriorityFilter);
+    }
+
+    function handleSortChange(e) {
+        currentSort = e.target.value;
+        saveSortPreference();
+        renderTasks(true);
+    }
+
+    function handlePriorityFilterChange(e) {
+        currentPriorityFilter = e.target.value;
+        savePriorityFilterPreference();
+        renderTasks(true);
+    }
+
     function sortTasks(tasksToSort) {
         return [...tasksToSort].sort((a, b) => {
-            // 1. Primary: Sort by completion status (incomplete first)
             if (a.completed !== b.completed) {
                 return a.completed ? 1 : -1;
             }
-            
-            // 2. Secondary: Sort by priority (high → medium → low)
-            if (!a.completed && !b.completed) {
-                const priorityDiff = PRIORITY_WEIGHTS[b.priority] - PRIORITY_WEIGHTS[a.priority];
-                if (priorityDiff !== 0) {
-                    return priorityDiff;
-                }
-            }
-            
-            // 3. Tertiary: Sort by date
+
             const dateA = new Date(a.createdAt);
             const dateB = new Date(b.createdAt);
-            
-            // For active tasks: newest first
-            // For completed tasks: oldest first (completed earlier stays at bottom)
-            if (!a.completed) {
-                return dateB - dateA; // Newest first
-            } else {
-                return dateA - dateB; // Oldest first
+
+            switch (currentSort) {
+                case 'newest':
+                    if (!a.completed) {
+                        return dateB - dateA;
+                    } else {
+                        return dateA - dateB;
+                    }
+                case 'oldest':
+                    if (!a.completed) {
+                        return dateA - dateB;
+                    } else {
+                        return dateB - dateA;
+                    }
+                case 'name-asc':
+                    return a.text.toLowerCase().localeCompare(b.text.toLowerCase());
+                case 'name-desc':
+                    return b.text.toLowerCase().localeCompare(a.text.toLowerCase());
+                default:
+                    if (!a.completed) {
+                        return dateB - dateA;
+                    } else {
+                        return dateA - dateB;
+                    }
             }
         });
     }
@@ -188,6 +208,7 @@ const TodoModule = (() => {
     function handleAddTask() {
         const taskText = elements.taskInput.value.trim();
         const priority = elements.taskPriority.value;
+        const dueDate = elements.taskDueDate.value;
 
         if (Validators.isEmpty(taskText)) {
             elements.taskInput.focus();
@@ -208,6 +229,7 @@ const TodoModule = (() => {
                 id: IDGenerator.generate('task'),
                 text: taskText,
                 priority: priority,
+                dueDate: dueDate || null,
                 completed: false,
                 createdAt: DateUtils.getTimestamp()
             };
@@ -235,26 +257,24 @@ const TodoModule = (() => {
         }, 300);
     }
 
-    // ENHANCED: Toggle task with smooth reordering
     function handleToggleTask(taskId) {
         const task = tasks.find(t => t.id === taskId);
         if (!task) return;
 
         const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
-        
-        // Add moving animation
+
         if (taskElement) {
             taskElement.classList.add('task-moving');
         }
 
         setTimeout(() => {
             task.completed = !task.completed;
-            
+
             if (saveTasks()) {
-                renderTasks(true); // Animate the reorder
+                renderTasks(true);
                 updateCounter();
                 updateOverview();
-                
+
                 const message = task.completed ? 'Task completed! 🎉' : 'Task reopened';
                 showToast(message, task.completed ? 'success' : 'info', 2000);
             }
@@ -264,20 +284,20 @@ const TodoModule = (() => {
     function handleDeleteTask(taskId) {
         const task = tasks.find(t => t.id === taskId);
         if (!task) return;
-        
+
         pendingDeleteId = taskId;
         elements.deleteConfirmMessage.textContent = `Are you sure you want to delete "${task.text}"?`;
         elements.deleteConfirmModal.show();
     }
-    
+
     function handleConfirmDelete() {
         if (!pendingDeleteId) return;
-        
+
         const taskElement = document.querySelector(`[data-task-id="${pendingDeleteId}"]`);
-        
+
         if (taskElement) {
             taskElement.classList.add('task-hiding');
-            
+
             setTimeout(() => {
                 tasks = tasks.filter(t => t.id !== pendingDeleteId);
                 if (saveTasks()) {
@@ -289,7 +309,7 @@ const TodoModule = (() => {
                 pendingDeleteId = null;
             }, 300);
         }
-        
+
         elements.deleteConfirmModal.hide();
     }
 
@@ -300,47 +320,42 @@ const TodoModule = (() => {
         elements.editTaskId.value = task.id;
         elements.editTaskText.value = task.text;
         elements.editTaskPriority.value = task.priority;
-        
+        elements.editTaskDueDate.value = task.dueDate || '';
+
         elements.editTaskModal.show();
-        
+
         setTimeout(() => {
             elements.editTaskText.focus();
         }, 300);
     }
-    
+
     function handleSaveEditTask() {
         const taskId = elements.editTaskId.value;
         const newText = elements.editTaskText.value.trim();
         const newPriority = elements.editTaskPriority.value;
-        
+        const newDueDate = elements.editTaskDueDate.value;
+
         if (Validators.isEmpty(newText)) {
             elements.editTaskText.focus();
             AnimationUtils.shakeElement(elements.editTaskText);
             showToast('Please enter a task description', 'warning');
             return;
         }
-        
+
         const task = tasks.find(t => t.id === taskId);
         if (task) {
-            const priorityChanged = task.priority !== newPriority;
-            
             task.text = newText;
             task.priority = newPriority;
-            
+            task.dueDate = newDueDate || null;
+
             if (saveTasks()) {
-                // If priority changed and task is active, re-sort
-                if (priorityChanged && !task.completed) {
-                    renderTasks(true);
-                } else {
-                    renderTasks();
-                }
-                
+                renderTasks();
                 updateCounter();
                 updateOverview();
                 showToast('Task updated successfully!', 'success');
             }
         }
-        
+
         elements.editTaskModal.hide();
     }
 
@@ -348,7 +363,7 @@ const TodoModule = (() => {
         if (!elements.taskCounter) return;
         const pendingTasks = tasks.filter(t => !t.completed).length;
         elements.taskCounter.textContent = pendingTasks;
-        
+
         if (pendingTasks === 0) {
             elements.taskCounter.style.display = 'none';
         } else {
@@ -364,10 +379,9 @@ const TodoModule = (() => {
         }
     }
 
-    // ENHANCED: Render tasks with sorting and hide completed logic
     function renderTasks(animate = false) {
         if (!elements.taskList) return;
-        
+
         DOM.clearElement(elements.taskList);
 
         if (tasks.length === 0) {
@@ -375,46 +389,42 @@ const TodoModule = (() => {
             return;
         }
 
-        // Apply sorting
-        let sortedTasks = sortTasks(tasks);
+        let filteredTasks = [...tasks];
 
-        // Apply filter
         if (currentFilter === 'active') {
-            sortedTasks = sortedTasks.filter(t => !t.completed);
+            filteredTasks = filteredTasks.filter(t => !t.completed);
         } else if (currentFilter === 'completed') {
-            sortedTasks = sortedTasks.filter(t => t.completed);
+            filteredTasks = filteredTasks.filter(t => t.completed);
         }
 
-        // Apply hide completed logic (only when filter is 'all')
-        if (currentFilter === 'all' && hideCompleted) {
-            sortedTasks = sortedTasks.filter(t => !t.completed);
+        if (currentPriorityFilter !== 'all') {
+            filteredTasks = filteredTasks.filter(t => t.priority === currentPriorityFilter);
         }
+
+        let sortedTasks = sortTasks(filteredTasks);
 
         if (sortedTasks.length === 0) {
             const emptyMessages = {
                 active: ['No active tasks', 'All tasks are completed! 🎉'],
                 completed: ['No completed tasks', 'Complete some tasks to see them here'],
-                all: hideCompleted 
-                    ? ['No active tasks', 'All tasks completed or hidden']
-                    : ['No tasks yet', 'Add your first task above to get started!']
+                all: ['No tasks match the filters', 'Try adjusting your filters']
             };
-            
+
             const [title, desc] = emptyMessages[currentFilter] || emptyMessages.all;
             showEmptyState(title, desc, 'fa-check-circle');
             return;
         }
 
-        // Render tasks
         sortedTasks.forEach((task, index) => {
             const taskElement = createTaskElement(task);
-            
+
             if (animate) {
                 taskElement.classList.add('task-showing');
             } else {
                 taskElement.style.animationDelay = `${index * 0.05}s`;
                 taskElement.classList.add('fade-in');
             }
-            
+
             elements.taskList.appendChild(taskElement);
         });
     }
@@ -434,6 +444,43 @@ const TodoModule = (() => {
     function setFilter(filter) {
         currentFilter = filter;
         renderTasks();
+    }
+
+    function getDueDateStatus(dueDate) {
+        if (!dueDate) return null;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const due = new Date(dueDate);
+        due.setHours(0, 0, 0, 0);
+
+        if (due < today) return 'overdue';
+        if (due.getTime() === today.getTime()) return 'today';
+        return 'upcoming';
+    }
+
+    function formatDueDate(dateString) {
+        if (!dateString) return '';
+
+        const date = new Date(dateString);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const due = new Date(date);
+        due.setHours(0, 0, 0, 0);
+
+        const diffTime = due - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return 'Due today';
+        if (diffDays === 1) return 'Due tomorrow';
+        if (diffDays === -1) return 'Due yesterday';
+        if (diffDays < 0) return `Overdue by ${Math.abs(diffDays)} days`;
+        if (diffDays <= 7) return `Due in ${diffDays} days`;
+
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        return `Due ${date.toLocaleDateString('en-US', options)}`;
     }
 
     function createTaskElement(task) {
@@ -457,14 +504,38 @@ const TodoModule = (() => {
         taskText.textContent = task.text;
 
         const metaDiv = DOM.createElement('div', ['task-meta']);
+
         const priorityBadge = DOM.createElement('span', ['task-priority', task.priority]);
         priorityBadge.textContent = task.priority;
 
         const timeSpan = DOM.createElement('span', ['task-time']);
-        timeSpan.innerHTML = `<i class="fas fa-clock me-1"></i>${DateUtils.formatDate(task.createdAt)}`;
+        timeSpan.innerHTML = `<i class="fas fa-clock"></i> ${DateUtils.formatDate(task.createdAt)}`;
 
         metaDiv.appendChild(priorityBadge);
         metaDiv.appendChild(timeSpan);
+
+        if (task.dueDate) {
+            const dueDateStatus = getDueDateStatus(task.dueDate);
+            const dueDateSpan = DOM.createElement('span', ['task-due-date']);
+
+            if (dueDateStatus) {
+                dueDateSpan.classList.add(dueDateStatus);
+            }
+
+            dueDateSpan.innerHTML = `
+                <i class="fas fa-calendar-alt"></i>
+                <span>${formatDueDate(task.dueDate)}</span>
+                <span class="due-date-tooltip">${new Date(task.dueDate).toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            })}</span>
+            `;
+
+            metaDiv.appendChild(dueDateSpan);
+        }
+
         contentDiv.appendChild(taskText);
         contentDiv.appendChild(metaDiv);
 
