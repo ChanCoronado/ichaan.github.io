@@ -123,7 +123,7 @@
                 <div class="overview-cards">
                     <div class="overview-card">
                         <div class="overview-header">
-                            <h3><i class="fas fa-sun me-2"></i>Today's Tasks</h3>
+                            <h3><i class="fas fa-sun me-2"></i>Tasks</h3>
                             <a href="#" class="view-all-link" onclick="switchToTab('tasks-tab'); return false;">View
                                 All</a>
                         </div>
@@ -176,13 +176,12 @@
                                     <option value="medium" selected>Medium</option>
                                     <option value="high">High</option>
                                 </select>
-
                                 <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="6 9 12 15 18 9"></polyline>
                                 </svg>
                             </div>
-
+                            <input type="date" class="task-date-input" id="taskDueDate" aria-label="Due date">
                             <button class="btn-primary-custom" type="submit" id="addTaskBtn">
                                 <i class="fas fa-plus me-2"></i>
                                 <span>Add</span>
@@ -210,12 +209,32 @@
                             </button>
                         </div>
 
-                        <div class="hide-completed-container">
-                            <label class="toggle-switch" title="Hide completed tasks from view">
-                                <input type="checkbox" id="hideCompletedToggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                            <span class="toggle-label">Hide completed</span>
+                        <div class="task-controls-group">
+                            <div class="select-wrapper">
+                                <select class="task-control-select" id="taskSort">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="name-asc">Name (A-Z)</option>
+                                    <option value="name-desc">Name (Z-A)</option>
+                                </select>
+                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+
+                            <div class="select-wrapper">
+                                <select class="task-control-select" id="taskPriorityFilter">
+                                    <option value="all">All Priorities</option>
+                                    <option value="high">High Priority</option>
+                                    <option value="medium">Medium Priority</option>
+                                    <option value="low">Low Priority</option>
+                                </select>
+                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
                         </div>
                     </div>
 
@@ -402,7 +421,6 @@
         </div>
     </div>
 
-    <!-- Add Class Modal - Redesigned -->
     <div class="modal fade custom-modal" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -520,7 +538,6 @@
         </div>
     </div>
 
-    <!-- Edit Task Modal - Redesigned -->
     <div class="modal fade custom-modal" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -533,7 +550,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="modal-icon" >
+                    <div class="modal-icon">
                         <i class="fas fa-edit"></i>
                     </div>
                     <div class="modal-message">
@@ -555,6 +572,10 @@
                                 <option value="high">High</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="editTaskDueDate" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="editTaskDueDate">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -568,7 +589,6 @@
         </div>
     </div>
 
-    <!-- Delete Confirm Modal -->
     <div class="modal fade delete-modal" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -608,7 +628,6 @@
         </div>
     </div>
 
-    <!-- Delete Transaction Modal -->
     <div class="modal fade delete-modal" id="deleteTransactionModal" tabindex="-1"
         aria-labelledby="deleteTransactionModalLabel" aria-hidden="true">
         <div class="modal-dialog">

@@ -104,7 +104,7 @@
         const container = document.getElementById('overviewTasks');
         if (!container) return;
 
-        const tasks = TodoModule.getTasks().filter(t => !t.completed).slice(0, 5);
+        const tasks = TodoModule.getTasks().filter(t => !t.completed).slice(0, Infinity);
         
         if (tasks.length === 0) {
             container.innerHTML = `
