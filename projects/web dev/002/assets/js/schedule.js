@@ -15,7 +15,7 @@ const ScheduleModule = (() => {
     const TIME_SLOTS = [
         '06:00', '07:00', '08:00', '09:00', '10:00', '11:00',
         '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
-        '18:00', '19:00', '20:00', '21:00', '22:00'
+        '18:00', '19:00', '20:00', '21:00', '22:00', '23:00' 
     ];
     
     const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -81,7 +81,7 @@ const ScheduleModule = (() => {
 
     function populateTimeSelects() {
         const timeOptions = [];
-        for (let hour = 6; hour <= 22; hour++) {
+        for (let hour = 6; hour <= 23; hour++) {
             ['00', '30'].forEach(minute => {
                 const time24 = `${String(hour).padStart(2, '0')}:${minute}`;
                 const time12 = formatTimeSlot(time24);
@@ -733,7 +733,7 @@ const ScheduleModule = (() => {
                 const duration = endMinutes - startMinutes;
                 
                 let newStartMinutes = startMinutes + (slots * 30);
-                newStartMinutes = Math.max(timeToMinutes('06:00'), Math.min(newStartMinutes, timeToMinutes('22:00') - duration));
+                newStartMinutes = Math.max(timeToMinutes('06:00'), Math.min(newStartMinutes, timeToMinutes('23:00') - duration));
                 
                 const newEndMinutes = newStartMinutes + duration;
 
@@ -765,7 +765,7 @@ const ScheduleModule = (() => {
                 let newEndMinutes = endMinutes + (slots * 30);
                 
                 const startMinutes = timeToMinutes(dragState.draggedClass.startTime);
-                newEndMinutes = Math.max(startMinutes + 30, Math.min(newEndMinutes, timeToMinutes('22:00')));
+                newEndMinutes = Math.max(startMinutes + 30, Math.min(newEndMinutes, timeToMinutes('23:00')));
                 
                 dragState.draggedClass.endTime = minutesToTime(newEndMinutes);
             }
@@ -966,7 +966,7 @@ const ScheduleModule = (() => {
         const hours = now.getHours();
         const minutes = now.getMinutes();
         
-        if (hours < 6 || hours >= 22) return;
+        if (hours < 6 || hours >= 23) return;
 
         const currentMinutes = hours * 60 + minutes;
         const gridStart = 6 * 60;
