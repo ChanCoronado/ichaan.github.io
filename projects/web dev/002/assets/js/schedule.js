@@ -33,6 +33,7 @@ const ScheduleModule = (() => {
     };
 
     let currentMobileDay = getCurrentDay();
+    let isTransitioning = false;
 
     function init() {
         console.log('=== ScheduleModule Initializing ===');
@@ -73,7 +74,6 @@ const ScheduleModule = (() => {
 
         populateTimeSelects();
         
-        // Set current day for mobile
         if (elements.currentDaySelector) {
             elements.currentDaySelector.value = currentMobileDay;
         }
@@ -117,7 +117,6 @@ const ScheduleModule = (() => {
             confirmDeleteBtn.addEventListener('click', handleConfirmDelete);
         }
 
-        // Color preset handlers
         const colorPresets = document.querySelectorAll('.color-preset');
         colorPresets.forEach(preset => {
             preset.addEventListener('click', (e) => {
@@ -133,39 +132,33 @@ const ScheduleModule = (() => {
             });
         });
 
-        // Mobile day selector
         if (elements.currentDaySelector) {
             elements.currentDaySelector.addEventListener('change', (e) => {
-                currentMobileDay = e.target.value;
-                renderMobileSchedule();
+                changeMobileDay(e.target.value);
             });
         }
 
-        // Mobile navigation buttons
         const prevDayBtn = document.getElementById('prevDayBtn');
         const nextDayBtn = document.getElementById('nextDayBtn');
 
         if (prevDayBtn) {
             prevDayBtn.addEventListener('click', () => {
+                if (isTransitioning) return;
                 const currentIndex = DAYS.indexOf(currentMobileDay);
                 const prevIndex = currentIndex === 0 ? DAYS.length - 1 : currentIndex - 1;
-                currentMobileDay = DAYS[prevIndex];
-                elements.currentDaySelector.value = currentMobileDay;
-                renderMobileSchedule();
+                changeMobileDay(DAYS[prevIndex], 'right');
             });
         }
 
         if (nextDayBtn) {
             nextDayBtn.addEventListener('click', () => {
+                if (isTransitioning) return;
                 const currentIndex = DAYS.indexOf(currentMobileDay);
                 const nextIndex = (currentIndex + 1) % DAYS.length;
-                currentMobileDay = DAYS[nextIndex];
-                elements.currentDaySelector.value = currentMobileDay;
-                renderMobileSchedule();
+                changeMobileDay(DAYS[nextIndex], 'left');
             });
         }
 
-        // Touch swipe for mobile
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -181,31 +174,70 @@ const ScheduleModule = (() => {
         }
 
         function handleSwipe() {
+            if (isTransitioning) return;
             const swipeThreshold = 50;
             const diff = touchStartX - touchEndX;
 
             if (Math.abs(diff) > swipeThreshold) {
+                const currentIndex = DAYS.indexOf(currentMobileDay);
                 if (diff > 0) {
-                    // Swipe left - next day
-                    const currentIndex = DAYS.indexOf(currentMobileDay);
                     const nextIndex = (currentIndex + 1) % DAYS.length;
-                    currentMobileDay = DAYS[nextIndex];
+                    changeMobileDay(DAYS[nextIndex], 'left');
                 } else {
-                    // Swipe right - previous day
-                    const currentIndex = DAYS.indexOf(currentMobileDay);
                     const prevIndex = currentIndex === 0 ? DAYS.length - 1 : currentIndex - 1;
-                    currentMobileDay = DAYS[prevIndex];
+                    changeMobileDay(DAYS[prevIndex], 'right');
                 }
-                elements.currentDaySelector.value = currentMobileDay;
-                renderMobileSchedule();
             }
         }
 
-        // Drag and drop handlers
         document.addEventListener('mousemove', handleDragMove);
         document.addEventListener('mouseup', handleDragEnd);
         document.addEventListener('touchmove', handleDragMove, { passive: false });
         document.addEventListener('touchend', handleDragEnd);
+    }
+
+    function changeMobileDay(newDay, direction = null) {
+        if (isTransitioning || currentMobileDay === newDay) return;
+        
+        isTransitioning = true;
+        const oldDay = currentMobileDay;
+        currentMobileDay = newDay;
+        
+        if (elements.currentDaySelector) {
+            elements.currentDaySelector.value = newDay;
+        }
+
+        if (direction && elements.mobileScheduleView) {
+            const grid = elements.mobileScheduleView.querySelector('.mobile-schedule-grid');
+            if (grid) {
+                grid.style.transition = 'none';
+                grid.style.opacity = '0';
+                grid.style.transform = direction === 'left' ? 'translateX(20px)' : 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    renderMobileSchedule();
+                    const newGrid = elements.mobileScheduleView.querySelector('.mobile-schedule-grid');
+                    if (newGrid) {
+                        setTimeout(() => {
+                            newGrid.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            newGrid.style.opacity = '1';
+                            newGrid.style.transform = 'translateX(0)';
+                            setTimeout(() => {
+                                isTransitioning = false;
+                            }, 300);
+                        }, 10);
+                    } else {
+                        isTransitioning = false;
+                    }
+                }, 10);
+            } else {
+                renderMobileSchedule();
+                isTransitioning = false;
+            }
+        } else {
+            renderMobileSchedule();
+            isTransitioning = false;
+        }
     }
 
     function loadClasses() {
@@ -446,17 +478,14 @@ const ScheduleModule = (() => {
         const gridContainer = document.createElement('div');
         gridContainer.className = 'schedule-grid-container';
         
-        // HEADER ROW with "Time" label
         const headerRow = document.createElement('div');
         headerRow.className = 'schedule-header-row';
         
-        // Time header cell
         const timeHeader = document.createElement('div');
         timeHeader.className = 'schedule-time-header';
         timeHeader.textContent = 'Time';
         headerRow.appendChild(timeHeader);
         
-        // Day headers
         DAYS.forEach((day, dayIndex) => {
             const dayHeader = document.createElement('div');
             dayHeader.className = 'schedule-day-header-cell';
@@ -471,7 +500,6 @@ const ScheduleModule = (() => {
         
         gridContainer.appendChild(headerRow);
         
-        // TIME COLUMN (Left side)
         const timeColumn = document.createElement('div');
         timeColumn.className = 'schedule-time-column';
         
@@ -485,7 +513,6 @@ const ScheduleModule = (() => {
         });
         gridContainer.appendChild(timeColumn);
 
-        // DAY COLUMNS (Monday to Sunday)
         DAYS.forEach((day, dayIndex) => {
             const dayColumn = document.createElement('div');
             dayColumn.className = 'schedule-day-column';
@@ -495,23 +522,19 @@ const ScheduleModule = (() => {
                 dayColumn.classList.add('today-column');
             }
 
-            // Time slots grid for this day
             const dayGrid = document.createElement('div');
             dayGrid.className = 'schedule-day-grid';
 
-            // Create clickable time slots
             for (let i = 0; i < TIME_SLOTS.length - 1; i++) {
                 const hourSlot = document.createElement('div');
                 hourSlot.className = 'schedule-hour-slot';
                 
-                // Top half (on the hour)
                 const topHalf = document.createElement('div');
                 topHalf.className = 'schedule-half-slot';
                 topHalf.dataset.day = day;
                 topHalf.dataset.time = TIME_SLOTS[i];
                 topHalf.addEventListener('click', () => openAddModalWithTime(day, TIME_SLOTS[i]));
                 
-                // Bottom half (30 minutes)
                 const bottomHalf = document.createElement('div');
                 bottomHalf.className = 'schedule-half-slot';
                 const [hours, minutes] = TIME_SLOTS[i].split(':');
@@ -525,7 +548,6 @@ const ScheduleModule = (() => {
                 dayGrid.appendChild(hourSlot);
             }
 
-            // Add classes for this day
             const dayClasses = classes.filter(c => c.day === day);
             const positioned = positionClasses(dayClasses);
 
@@ -544,7 +566,6 @@ const ScheduleModule = (() => {
     function positionClasses(dayClasses) {
         if (dayClasses.length === 0) return [];
 
-        // Sort by start time
         const sorted = [...dayClasses].sort((a, b) => {
             const aStart = timeToMinutes(a.startTime);
             const bStart = timeToMinutes(b.startTime);
@@ -558,7 +579,6 @@ const ScheduleModule = (() => {
             const start = timeToMinutes(classItem.startTime);
             const end = timeToMinutes(classItem.endTime);
 
-            // Find a column where this class doesn't overlap
             let columnIndex = columns.findIndex(col => {
                 return col.every(existing => {
                     const existingEnd = timeToMinutes(existing.endTime);
@@ -629,7 +649,6 @@ const ScheduleModule = (() => {
 
         block.appendChild(content);
 
-        // Action buttons
         const actions = document.createElement('div');
         actions.className = 'schedule-class-actions';
         
@@ -655,12 +674,10 @@ const ScheduleModule = (() => {
         actions.appendChild(deleteBtn);
         block.appendChild(actions);
 
-        // Resize handle
         const resizeHandle = document.createElement('div');
         resizeHandle.className = 'schedule-resize-handle';
         block.appendChild(resizeHandle);
 
-        // Drag and resize event listeners
         block.addEventListener('mousedown', (e) => handleDragStart(e, classItem));
         block.addEventListener('touchstart', (e) => handleDragStart(e, classItem), { passive: false });
         
@@ -741,7 +758,6 @@ const ScheduleModule = (() => {
                 dragState.draggedClass.endTime = minutesToTime(newEndMinutes);
             }
 
-            // Check if dragged to different day column
             const dayColumns = document.querySelectorAll('.schedule-day-column');
             dayColumns.forEach(col => {
                 const rect = col.getBoundingClientRect();
@@ -845,8 +861,23 @@ const ScheduleModule = (() => {
 
         const mobileGrid = document.createElement('div');
         mobileGrid.className = 'mobile-schedule-grid';
+        mobileGrid.style.position = 'relative';
 
-        // Create time slots for mobile
+        const occupiedSlots = new Set();
+
+        dayClasses.forEach(classItem => {
+            const startMinutes = timeToMinutes(classItem.startTime);
+            const endMinutes = timeToMinutes(classItem.endTime);
+            const gridStart = timeToMinutes('06:00');
+            
+            const startSlotIndex = Math.floor((startMinutes - gridStart) / 30);
+            const endSlotIndex = Math.ceil((endMinutes - gridStart) / 30);
+            
+            for (let i = startSlotIndex; i < endSlotIndex; i++) {
+                occupiedSlots.add(i);
+            }
+        });
+
         for (let i = 0; i < TIME_SLOTS.length - 1; i++) {
             const hourBlock = document.createElement('div');
             hourBlock.className = 'mobile-hour-block';
@@ -859,19 +890,32 @@ const ScheduleModule = (() => {
             const slotsContainer = document.createElement('div');
             slotsContainer.className = 'mobile-slots-container';
 
-            // Top slot (on the hour)
+            const topSlotIndex = i * 2;
+            const bottomSlotIndex = i * 2 + 1;
+
             const topSlot = document.createElement('div');
             topSlot.className = 'mobile-time-slot';
             topSlot.dataset.time = TIME_SLOTS[i];
-            topSlot.addEventListener('click', () => openAddModalWithTime(currentMobileDay, TIME_SLOTS[i]));
+            topSlot.dataset.slotIndex = topSlotIndex;
+            
+            if (!occupiedSlots.has(topSlotIndex)) {
+                topSlot.addEventListener('click', () => openAddModalWithTime(currentMobileDay, TIME_SLOTS[i]));
+            } else {
+                topSlot.classList.add('mobile-time-slot-occupied');
+            }
 
-            // Bottom slot (30 minutes)
             const [hours, minutes] = TIME_SLOTS[i].split(':');
             const halfHourTime = `${hours}:30`;
             const bottomSlot = document.createElement('div');
             bottomSlot.className = 'mobile-time-slot';
             bottomSlot.dataset.time = halfHourTime;
-            bottomSlot.addEventListener('click', () => openAddModalWithTime(currentMobileDay, halfHourTime));
+            bottomSlot.dataset.slotIndex = bottomSlotIndex;
+            
+            if (!occupiedSlots.has(bottomSlotIndex)) {
+                bottomSlot.addEventListener('click', () => openAddModalWithTime(currentMobileDay, halfHourTime));
+            } else {
+                bottomSlot.classList.add('mobile-time-slot-occupied');
+            }
 
             slotsContainer.appendChild(topSlot);
             slotsContainer.appendChild(bottomSlot);
@@ -880,55 +924,61 @@ const ScheduleModule = (() => {
             mobileGrid.appendChild(hourBlock);
         }
 
-        // Add classes to appropriate time slots
         dayClasses.forEach(classItem => {
-            const classBlock = createMobileClassBlock(classItem);
-            
             const startMinutes = timeToMinutes(classItem.startTime);
+            const endMinutes = timeToMinutes(classItem.endTime);
+            const duration = endMinutes - startMinutes;
             const gridStart = timeToMinutes('06:00');
-            const slotIndex = Math.floor((startMinutes - gridStart) / 30);
             
-            const hourBlock = mobileGrid.children[Math.floor(slotIndex / 2)];
-            if (hourBlock) {
-                const slotsContainer = hourBlock.querySelector('.mobile-slots-container');
-                if (slotsContainer) {
-                    const targetSlot = slotsContainer.children[slotIndex % 2];
-                    if (targetSlot) {
-                        targetSlot.innerHTML = '';
-                        targetSlot.appendChild(classBlock);
-                    }
-                }
-            }
+            const startSlotIndex = Math.floor((startMinutes - gridStart) / 30);
+            const numSlots = Math.ceil(duration / 30);
+            
+            const classBlock = createMobileClassBlock(classItem, duration);
+            classBlock.style.position = 'absolute';
+            classBlock.style.left = '96px';
+            classBlock.style.right = '1rem';
+            classBlock.style.top = `${startSlotIndex * 65 + (Math.floor(startSlotIndex / 2) * 10)}px`;
+            classBlock.style.zIndex = '10';
+            
+            mobileGrid.appendChild(classBlock);
         });
 
         elements.mobileScheduleView.appendChild(mobileGrid);
+
+        const now = new Date();
+        const currentHour = now.getHours();
+        if (getCurrentDay() === currentMobileDay && currentHour >= 6 && currentHour < 23) {
+            setTimeout(() => {
+                const currentHourIndex = currentHour - 6;
+                const hourBlocks = mobileGrid.querySelectorAll('.mobile-hour-block');
+                if (hourBlocks[currentHourIndex]) {
+                    hourBlocks[currentHourIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
     }
 
-    function createMobileClassBlock(classItem) {
+    function createMobileClassBlock(classItem, duration) {
         const block = document.createElement('div');
         block.className = 'mobile-class-block';
         block.style.backgroundColor = classItem.color;
+        block.dataset.classId = classItem.id;
         
-        const duration = timeToMinutes(classItem.endTime) - timeToMinutes(classItem.startTime);
-        const height = (duration / 30) * 60;
-        block.style.minHeight = `${Math.max(height, 60)}px`;
+        const heightPerHalfHour = 60;
+        const halfHourCount = duration / 30;
+        const calculatedHeight = halfHourCount * heightPerHalfHour;
+        const minHeight = 80;
+        const finalHeight = Math.max(calculatedHeight, minHeight);
+        
+        block.style.minHeight = `${finalHeight}px`;
+
+        const header = document.createElement('div');
+        header.className = 'mobile-class-header';
 
         const title = document.createElement('div');
         title.className = 'mobile-class-title';
         title.textContent = classItem.name;
-        block.appendChild(title);
-
-        const time = document.createElement('div');
-        time.className = 'mobile-class-time';
-        time.textContent = `${formatTimeSlot(classItem.startTime)} - ${formatTimeSlot(classItem.endTime)}`;
-        block.appendChild(time);
-
-        if (classItem.room) {
-            const room = document.createElement('div');
-            room.className = 'mobile-class-room';
-            room.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${classItem.room}`;
-            block.appendChild(room);
-        }
+        header.appendChild(title);
 
         const actions = document.createElement('div');
         actions.className = 'mobile-class-actions';
@@ -936,16 +986,52 @@ const ScheduleModule = (() => {
         const editBtn = document.createElement('button');
         editBtn.className = 'mobile-class-action-btn';
         editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-        editBtn.addEventListener('click', () => openEditModal(classItem.id));
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEditModal(classItem.id);
+        });
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'mobile-class-action-btn delete';
         deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-        deleteBtn.addEventListener('click', () => openDeleteModal(classItem.id));
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openDeleteModal(classItem.id);
+        });
 
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
-        block.appendChild(actions);
+        header.appendChild(actions);
+
+        block.appendChild(header);
+
+        const body = document.createElement('div');
+        body.className = 'mobile-class-body';
+
+        const time = document.createElement('div');
+        time.className = 'mobile-class-time';
+        time.innerHTML = `<i class="fas fa-clock"></i> ${formatTimeSlot(classItem.startTime)} - ${formatTimeSlot(classItem.endTime)}`;
+        body.appendChild(time);
+
+        if (classItem.room) {
+            const room = document.createElement('div');
+            room.className = 'mobile-class-room';
+            room.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${classItem.room}`;
+            body.appendChild(room);
+        }
+
+        const durationHours = Math.floor(duration / 60);
+        const durationMins = duration % 60;
+        let durationText = '';
+        if (durationHours > 0) durationText += `${durationHours}h `;
+        if (durationMins > 0) durationText += `${durationMins}m`;
+        
+        const durationLabel = document.createElement('div');
+        durationLabel.className = 'mobile-class-duration';
+        durationLabel.innerHTML = `<i class="fas fa-hourglass-half"></i> ${durationText.trim()}`;
+        body.appendChild(durationLabel);
+
+        block.appendChild(body);
 
         return block;
     }
