@@ -1,19 +1,15 @@
-//  ENHANCED THEME TOGGLE WITH SMOOTH ANIMATIONS
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon = document.querySelector('.theme-icon');
 const body = document.body;
 
-// Check for saved theme preference or default to 'dark'
 const currentTheme = localStorage.getItem('theme') || 'dark';
 
-// Apply the saved theme on page load
 if (currentTheme === 'light') {
     body.classList.add('light-mode');
     themeIcon.classList.remove('bx-sun');
     themeIcon.classList.add('bx-moon');
 }
 
-// Enhanced theme toggle with rotation animation AND canvas redraw
 themeToggle.addEventListener('click', () => {
     themeToggle.classList.add('rotating');
     
@@ -24,13 +20,13 @@ themeToggle.addEventListener('click', () => {
         themeIcon.classList.add('bx-moon');
         localStorage.setItem('theme', 'light');
         updateCanvasColors('light');
-        clearAndRedrawCanvas();  // ✅ Force redraw
+        clearAndRedrawCanvas(); 
     } else {
         themeIcon.classList.remove('bx-moon');
         themeIcon.classList.add('bx-sun');
         localStorage.setItem('theme', 'dark');
         updateCanvasColors('dark');
-        clearAndRedrawCanvas();  // ✅ Force redraw
+        clearAndRedrawCanvas();  
     }
     
     setTimeout(() => {
@@ -38,7 +34,6 @@ themeToggle.addEventListener('click', () => {
     }, 600);
 });
 
-//  ANIMATED GRID BACKGROUND WITH THEME-AWARE COLORS
 const gridCanvas = document.getElementById('gridCanvas');
 const gridCtx = gridCanvas.getContext('2d');
 
@@ -59,19 +54,18 @@ let gridColor = 'rgba(0, 255, 159, 0.08)';
 
 function updateCanvasColors(theme) {
     if (theme === 'light') {
-        // PUP Gold for light mode - MORE VISIBLE
+    
         gridColor = 'rgba(184, 134, 11, 0.15)';
         fallingTextColor = 'rgba(184, 134, 11, 0.25)';
         console.log('✅ Light mode colors set');
     } else {
-        // Green for dark mode
+      
         gridColor = 'rgba(0, 255, 159, 0.08)';
         fallingTextColor = 'rgba(0, 255, 159, 0.15)';
         console.log('✅ Dark mode colors set');
     }
 }
 
-// ✅ NEW FUNCTION - Clear and force redraw
 function clearAndRedrawCanvas() {
     gridCtx.clearRect(0, 0, gridWidth, gridHeight);
     fallingCtx.clearRect(0, 0, fallingWidth, fallingHeight);
@@ -100,7 +94,6 @@ function drawGrid() {
         gridCtx.stroke();
     }
 
-    // Slower movement in light mode for elegance
     const speed = body.classList.contains('light-mode') ? 0.1 : 0.15;
     gridOffset.x += speed;
     gridOffset.y += speed;
@@ -110,7 +103,6 @@ function drawGrid() {
 
 drawGrid();
 
-//  FALLING TEXT BACKGROUND WITH THEME-AWARE BEHAVIOR
 const fallingCanvas = document.getElementById('fallingTextCanvas');
 const fallingCtx = fallingCanvas.getContext('2d');
 
@@ -153,7 +145,6 @@ let fallingAnimationFrame;
 function drawFallingText() {
     const isLightMode = body.classList.contains('light-mode');
     
-    // FIXED: Stronger fade effect for light mode
     const bgColor = isLightMode 
         ? 'rgba(255, 255, 255, 0.08)' 
         : 'rgba(0, 0, 0, 0.05)';
@@ -166,7 +157,6 @@ function drawFallingText() {
     drops.forEach((drop, i) => {
         const x = i * 20;
         
-        // ✅ MORE VISIBLE opacity for light mode
         const baseOpacity = isLightMode ? 0.25 : 0.15;
         
         const color = isLightMode 
@@ -176,7 +166,6 @@ function drawFallingText() {
         fallingCtx.fillStyle = color;
         fallingCtx.fillText(drop.text, x, drop.y);
 
-        // Slower speed in light mode
         const speedMultiplier = isLightMode ? 0.8 : 1;
         drop.y += drop.speed * speedMultiplier;
 
@@ -193,12 +182,8 @@ function drawFallingText() {
 
 drawFallingText();
 
-// Initialize canvas colors based on current theme
 updateCanvasColors(currentTheme);
 
-// ============================================================
-// ENHANCED MOBILE MENU WITH PREMIUM INTERACTIONS
-// ============================================================
 
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -208,7 +193,6 @@ const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.section');
 const barsBox = document.querySelector('.bars-box');
 
-// Prevent body scroll when menu is open
 function lockScroll() {
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
@@ -225,13 +209,11 @@ function unlockScroll() {
     window.scrollTo(0, parseInt(scrollY || '0') * -1);
 }
 
-// Enhanced open mobile menu with haptic feedback simulation
 if (menuToggle) {
     menuToggle.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         
-        // Add vibration for supported devices
         if (navigator.vibrate) {
             navigator.vibrate(10);
         }
@@ -244,7 +226,6 @@ if (menuToggle) {
     });
 }
 
-// Enhanced close mobile menu with smooth exit
 function closeMobileMenu() {
     if (navigator.vibrate) {
         navigator.vibrate(10);
@@ -257,7 +238,6 @@ function closeMobileMenu() {
         mobileMenu.classList.remove('active');
     }
     
-    // Smooth unlock with slight delay
     setTimeout(() => {
         unlockScroll();
     }, 100);
@@ -271,7 +251,6 @@ if (mobileClose) {
     });
 }
 
-// Close on background tap
 if (mobileMenu) {
     mobileMenu.addEventListener('click', (e) => {
         if (e.target === mobileMenu || e.target.classList.contains('mobile-menu-bg')) {
@@ -280,21 +259,18 @@ if (mobileMenu) {
     });
 }
 
-// Close on ESC key with smooth transition
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
         closeMobileMenu();
     }
 });
 
-// Enhanced mobile nav link clicks with smooth transitions
 mobileNavLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         
         if (isTransitioning) return;
         
-        // Haptic feedback
         if (navigator.vibrate) {
             navigator.vibrate(15);
         }
@@ -303,7 +279,7 @@ mobileNavLinks.forEach((link) => {
         const targetSection = document.getElementById(sectionId);
         
         if (targetSection) {
-            // Update active states for both desktop and mobile nav
+            
             navLinks.forEach(l => l.classList.remove('active'));
             mobileNavLinks.forEach(l => l.classList.remove('active'));
             
@@ -313,10 +289,8 @@ mobileNavLinks.forEach((link) => {
             }
             link.classList.add('active');
             
-            // Close menu first, then navigate
             closeMobileMenu();
             
-            // Smooth delay before section switch
             setTimeout(() => {
                 switchSection(targetSection);
                 history.pushState(null, null, `#${sectionId}`);
@@ -324,7 +298,7 @@ mobileNavLinks.forEach((link) => {
         }
     });
     
-    // Add touch feedback
+   
     link.addEventListener('touchstart', () => {
         link.style.transition = 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1)';
     });
@@ -334,13 +308,12 @@ mobileNavLinks.forEach((link) => {
     });
 });
 
-// Add smooth press effect to mobile nav links
 mobileNavLinks.forEach((link) => {
     let pressTimer;
     
     link.addEventListener('touchstart', (e) => {
         pressTimer = setTimeout(() => {
-            // Long press effect (optional - can be used for future features)
+            
         }, 500);
     });
     
@@ -353,7 +326,6 @@ mobileNavLinks.forEach((link) => {
     });
 });
 
-//  SMART SCROLL DETECTION
 function checkSectionOverflow() {
     sections.forEach(section => {
         const sectionInner = section.querySelector('.section-inner');
@@ -372,7 +344,6 @@ function checkSectionOverflow() {
 window.addEventListener('load', checkSectionOverflow);
 window.addEventListener('resize', debounce(checkSectionOverflow, 250));
 
-//  IMPROVED SECTION SWITCHING WITH THEME-AWARE ANIMATIONS
 let isTransitioning = false;
 
 function switchSection(targetSection) {
@@ -383,7 +354,6 @@ function switchSection(targetSection) {
 
     isTransitioning = true;
 
-    // Close mobile menu if open
     closeMobileMenu();
 
     if (currentSection) {
@@ -415,7 +385,6 @@ function switchSection(targetSection) {
     }, 1200);
 }
 
-// Navigation link handlers
 navLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -436,7 +405,6 @@ navLinks.forEach((link) => {
     });
 });
 
-// Logo click 
 const logo = document.querySelector('.logo');
 if (logo) {
     logo.addEventListener('click', (e) => {
@@ -452,7 +420,6 @@ if (logo) {
     });
 }
 
-// Handle hash navigation on page load
 window.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash.substring(1) || 'home';
     const targetSection = document.getElementById(hash);
@@ -484,9 +451,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     checkSectionOverflow();
     initAnimatedText();
+    
+    initScrollAnimations();
+    initSkillBars();
+    initEnhancements();
 });
 
-// Handle browser back/forward buttons
 window.addEventListener('popstate', () => {
     if (isTransitioning) return;
     
@@ -504,7 +474,6 @@ window.addEventListener('popstate', () => {
     }
 });
 
-//  FIXED ANIMATED TEXT - PERFECTLY CENTERED
 function initAnimatedText() {
     const containers = document.querySelectorAll('.animated-text-container');
     
@@ -513,32 +482,29 @@ function initAnimatedText() {
         
         if (textItems.length === 0) return;
         
-        // Find the longest text
         let maxWidth = 0;
         textItems.forEach(item => {
-            // Temporarily make visible to measure
+            
             item.style.opacity = '1';
             item.style.position = 'static';
             const width = item.offsetWidth;
             if (width > maxWidth) {
                 maxWidth = width;
             }
-            // Reset
+            
             item.style.opacity = '';
             item.style.position = 'absolute';
         });
         
-        // Set fixed width to prevent shifting
+        
         if (maxWidth > 0) {
             container.style.minWidth = `${maxWidth + 5}px`;
         }
     });
 }
 
-// Re-initialize on resize
 window.addEventListener('resize', debounce(initAnimatedText, 250));
-
-//  PROFILE IMAGE HOVER EFFECT (MOBILE TAP SUPPORT) 
+ 
 const imageContainer = document.querySelector('.image-container');
 
 if (imageContainer) {
@@ -577,7 +543,6 @@ if (aboutImageWrapper) {
     }
 }
 
-//  PROJECT CAROUSEL 
 const carouselTrack = document.querySelector('.carousel-track');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
@@ -644,7 +609,6 @@ document.addEventListener('keydown', (e) => {
 
 updateCarousel();
 
-//  CONTACT FORM 
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
@@ -659,8 +623,7 @@ if (contactForm) {
         contactForm.reset();
     });
 }
-
-//  SMOOTH SCROLL ANIMATIONS 
+ 
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -698,13 +661,110 @@ navLinks.forEach(link => {
     });
 });
 
-//  PERFORMANCE OPTIMIZATIONS
+function initScrollAnimations() {
+    const aboutObserverOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const aboutObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('aos-animate');
+                
+                if (entry.target.classList.contains('skill-category')) {
+                    animateSkillBars(entry.target);
+                }
+            }
+        });
+    }, aboutObserverOptions);
+
+    const animatedElements = document.querySelectorAll(
+        '[data-aos], .skill-category, .interest-card, .goal-card, .achievement-card, .funfact-item'
+    );
+
+    animatedElements.forEach(el => aboutObserver.observe(el));
+}
+
+function animateSkillBars(skillCategory) {
+    const progressBars = skillCategory.querySelectorAll('.skill-progress');
+    
+    progressBars.forEach((bar, index) => {
+        const progress = bar.getAttribute('data-progress');
+        
+        setTimeout(() => {
+            bar.style.setProperty('--progress-width', progress + '%');
+            bar.style.width = progress + '%';
+        }, index * 100);
+    });
+}
+
+function initSkillBars() {
+    const skillCategories = document.querySelectorAll('.skill-category');
+    
+    skillCategories.forEach(category => {
+        const progressBars = category.querySelectorAll('.skill-progress');
+        progressBars.forEach(bar => {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.setProperty('--progress-width', progress + '%');
+        });
+    });
+}
+
+function staggerToolTags() {
+    const toolTagContainers = document.querySelectorAll('.tool-tags');
+    
+    const tagObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const tags = entry.target.querySelectorAll('.tool-tag');
+                tags.forEach((tag, index) => {
+                    setTimeout(() => {
+                        tag.style.animation = `popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards`;
+                    }, index * 100);
+                });
+                tagObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    toolTagContainers.forEach(container => tagObserver.observe(container));
+}
+
+function addHoverSounds() {
+    const cards = document.querySelectorAll(
+        '.skill-category, .interest-card, .goal-card, .achievement-card, .funfact-item'
+    );
+    
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            
+            card.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    });
+}
+
+function initEnhancements() {
+    staggerToolTags();
+    addHoverSounds();
+}
+
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
         resizeGrid();
         resizeFalling();
+        
+       
+        const animatedElements = document.querySelectorAll('.aos-animate');
+        animatedElements.forEach(el => {
+            
+            el.style.animation = 'none';
+            setTimeout(() => {
+                el.style.animation = '';
+            }, 10);
+        });
     }, 150);
 });
 
@@ -724,9 +784,18 @@ if (prefersReducedMotion.matches) {
     if (gridAnimationFrame) cancelAnimationFrame(gridAnimationFrame);
     if (fallingAnimationFrame) cancelAnimationFrame(fallingAnimationFrame);
     gridOffset = { x: 0, y: 0 };
+    
+    const style = document.createElement('style');
+    style.textContent = `
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
-//  ACCESSIBILITY ENHANCEMENTS 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Tab') {
         document.body.classList.add('keyboard-nav');
@@ -737,7 +806,6 @@ document.addEventListener('mousedown', () => {
     document.body.classList.remove('keyboard-nav');
 });
 
-//  UTILITY FUNCTIONS 
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
