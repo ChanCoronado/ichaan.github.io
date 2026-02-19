@@ -1832,6 +1832,7 @@ body.dark-mode .form-select option {
 
 .form-control:focus,
 .form-select:focus {
+    color: var(--text-primary);
     outline: none;
     border-color: var(--pup-maroon);
     box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.1);
