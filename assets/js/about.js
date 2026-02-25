@@ -1,7 +1,7 @@
 function initAboutSection() {
     initAboutImageTouch();
     initLightbox();
-    initAchievementModals();
+    initAchievementLightbox();
     initAboutInViewAnimations();
     initFlipCards();
     initCounters();
@@ -47,18 +47,18 @@ function initLightbox() {
     const overlay = document.getElementById('lightboxOverlay');
     if (!overlay) return;
 
-    const lightboxImg = overlay.querySelector('.lightbox-img');
+    const lightboxImg   = overlay.querySelector('.lightbox-img');
     const lightboxTitle = overlay.querySelector('.lightbox-caption h4');
-    const lightboxDesc = overlay.querySelector('.lightbox-caption p');
-    const closeBtn = overlay.querySelector('.lightbox-close');
-    const prevBtn = overlay.querySelector('.lightbox-prev');
-    const nextBtn = overlay.querySelector('.lightbox-next');
+    const lightboxDesc  = overlay.querySelector('.lightbox-caption p');
+    const closeBtn      = overlay.querySelector('.lightbox-close');
+    const prevBtn       = overlay.querySelector('.lightbox-prev');
+    const nextBtn       = overlay.querySelector('.lightbox-next');
 
     const galleryItems = document.querySelectorAll('.hobby-gallery-item');
     lightboxItems = Array.from(galleryItems).map(item => ({
-        src: item.getAttribute('data-src'),
+        src:   item.getAttribute('data-src'),
         title: item.getAttribute('data-title'),
-        desc: item.getAttribute('data-desc')
+        desc:  item.getAttribute('data-desc')
     }));
 
     galleryItems.forEach((item, index) => {
@@ -80,10 +80,10 @@ function initLightbox() {
     function updateLightboxContent() {
         const item = lightboxItems[lightboxCurrentIndex];
         if (!item) return;
-        lightboxImg.src = item.src;
-        lightboxImg.alt = item.title;
+        lightboxImg.src     = item.src;
+        lightboxImg.alt     = item.title;
         if (lightboxTitle) lightboxTitle.textContent = item.title;
-        if (lightboxDesc) lightboxDesc.textContent = item.desc;
+        if (lightboxDesc)  lightboxDesc.textContent  = item.desc;
         if (prevBtn) prevBtn.style.display = lightboxCurrentIndex === 0 ? 'none' : 'flex';
         if (nextBtn) nextBtn.style.display = lightboxCurrentIndex === lightboxItems.length - 1 ? 'none' : 'flex';
     }
@@ -126,65 +126,169 @@ function initLightbox() {
     });
 }
 
-function initAchievementModals() {
-    const overlay = document.getElementById('achievementModalOverlay');
-    if (!overlay) return;
-
-    const modalImg = overlay.querySelector('.achievement-modal-img');
-    const modalImgPlaceholder = overlay.querySelector('.achievement-modal-img-placeholder');
-    const modalIcon = overlay.querySelector('.achievement-modal-icon i');
-    const modalTitle = overlay.querySelector('.achievement-modal-title');
-    const modalDate = overlay.querySelector('.achievement-modal-date');
-    const modalDesc = overlay.querySelector('.achievement-modal-desc');
-    const closeBtn = overlay.querySelector('.achievement-modal-close');
-
+function initAchievementLightbox() {
     const cards = document.querySelectorAll('.achievement-card');
+    if (!cards.length) return;
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const imgSrc = card.getAttribute('data-img');
-            const iconClass = card.getAttribute('data-icon');
-            const title = card.getAttribute('data-title');
-            const date = card.getAttribute('data-date');
-            const desc = card.getAttribute('data-desc');
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay achievement-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.innerHTML = `
+        <button class="lightbox-nav-btn lightbox-prev" aria-label="Previous image">
+            <i class='bx bx-chevron-left'></i>
+        </button>
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close gallery">
+                <i class='bx bx-x'></i>
+            </button>
+            <div class="achievement-lightbox-header">
+                <div class="achievement-lightbox-icon">
+                    <i id="lb-icon" class="bx bxs-trophy"></i>
+                </div>
+                <div class="achievement-lightbox-meta">
+                    <div class="achievement-lightbox-title" id="lb-title"></div>
+                    <div class="achievement-lightbox-date" id="lb-date"></div>
+                </div>
+            </div>
+            <p class="achievement-lightbox-desc" id="lb-desc"></p>
+            <img class="lightbox-img" id="lb-img" src="" alt="" />
+            <div class="lightbox-dots" id="lb-dots"></div>
+            <div class="lightbox-counter" id="lb-counter"></div>
+            <div class="lightbox-thumbs" id="lb-thumbs"></div>
+        </div>
+        <button class="lightbox-nav-btn lightbox-next" aria-label="Next image">
+            <i class='bx bx-chevron-right'></i>
+        </button>
+    `;
+    document.body.appendChild(overlay);
 
-            if (modalIcon) modalIcon.className = iconClass || 'bx bxs-trophy';
-            if (modalTitle) modalTitle.textContent = title || '';
-            if (modalDate) modalDate.textContent = date || '';
-            if (modalDesc) modalDesc.textContent = desc || '';
+    const lbImg     = overlay.querySelector('#lb-img');
+    const lbIcon    = overlay.querySelector('#lb-icon');
+    const lbTitle   = overlay.querySelector('#lb-title');
+    const lbDate    = overlay.querySelector('#lb-date');
+    const lbDesc    = overlay.querySelector('#lb-desc');
+    const lbDots    = overlay.querySelector('#lb-dots');
+    const lbCounter = overlay.querySelector('#lb-counter');
+    const lbThumbs  = overlay.querySelector('#lb-thumbs');
+    const btnClose  = overlay.querySelector('.lightbox-close');
+    const btnPrev   = overlay.querySelector('.lightbox-prev');
+    const btnNext   = overlay.querySelector('.lightbox-next');
 
-            if (imgSrc && modalImg) {
-                modalImg.src = imgSrc;
-                modalImg.style.display = 'block';
-                if (modalImgPlaceholder) modalImgPlaceholder.style.display = 'none';
-            } else {
-                if (modalImg) modalImg.style.display = 'none';
-                if (modalImgPlaceholder) {
-                    modalImgPlaceholder.style.display = 'flex';
-                    const placeholderIcon = modalImgPlaceholder.querySelector('i');
-                    if (placeholderIcon) placeholderIcon.className = iconClass || 'bx bxs-trophy';
-                }
-            }
+    let images  = [];
+    let current = 0;
 
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
+    function showImage(index) {
+        current = (index + images.length) % images.length;
+
+        const src = images[current];
+        if (src) {
+            lbImg.src = src;
+            lbImg.alt = lbTitle.textContent + ' — photo ' + (current + 1);
+            lbImg.style.display = 'block';
+        } else {
+            lbImg.style.display = 'none';
+        }
+
+        lbDots.querySelectorAll('.lightbox-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === current);
         });
-    });
 
-    function closeModal() {
+        lbCounter.textContent = images.length > 1 ? (current + 1) + ' / ' + images.length : '';
+
+        lbThumbs.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
+            t.classList.toggle('active', i === current);
+        });
+
+        const showNav = images.length > 1;
+        btnPrev.style.display = showNav ? '' : 'none';
+        btnNext.style.display = showNav ? '' : 'none';
+    }
+
+    function buildStrip() {
+        lbDots.innerHTML   = '';
+        lbThumbs.innerHTML = '';
+
+        images.forEach((src, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'lightbox-dot';
+            dot.setAttribute('aria-label', 'Go to image ' + (i + 1));
+            dot.addEventListener('click', () => showImage(i));
+            lbDots.appendChild(dot);
+
+            const thumb = document.createElement('div');
+            thumb.className = 'lightbox-thumb';
+            if (src) {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Thumbnail ' + (i + 1);
+                thumb.appendChild(img);
+            } else {
+                thumb.innerHTML = `<div class="lightbox-thumb-placeholder"><i class='bx bxs-image'></i></div>`;
+            }
+            thumb.addEventListener('click', () => showImage(i));
+            lbThumbs.appendChild(thumb);
+        });
+    }
+
+    function openLightbox(card) {
+        const rawImgs = (card.dataset.imgs || '').trim();
+        images = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [''];
+
+        lbIcon.className    = card.dataset.icon  || 'bx bxs-trophy';
+        lbTitle.textContent = card.dataset.title || '';
+        lbDate.textContent  = card.dataset.date  || '';
+        lbDesc.textContent  = card.dataset.desc  || '';
+
+        buildStrip();
+        showImage(0);
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        btnClose.focus();
+    }
+
+    function closeLightbox() {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    cards.forEach(card => {
+        const rawImgs = (card.dataset.imgs || '').trim();
+        const imgList = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
 
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeModal();
+        if (imgList.length > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'achievement-img-badge';
+            badge.innerHTML = `<i class='bx bx-images'></i> ${imgList.length}`;
+            card.appendChild(badge);
+        }
+
+        card.addEventListener('click', () => openLightbox(card));
     });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+    btnClose.addEventListener('click', closeLightbox);
+    btnPrev.addEventListener('click', () => showImage(current - 1));
+    btnNext.addEventListener('click', () => showImage(current + 1));
+
+    overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeLightbox();
     });
+
+    document.addEventListener('keydown', e => {
+        if (!overlay.classList.contains('active')) return;
+        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'ArrowLeft')  showImage(current - 1);
+        if (e.key === 'ArrowRight') showImage(current + 1);
+    });
+
+    let touchStartX = 0;
+    overlay.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    overlay.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(dx) > 50) showImage(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
 }
 
 function initAboutInViewAnimations() {
@@ -245,16 +349,16 @@ function initCounters() {
     const counterNumbers = document.querySelectorAll('.counter-number[data-target]');
 
     function animateCounter(el) {
-        const target = parseInt(el.getAttribute('data-target'));
-        const suffix = el.getAttribute('data-suffix') || '';
-        const duration = 1800;
+        const target    = parseInt(el.getAttribute('data-target'));
+        const suffix    = el.getAttribute('data-suffix') || '';
+        const duration  = 1800;
         const startTime = performance.now();
 
         function update(currentTime) {
-            const elapsed = currentTime - startTime;
+            const elapsed  = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.floor(eased * target);
+            const eased    = 1 - Math.pow(1 - progress, 3);
+            const current  = Math.floor(eased * target);
             el.textContent = current + suffix;
             if (progress < 1) {
                 requestAnimationFrame(update);
