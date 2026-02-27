@@ -1,6 +1,6 @@
 function initAboutSection() {
     initAboutImageTouch();
-    initLightbox();
+    initHobbyLightbox();
     initAchievementLightbox();
     initAboutInViewAnimations();
     initFlipCards();
@@ -40,96 +40,37 @@ function initScrollIndicator() {
     });
 }
 
-let lightboxItems = [];
-let lightboxCurrentIndex = 0;
-
-function initLightbox() {
-    const overlay = document.getElementById('lightboxOverlay');
-    if (!overlay) return;
-
-    const lightboxImg   = overlay.querySelector('.lightbox-img');
-    const lightboxTitle = overlay.querySelector('.lightbox-caption h4');
-    const lightboxDesc  = overlay.querySelector('.lightbox-caption p');
-    const closeBtn      = overlay.querySelector('.lightbox-close');
-    const prevBtn       = overlay.querySelector('.lightbox-prev');
-    const nextBtn       = overlay.querySelector('.lightbox-next');
-
-    const galleryItems = document.querySelectorAll('.hobby-gallery-item');
-    lightboxItems = Array.from(galleryItems).map(item => ({
-        src:   item.getAttribute('data-src'),
-        title: item.getAttribute('data-title'),
-        desc:  item.getAttribute('data-desc')
-    }));
-
-    galleryItems.forEach((item, index) => {
-        item.addEventListener('click', () => openLightbox(index));
-    });
-
-    function openLightbox(index) {
-        lightboxCurrentIndex = index;
-        updateLightboxContent();
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    function updateLightboxContent() {
-        const item = lightboxItems[lightboxCurrentIndex];
-        if (!item) return;
-        lightboxImg.src     = item.src;
-        lightboxImg.alt     = item.title;
-        if (lightboxTitle) lightboxTitle.textContent = item.title;
-        if (lightboxDesc)  lightboxDesc.textContent  = item.desc;
-        if (prevBtn) prevBtn.style.display = lightboxCurrentIndex === 0 ? 'none' : 'flex';
-        if (nextBtn) nextBtn.style.display = lightboxCurrentIndex === lightboxItems.length - 1 ? 'none' : 'flex';
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeLightbox();
-    });
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (lightboxCurrentIndex > 0) {
-                lightboxCurrentIndex--;
-                updateLightboxContent();
-            }
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (lightboxCurrentIndex < lightboxItems.length - 1) {
-                lightboxCurrentIndex++;
-                updateLightboxContent();
-            }
-        });
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (!overlay.classList.contains('active')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft' && lightboxCurrentIndex > 0) {
-            lightboxCurrentIndex--;
-            updateLightboxContent();
-        }
-        if (e.key === 'ArrowRight' && lightboxCurrentIndex < lightboxItems.length - 1) {
-            lightboxCurrentIndex++;
-            updateLightboxContent();
-        }
-    });
+function createLightboxOverlay() {
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.innerHTML = `
+        <button class="lightbox-nav-btn lightbox-prev" aria-label="Previous image">
+            <i class='bx bx-chevron-left'></i>
+        </button>
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close gallery">
+                <i class='bx bx-x'></i>
+            </button>
+            <img class="lightbox-img" id="lb-img" src="" alt="" />
+            <div class="lightbox-dots" id="lb-dots"></div>
+            <div class="lightbox-counter" id="lb-counter"></div>
+            <div class="lightbox-thumbs" id="lb-thumbs"></div>
+            <div class="lightbox-caption">
+                <h4 id="lb-title"></h4>
+                <p id="lb-desc"></p>
+            </div>
+        </div>
+        <button class="lightbox-nav-btn lightbox-next" aria-label="Next image">
+            <i class='bx bx-chevron-right'></i>
+        </button>
+    `;
+    document.body.appendChild(overlay);
+    return overlay;
 }
 
-function initAchievementLightbox() {
-    const cards = document.querySelectorAll('.achievement-card');
-    if (!cards.length) return;
-
+function createAchievementLightboxOverlay() {
     const overlay = document.createElement('div');
     overlay.className = 'lightbox-overlay achievement-lightbox';
     overlay.setAttribute('role', 'dialog');
@@ -162,11 +103,12 @@ function initAchievementLightbox() {
         </button>
     `;
     document.body.appendChild(overlay);
+    return overlay;
+}
 
+function initLightboxCore(overlay) {
     const lbImg     = overlay.querySelector('#lb-img');
-    const lbIcon    = overlay.querySelector('#lb-icon');
     const lbTitle   = overlay.querySelector('#lb-title');
-    const lbDate    = overlay.querySelector('#lb-date');
     const lbDesc    = overlay.querySelector('#lb-desc');
     const lbDots    = overlay.querySelector('#lb-dots');
     const lbCounter = overlay.querySelector('#lb-counter');
@@ -184,7 +126,7 @@ function initAchievementLightbox() {
         const src = images[current];
         if (src) {
             lbImg.src = src;
-            lbImg.alt = lbTitle.textContent + ' — photo ' + (current + 1);
+            lbImg.alt = (lbTitle ? lbTitle.textContent : '') + ' — photo ' + (current + 1);
             lbImg.style.display = 'block';
         } else {
             lbImg.style.display = 'none';
@@ -231,14 +173,11 @@ function initAchievementLightbox() {
         });
     }
 
-    function openLightbox(card) {
-        const rawImgs = (card.dataset.imgs || '').trim();
-        images = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [''];
+    function open(imgs, meta) {
+        images = imgs.length ? imgs : [''];
 
-        lbIcon.className    = card.dataset.icon  || 'bx bxs-trophy';
-        lbTitle.textContent = card.dataset.title || '';
-        lbDate.textContent  = card.dataset.date  || '';
-        lbDesc.textContent  = card.dataset.desc  || '';
+        if (lbTitle) lbTitle.textContent = meta.title || '';
+        if (lbDesc)  lbDesc.textContent  = meta.desc  || '';
 
         buildStrip();
         showImage(0);
@@ -247,36 +186,22 @@ function initAchievementLightbox() {
         btnClose.focus();
     }
 
-    function closeLightbox() {
+    function close() {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    cards.forEach(card => {
-        const rawImgs = (card.dataset.imgs || '').trim();
-        const imgList = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
-
-        if (imgList.length > 0) {
-            const badge = document.createElement('span');
-            badge.className = 'achievement-img-badge';
-            badge.innerHTML = `<i class='bx bx-images'></i> ${imgList.length}`;
-            card.appendChild(badge);
-        }
-
-        card.addEventListener('click', () => openLightbox(card));
-    });
-
-    btnClose.addEventListener('click', closeLightbox);
+    btnClose.addEventListener('click', close);
     btnPrev.addEventListener('click', () => showImage(current - 1));
     btnNext.addEventListener('click', () => showImage(current + 1));
 
     overlay.addEventListener('click', e => {
-        if (e.target === overlay) closeLightbox();
+        if (e.target === overlay) close();
     });
 
     document.addEventListener('keydown', e => {
         if (!overlay.classList.contains('active')) return;
-        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'Escape')     close();
         if (e.key === 'ArrowLeft')  showImage(current - 1);
         if (e.key === 'ArrowRight') showImage(current + 1);
     });
@@ -289,6 +214,58 @@ function initAchievementLightbox() {
         const dx = e.changedTouches[0].screenX - touchStartX;
         if (Math.abs(dx) > 50) showImage(current + (dx < 0 ? 1 : -1));
     }, { passive: true });
+
+    return { open, close };
+}
+
+function initHobbyLightbox() {
+    const cards = document.querySelectorAll('.hobby-gallery-item');
+    if (!cards.length) return;
+
+    const overlay = createLightboxOverlay();
+    const { open } = initLightboxCore(overlay);
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const rawImgs = (card.dataset.imgs || card.dataset.src || '').trim();
+            const imgs = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
+            open(imgs, {
+                title: card.dataset.title || '',
+                desc:  card.dataset.desc  || ''
+            });
+        });
+    });
+}
+
+function initAchievementLightbox() {
+    const cards = document.querySelectorAll('.achievement-card');
+    if (!cards.length) return;
+
+    const overlay = createAchievementLightboxOverlay();
+    const lbIcon  = overlay.querySelector('#lb-icon');
+    const lbDate  = overlay.querySelector('#lb-date');
+    const { open } = initLightboxCore(overlay);
+
+    cards.forEach(card => {
+        const rawImgs = (card.dataset.imgs || '').trim();
+        const imgList = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+        if (imgList.length > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'achievement-img-badge';
+            badge.innerHTML = `<i class='bx bx-images'></i> ${imgList.length}`;
+            card.appendChild(badge);
+        }
+
+        card.addEventListener('click', () => {
+            if (lbIcon) lbIcon.className = card.dataset.icon || 'bx bxs-trophy';
+            if (lbDate) lbDate.textContent = card.dataset.date || '';
+            open(imgList, {
+                title: card.dataset.title || '',
+                desc:  card.dataset.desc  || ''
+            });
+        });
+    });
 }
 
 function initAboutInViewAnimations() {
