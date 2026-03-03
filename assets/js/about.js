@@ -1,4 +1,9 @@
+let aboutSectionInitialized = false;
+
 function initAboutSection() {
+    if (aboutSectionInitialized) return;
+    aboutSectionInitialized = true;
+    
     initAboutImageTouch();
     initHobbyLightbox();
     initAchievementLightbox();
@@ -107,17 +112,17 @@ function createAchievementLightboxOverlay() {
 }
 
 function initLightboxCore(overlay) {
-    const lbImg     = overlay.querySelector('#lb-img');
-    const lbTitle   = overlay.querySelector('#lb-title');
-    const lbDesc    = overlay.querySelector('#lb-desc');
-    const lbDots    = overlay.querySelector('#lb-dots');
+    const lbImg = overlay.querySelector('#lb-img');
+    const lbTitle = overlay.querySelector('#lb-title');
+    const lbDesc = overlay.querySelector('#lb-desc');
+    const lbDots = overlay.querySelector('#lb-dots');
     const lbCounter = overlay.querySelector('#lb-counter');
-    const lbThumbs  = overlay.querySelector('#lb-thumbs');
-    const btnClose  = overlay.querySelector('.lightbox-close');
-    const btnPrev   = overlay.querySelector('.lightbox-prev');
-    const btnNext   = overlay.querySelector('.lightbox-next');
+    const lbThumbs = overlay.querySelector('#lb-thumbs');
+    const btnClose = overlay.querySelector('.lightbox-close');
+    const btnPrev = overlay.querySelector('.lightbox-prev');
+    const btnNext = overlay.querySelector('.lightbox-next');
 
-    let images  = [];
+    let images = [];
     let current = 0;
 
     function showImage(index) {
@@ -148,7 +153,7 @@ function initLightboxCore(overlay) {
     }
 
     function buildStrip() {
-        lbDots.innerHTML   = '';
+        lbDots.innerHTML = '';
         lbThumbs.innerHTML = '';
 
         images.forEach((src, i) => {
@@ -177,7 +182,7 @@ function initLightboxCore(overlay) {
         images = imgs.length ? imgs : [''];
 
         if (lbTitle) lbTitle.textContent = meta.title || '';
-        if (lbDesc)  lbDesc.textContent  = meta.desc  || '';
+        if (lbDesc) lbDesc.textContent = meta.desc || '';
 
         buildStrip();
         showImage(0);
@@ -191,18 +196,29 @@ function initLightboxCore(overlay) {
         document.body.style.overflow = '';
     }
 
-    btnClose.addEventListener('click', close);
-    btnPrev.addEventListener('click', () => showImage(current - 1));
-    btnNext.addEventListener('click', () => showImage(current + 1));
+    btnClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        close();
+    });
+    btnPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showImage(current - 1);
+    });
+    btnNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showImage(current + 1);
+    });
 
     overlay.addEventListener('click', e => {
-        if (e.target === overlay) close();
+        if (e.target === overlay || e.target.classList.contains('lightbox-content')) {
+            close();
+        }
     });
 
     document.addEventListener('keydown', e => {
         if (!overlay.classList.contains('active')) return;
-        if (e.key === 'Escape')     close();
-        if (e.key === 'ArrowLeft')  showImage(current - 1);
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') showImage(current - 1);
         if (e.key === 'ArrowRight') showImage(current + 1);
     });
 
@@ -231,7 +247,7 @@ function initHobbyLightbox() {
             const imgs = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
             open(imgs, {
                 title: card.dataset.title || '',
-                desc:  card.dataset.desc  || ''
+                desc: card.dataset.desc || ''
             });
         });
     });
@@ -242,8 +258,8 @@ function initAchievementLightbox() {
     if (!cards.length) return;
 
     const overlay = createAchievementLightboxOverlay();
-    const lbIcon  = overlay.querySelector('#lb-icon');
-    const lbDate  = overlay.querySelector('#lb-date');
+    const lbIcon = overlay.querySelector('#lb-icon');
+    const lbDate = overlay.querySelector('#lb-date');
     const { open } = initLightboxCore(overlay);
 
     cards.forEach(card => {
@@ -262,7 +278,7 @@ function initAchievementLightbox() {
             if (lbDate) lbDate.textContent = card.dataset.date || '';
             open(imgList, {
                 title: card.dataset.title || '',
-                desc:  card.dataset.desc  || ''
+                desc: card.dataset.desc || ''
             });
         });
     });
@@ -326,16 +342,16 @@ function initCounters() {
     const counterNumbers = document.querySelectorAll('.counter-number[data-target]');
 
     function animateCounter(el) {
-        const target    = parseInt(el.getAttribute('data-target'));
-        const suffix    = el.getAttribute('data-suffix') || '';
-        const duration  = 1800;
+        const target = parseInt(el.getAttribute('data-target'));
+        const suffix = el.getAttribute('data-suffix') || '';
+        const duration = 1800;
         const startTime = performance.now();
 
         function update(currentTime) {
-            const elapsed  = currentTime - startTime;
+            const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const eased    = 1 - Math.pow(1 - progress, 3);
-            const current  = Math.floor(eased * target);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(eased * target);
             el.textContent = current + suffix;
             if (progress < 1) {
                 requestAnimationFrame(update);
