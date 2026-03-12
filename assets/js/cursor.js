@@ -49,6 +49,10 @@
         return CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];
     }
 
+    function isOverlayActive() {
+        return !!document.querySelector('.lightbox-overlay.active, .achievement-modal-overlay.active, .mobile-menu.active');
+    }
+
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
@@ -59,7 +63,7 @@
         clearTimeout(moveTimer);
         moveTimer = setTimeout(() => { isMoving = false; }, 80);
 
-        if (Math.random() < 0.55) spawnCodeChar(mouseX, mouseY);
+        if (!isOverlayActive() && Math.random() < 0.55) spawnCodeChar(mouseX, mouseY);
     });
 
     document.addEventListener('mouseleave', () => document.body.classList.add('cursor-hidden'));
@@ -72,7 +76,7 @@
 
     document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
 
-    const HOVER_SELECTORS = 'a, button, [role="button"], .nav-link, .mobile-nav-link, .icon-btn, .project-link, .social-link, .achievement-card, .hobby-gallery-item, .skill-logo-card, .carousel-btn, .btn, label, .theme-toggle, .logo';
+    const HOVER_SELECTORS = 'a, button, [role="button"], .nav-link, .mobile-nav-link, .icon-btn, .project-link, .social-link, .achievement-card, .hobby-gallery-item, .skill-logo-card, .carousel-btn, .btn, label, .theme-toggle, .logo, .lightbox-close, .lightbox-nav-btn, .lightbox-dot, .lightbox-thumb';
     const TEXT_SELECTORS  = 'input, textarea, [contenteditable]';
 
     document.addEventListener('mouseover', (e) => {
