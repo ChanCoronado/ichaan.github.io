@@ -9,7 +9,8 @@ const ScheduleModule = (() => {
         startX: 0,
         startDay: null,
         originalStartTime: null,
-        originalEndTime: null
+        originalEndTime: null,
+        clickOffsetY: 0  
     };
 
     const TIME_SLOTS = [
@@ -697,6 +698,10 @@ const ScheduleModule = (() => {
         const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
         const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
 
+        const block = e.currentTarget;
+        const blockRect = block.getBoundingClientRect();
+        const clickOffsetY = clientY - blockRect.top;
+
         dragState.isDragging = true;
         dragState.draggedClass = classItem;
         dragState.startY = clientY;
@@ -704,12 +709,9 @@ const ScheduleModule = (() => {
         dragState.startDay = classItem.day;
         dragState.originalStartTime = classItem.startTime;
         dragState.originalEndTime = classItem.endTime;
+        dragState.clickOffsetY = clickOffsetY; 
 
-        const block = document.querySelector(`[data-class-id="${classItem.id}"]`);
-        if (block) {
-            block.classList.add('dragging');
-        }
-
+        block.classList.add('dragging');
         document.body.style.cursor = 'grabbing';
     }
 
@@ -741,33 +743,40 @@ const ScheduleModule = (() => {
         const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
 
         if (dragState.isDragging) {
-            const deltaY = clientY - dragState.startY;
-            const slots = Math.round(deltaY / 25);
-            
-            if (slots !== 0) {
-                const startMinutes = timeToMinutes(dragState.originalStartTime);
-                const endMinutes = timeToMinutes(dragState.originalEndTime);
-                const duration = endMinutes - startMinutes;
-                
-                let newStartMinutes = startMinutes + (slots * 30);
-                newStartMinutes = Math.max(timeToMinutes('06:00'), Math.min(newStartMinutes, timeToMinutes('23:00') - duration));
-                
+       
+            const dayColumns = document.querySelectorAll('.schedule-day-column');
+            let targetDay = dragState.draggedClass.day;
+            let targetGrid = null;
+
+            dayColumns.forEach(col => {
+                const rect = col.getBoundingClientRect();
+                if (clientX >= rect.left && clientX <= rect.right) {
+                    targetDay = col.dataset.day;
+                    targetGrid = col.querySelector('.schedule-day-grid');
+                }
+            });
+
+            if (targetGrid) {
+                const gridRect = targetGrid.getBoundingClientRect();
+                const blockTopInGrid = clientY - gridRect.top - dragState.clickOffsetY;
+
+                const totalMinutesFromGridStart = Math.round(blockTopInGrid / 50) * 30;
+                const gridStartMinutes = timeToMinutes('06:00');
+
+                const duration = timeToMinutes(dragState.originalEndTime) - timeToMinutes(dragState.originalStartTime);
+
+                let newStartMinutes = gridStartMinutes + totalMinutesFromGridStart;
+              
+                newStartMinutes = Math.max(
+                    gridStartMinutes,
+                    Math.min(newStartMinutes, timeToMinutes('23:00') - duration)
+                );
                 const newEndMinutes = newStartMinutes + duration;
 
                 dragState.draggedClass.startTime = minutesToTime(newStartMinutes);
                 dragState.draggedClass.endTime = minutesToTime(newEndMinutes);
+                dragState.draggedClass.day = targetDay;
             }
-
-            const dayColumns = document.querySelectorAll('.schedule-day-column');
-            dayColumns.forEach(col => {
-                const rect = col.getBoundingClientRect();
-                if (clientX >= rect.left && clientX <= rect.right) {
-                    const newDay = col.dataset.day;
-                    if (newDay && newDay !== dragState.draggedClass.day) {
-                        dragState.draggedClass.day = newDay;
-                    }
-                }
-            });
 
             updateBlockPosition(dragState.draggedClass.id);
         }
@@ -804,6 +813,18 @@ const ScheduleModule = (() => {
         block.style.top = `${topOffset}px`;
         block.style.height = `${height}px`;
 
+        const currentParent = block.parentElement;
+        const currentDayColumn = currentParent?.closest('.schedule-day-column');
+        if (currentDayColumn && currentDayColumn.dataset.day !== classItem.day) {
+            const newDayColumn = document.querySelector(`.schedule-day-column[data-day="${classItem.day}"]`);
+            if (newDayColumn) {
+                const newGrid = newDayColumn.querySelector('.schedule-day-grid');
+                if (newGrid) {
+                    newGrid.appendChild(block);
+                }
+            }
+        }
+
         const timeEl = block.querySelector('.schedule-class-time');
         if (timeEl) {
             timeEl.textContent = `${formatTimeSlot(classItem.startTime)} - ${formatTimeSlot(classItem.endTime)}`;
@@ -836,7 +857,8 @@ const ScheduleModule = (() => {
             startX: 0,
             startDay: null,
             originalStartTime: null,
-            originalEndTime: null
+            originalEndTime: null,
+            clickOffsetY: 0
         };
     }
 
