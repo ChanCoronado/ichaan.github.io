@@ -1163,11 +1163,10 @@ body.dark-mode .schedule-day-header-cell.today {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 0.5rem;
+    padding-top: 0;
     font-size: clamp(0.75rem, 0.85vw, 0.8125rem);
     font-weight: 600;
     color: var(--text-secondary);
-    border-bottom: 1px solid var(--border-light);
 }
 
 .schedule-day-column {
