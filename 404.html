@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found | Ichaan</title>
+    <meta name="description" content="Page not found — Chan Coronado Portfolio">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/404.css">
+    <link rel="icon" href="assets/img/image.png">
+</head>
+
+<body>
+
+    <canvas id="gridCanvas"></canvas>
+    <canvas id="fallingTextCanvas"></canvas>
+    <canvas id="cursor-trail-canvas"></canvas>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <header class="err-header">
+        <a href="index.html" class="logo">
+            <img src="assets/img/image.png" alt="Chan Coronado Logo">
+        </a>
+        <div class="err-header-right">
+            <span class="err-status-pill">
+                <span class="err-status-dot"></span>
+                HTTP 404
+            </span>
+            <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                <i class='bx bx-sun theme-icon'></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="err-main">
+        <div class="err-scene">
+
+            <div class="err-left">
+                <div class="glitch-wrapper" id="glitchWrapper">
+                    <div class="glitch-base" data-text="404">404</div>
+                    <div class="glitch-clone glitch-r" aria-hidden="true" data-text="404">404</div>
+                    <div class="glitch-clone glitch-b" aria-hidden="true" data-text="404">404</div>
+                </div>
+
+                <div class="err-orbit" aria-hidden="true">
+                    <div class="orbit-ring orbit-ring-1">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="orbit-ring orbit-ring-2">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="orbit-ring orbit-ring-3">
+                        <div class="orbit-dot"></div>
+                    </div>
+                </div>
+
+                <div class="err-floating-tags" aria-hidden="true">
+                    <span class="ftag ftag-1">undefined</span>
+                    <span class="ftag ftag-2">null</span>
+                    <span class="ftag ftag-3">NaN</span>
+                    <span class="ftag ftag-4">void 0</span>
+                    <span class="ftag ftag-5">404</span>
+                    <span class="ftag ftag-6">err</span>
+                </div>
+            </div>
+
+            <div class="err-right">
+
+                <div class="err-terminal" id="errTerminal">
+                    <div class="terminal-titlebar">
+                        <span class="tb-dot tb-red"></span>
+                        <span class="tb-dot tb-yellow"></span>
+                        <span class="tb-dot tb-green"></span>
+                        <span class="tb-label">bash — chan@portfolio:~</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="t-prompt">chan<span class="t-at">@</span>portfolio</span><span
+                                class="t-tilde">:~$</span>
+                            <span class="t-typed" id="tTyped"></span><span class="t-caret" id="tCaret">█</span>
+                        </div>
+                        <div class="terminal-output" id="tOutput"></div>
+                    </div>
+                </div>
+
+                <div class="err-konami-hint" id="konamiHint" aria-hidden="true">
+                    <i class='bx bx-joystick'></i>
+                    <span>try the konami code</span>
+                </div>
+
+                <div class="err-content" id="errContent">
+                    <p class="err-eyebrow">
+                        <span class="eyebrow-line"></span>
+                        PAGE_NOT_FOUND
+                    </p>
+                    <h1 class="err-headline">
+                        Lost in the<br>
+                        <span class="err-accent">void</span>
+                    </h1>
+                    <p class="err-desc">
+                        This route doesn't exist, was moved, or was never deployed. Nothing to see here — let's get you
+                        back.
+                    </p>
+                    <div class="err-actions">
+                        <a href="index.html" class="btn btn-primary err-btn-home" id="btnHome">
+                            <i class='bx bx-home-alt'></i>
+                            <span>Back to Home</span>
+                        </a>
+                        <button class="btn btn-secondary err-btn-glitch" id="btnGlitch">
+                            <i class='bx bx-zap'></i>
+                            <span>Glitch it</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="err-footer">
+        <span>© 2026 Chan Coronado</span>
+        <span class="err-footer-sep">·</span>
+        <span class="err-footer-code">HTTP 404</span>
+    </footer>
+
+    <div class="konami-overlay" id="konamiOverlay" aria-hidden="true">
+        <div class="konami-box">
+            <div class="konami-icon">🎮</div>
+            <div class="konami-title">CHEAT CODE ACTIVATED</div>
+            <div class="konami-sub">You found the Easter egg. Warping back to base...</div>
+            <div class="konami-bar-wrap">
+                <div class="konami-bar" id="konamiBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/404.js"></script>
+</body>
+
+</html>
