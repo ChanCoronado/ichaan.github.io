@@ -1,0 +1,369 @@
+const BudgetModule = (() => {
+    const STORAGE_KEY = 'student_organizer_budget';
+    let transactions = [];
+
+    const elements = {
+        transactionForm: null,
+        transactionList: null,
+        totalIncome: null,
+        totalExpenses: null,
+        remainingBalance: null,
+        budgetPercentage: null,
+        budgetProgressBar: null
+    };
+
+    const CATEGORY_EMOJIS = {
+        Education: '📚',
+        Food: '🍔',
+        Transport: '🚌',
+        Housing: '🏠',
+        Entertainment: '🎮',
+        Other: '📦'
+    };
+
+    function init() {
+
+        elements.transactionForm = document.getElementById('transactionForm');
+        elements.transactionList = document.getElementById('transactionList');
+        elements.totalIncome = document.getElementById('totalIncome');
+        elements.totalExpenses = document.getElementById('totalExpenses');
+        elements.remainingBalance = document.getElementById('remainingBalance');
+        elements.budgetPercentage = document.getElementById('budgetPercentage');
+        elements.budgetProgressBar = document.getElementById('budgetProgressBar');
+
+        loadTransactions();
+        attachEventListeners();
+        renderTransactions();
+        updateBudgetSummary(false); // Initial load with animation
+    }
+
+    function attachEventListeners() {
+
+        if (elements.transactionForm) {
+            elements.transactionForm.addEventListener('submit', handleAddTransaction);
+        }
+    }
+
+    function loadTransactions() {
+        const storedTransactions = Storage.get(STORAGE_KEY);
+        transactions = storedTransactions || [];
+    }
+
+    function saveTransactions() {
+        return Storage.set(STORAGE_KEY, transactions);
+    }
+
+    function handleAddTransaction(e) {
+        e.preventDefault();
+
+
+        if (!FormValidator.validate(elements.transactionForm)) {
+            showToast('Please fill in all required fields', 'warning');
+            return;
+        }
+
+        const type = document.querySelector('input[name="transactionType"]:checked').value;
+        const description = document.getElementById('transactionDescription').value.trim();
+        const amount = parseFloat(document.getElementById('transactionAmount').value);
+        const category = document.getElementById('transactionCategory').value;
+
+
+        if (!Validators.isValidNumber(amount) || amount <= 0) {
+            showToast('Please enter a valid amount', 'error');
+            return;
+        }
+
+        const submitBtn = elements.transactionForm.querySelector('button[type="submit"]');
+        LoadingState.show(submitBtn);
+
+        setTimeout(() => {
+            const newTransaction = {
+                id: IDGenerator.generate('transaction'),
+                type: type,
+                description: description,
+                amount: amount,
+                category: category,
+                createdAt: DateUtils.getTimestamp()
+            };
+
+            transactions.unshift(newTransaction);
+
+            if (saveTransactions()) {
+                // Update with real-time accurate values
+                renderTransactions();
+                updateBudgetSummary(true); // true = direct update, no animation
+                updateOverview();
+
+
+                elements.transactionForm.reset();
+                FormValidator.clearValidation(elements.transactionForm);
+                document.getElementById('incomeType').checked = true;
+
+                const transactionType = type === 'income' ? 'Income' : 'Expense';
+                showToast(`${transactionType} added: ${NumberUtils.formatCurrency(amount)}`, 'success');
+
+
+                AnimationUtils.pulseElement(elements.totalIncome);
+                AnimationUtils.pulseElement(elements.totalExpenses);
+                AnimationUtils.pulseElement(elements.remainingBalance);
+            }
+
+            LoadingState.hide(submitBtn);
+        }, 300);
+    }
+
+    function handleDeleteTransaction(transactionId) {
+        const transaction = transactions.find(t => t.id === transactionId);
+        if (!transaction) return;
+
+        const itemText = `${transaction.description} - ${NumberUtils.formatCurrency(transaction.amount)}`;
+
+        if (window.showDeleteTransactionModal) {
+            window.showDeleteTransactionModal(transactionId, itemText);
+        }
+    }
+
+    function calculateTotals() {
+        // Use reduce with proper decimal handling
+        const income = transactions
+            .filter(t => t.type === 'income')
+            .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+        const expenses = transactions
+            .filter(t => t.type === 'expense')
+            .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+        const balance = income - expenses;
+
+        // Round to 2 decimal places to avoid floating point errors
+        return {
+            income: Math.round(income * 100) / 100,
+            expenses: Math.round(expenses * 100) / 100,
+            balance: Math.round(balance * 100) / 100
+        };
+    }
+
+    function updateBudgetSummary(immediate = false) {
+        const { income, expenses, balance } = calculateTotals();
+
+        if (immediate) {
+            // Direct update for accuracy - no animation
+            elements.totalIncome.textContent = NumberUtils.formatCurrency(income);
+            elements.totalExpenses.textContent = NumberUtils.formatCurrency(expenses);
+            elements.remainingBalance.textContent = NumberUtils.formatCurrency(balance);
+        } else {
+            // Animated update only for initial page load
+            const currentIncome = NumberUtils.parseCurrency(elements.totalIncome.textContent);
+            const currentExpenses = NumberUtils.parseCurrency(elements.totalExpenses.textContent);
+            const currentBalance = NumberUtils.parseCurrency(elements.remainingBalance.textContent);
+
+            // Only animate if there's a significant difference
+            if (Math.abs(currentIncome - income) > 0.01) {
+                AnimationUtils.animateCounter(elements.totalIncome, currentIncome, income, 800);
+            } else {
+                elements.totalIncome.textContent = NumberUtils.formatCurrency(income);
+            }
+
+            if (Math.abs(currentExpenses - expenses) > 0.01) {
+                AnimationUtils.animateCounter(elements.totalExpenses, currentExpenses, expenses, 800);
+            } else {
+                elements.totalExpenses.textContent = NumberUtils.formatCurrency(expenses);
+            }
+
+            if (Math.abs(currentBalance - balance) > 0.01) {
+                AnimationUtils.animateCounter(elements.remainingBalance, currentBalance, balance, 800);
+            } else {
+                elements.remainingBalance.textContent = NumberUtils.formatCurrency(balance);
+            }
+        }
+
+
+        if (balance < 0) {
+            elements.remainingBalance.classList.add('negative');
+        } else {
+            elements.remainingBalance.classList.remove('negative');
+        }
+
+        let percentage = 0;
+        if (income > 0) {
+            percentage = (expenses / income) * 100;
+        }
+
+        // Update percentage badge
+        elements.budgetPercentage.textContent = NumberUtils.formatPercentage(expenses, income);
+
+        // Update progress bar
+        if (immediate) {
+            // Direct update
+            elements.budgetProgressBar.style.width = `${Math.min(percentage, 100)}%`;
+        } else {
+            // Animated update
+            AnimationUtils.animateProgressBar(elements.budgetProgressBar, percentage);
+        }
+
+
+        if (percentage >= 90) {
+            elements.budgetProgressBar.style.background = 'var(--danger)';
+            if (percentage >= 100 && immediate) {
+                showToast('Warning: You have exceeded your budget!', 'warning', 5000);
+            }
+        } else if (percentage >= 70) {
+            elements.budgetProgressBar.style.background = 'linear-gradient(90deg, var(--success) 0%, var(--warning) 50%, var(--danger) 100%)';
+        } else {
+            elements.budgetProgressBar.style.background = 'linear-gradient(90deg, var(--success) 0%, var(--warning) 50%, var(--danger) 100%)';
+        }
+    }
+
+    function renderTransactions() {
+        DOM.clearElement(elements.transactionList);
+
+        if (transactions.length === 0) {
+            const emptyState = DOM.createElement('div', ['empty-state']);
+            emptyState.innerHTML = `
+                <div class="empty-state-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <h4 class="empty-state-title">No transactions yet</h4>
+                <p class="empty-state-description">Add your first transaction to start tracking</p>
+            `;
+            elements.transactionList.appendChild(emptyState);
+            return;
+        }
+
+        const recentTransactions = transactions.slice(0, 20);
+
+        recentTransactions.forEach((transaction, index) => {
+            const transactionElement = createTransactionElement(transaction);
+            transactionElement.style.animationDelay = `${index * 0.03}s`;
+            transactionElement.classList.add('fade-in');
+            elements.transactionList.appendChild(transactionElement);
+        });
+
+        if (transactions.length > 20) {
+            const moreInfo = DOM.createElement('p', ['text-muted', 'text-center', 'mt-3']);
+            moreInfo.innerHTML = `<small>Showing 20 of ${transactions.length} transactions</small>`;
+            elements.transactionList.appendChild(moreInfo);
+        }
+    }
+
+    function createTransactionElement(transaction) {
+        const transactionItem = DOM.createElement('div', ['transaction-item', transaction.type], {
+            'data-transaction-id': transaction.id
+        });
+
+
+        const headerDiv = DOM.createElement('div', ['transaction-header']);
+        const descDiv = DOM.createElement('div', ['transaction-desc']);
+        descDiv.textContent = transaction.description;
+
+        const amountDiv = DOM.createElement('div', ['transaction-amount', transaction.type]);
+        const sign = transaction.type === 'income' ? '+' : '-';
+        amountDiv.textContent = `${sign}${NumberUtils.formatCurrency(transaction.amount)}`;
+
+        headerDiv.appendChild(descDiv);
+        headerDiv.appendChild(amountDiv);
+
+
+        const footerDiv = DOM.createElement('div', ['transaction-footer']);
+        const categoryBadge = DOM.createElement('span', ['transaction-category']);
+        const emoji = CATEGORY_EMOJIS[transaction.category] || '📦';
+        categoryBadge.textContent = `${emoji} ${transaction.category}`;
+
+        const metaDiv = DOM.createElement('div', ['d-flex', 'align-items-center', 'gap-2']);
+        const dateSpan = DOM.createElement('small');
+        dateSpan.innerHTML = `<i class="fas fa-clock me-1"></i>${DateUtils.formatDate(transaction.createdAt)}`;
+
+        const deleteBtn = DOM.createElement('button', ['transaction-delete'], {
+            'aria-label': 'Delete transaction',
+            'title': 'Delete transaction'
+        });
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.addEventListener('click', () => handleDeleteTransaction(transaction.id));
+
+        metaDiv.appendChild(dateSpan);
+        metaDiv.appendChild(deleteBtn);
+
+        footerDiv.appendChild(categoryBadge);
+        footerDiv.appendChild(metaDiv);
+
+        transactionItem.appendChild(headerDiv);
+        transactionItem.appendChild(footerDiv);
+
+        return transactionItem;
+    }
+
+    function getTransactions() {
+        return transactions;
+    }
+
+    function getStats() {
+        const { income, expenses, balance } = calculateTotals();
+
+
+        const byCategory = {};
+        transactions
+            .filter(t => t.type === 'expense')
+            .forEach(t => {
+                if (!byCategory[t.category]) {
+                    byCategory[t.category] = 0;
+                }
+                byCategory[t.category] += parseFloat(t.amount);
+            });
+
+        return {
+            income,
+            expenses,
+            balance,
+            transactionCount: transactions.length,
+            byCategory
+        };
+    }
+
+    function exportToCSV() {
+        if (transactions.length === 0) {
+            showToast('No transactions to export', 'warning');
+            return;
+        }
+
+        let csvContent = 'Type,Description,Amount,Category,Date\n';
+
+        transactions.forEach(t => {
+            const date = DateUtils.formatDate(t.createdAt);
+            csvContent += `${t.type},${t.description},${t.amount},${t.category},${date}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `budget_transactions_${Date.now()}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+
+        showToast('Transactions exported successfully!', 'success');
+    }
+
+    function updateOverview() {
+        if (window.StudentOrganizer && window.StudentOrganizer.updateOverview) {
+            setTimeout(() => {
+                window.StudentOrganizer.updateOverview();
+            }, 100);
+        }
+    }
+
+    return {
+        init,
+        getTransactions,
+        getStats,
+        exportToCSV
+    };
+})();
+
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', BudgetModule.init);
+} else {
+    BudgetModule.init();
+}
+
+window.BudgetModule = BudgetModule;
