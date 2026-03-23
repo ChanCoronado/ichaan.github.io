@@ -3,7 +3,7 @@ let aboutSectionInitialized = false;
 function initAboutSection() {
     if (aboutSectionInitialized) return;
     aboutSectionInitialized = true;
-    
+
     initAboutImageTouch();
     initHobbyLightbox();
     initAchievementLightbox();
@@ -11,6 +11,7 @@ function initAboutSection() {
     initFlipCards();
     initCounters();
     initScrollIndicator();
+    initAboutScrollTop();
 }
 
 function initAboutImageTouch() {
@@ -378,6 +379,38 @@ function initCounters() {
     }, { root: sectionInner, threshold: 0.5 });
 
     counterNumbers.forEach(el => counterObserver.observe(el));
+}
+
+function initAboutScrollTop() {
+    const btn = document.getElementById('aboutScrollTop');
+    const aboutSection = document.getElementById('about');
+    if (!btn || !aboutSection) return;
+
+    const sectionInner = aboutSection.querySelector('.section-inner');
+    if (!sectionInner) return;
+
+    const THRESHOLD = 250;
+    let ticking = false;
+
+    function updateVisibility() {
+        if (sectionInner.scrollTop > THRESHOLD) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+        ticking = false;
+    }
+
+    sectionInner.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateVisibility);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+        sectionInner.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 const aboutNavLink = document.querySelector('.nav-link[data-section="about"]');
