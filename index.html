@@ -2,1394 +2,1315 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ichaan's Portfolio</title>
-    <meta name="description" content="Portfolio of Chan Coronado - IT Student, Web Developer, and Designer">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ichaan's Portfolio</title>
+  <meta name="description" content="Portfolio of Chan Coronado - IT Student, Web Developer, and Designer">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
 
-    <!-- Custom CSS Files -->
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/home.css">
-    <link rel="stylesheet" href="assets/css/about.css">
-    <link rel="stylesheet" href="assets/css/projects.css">
-    <link rel="stylesheet" href="assets/css/contact.css">
-    <link rel="stylesheet" href="assets/css/cursor.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <link rel="icon" href="assets/img/image.png">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/about.css">
+  <link rel="stylesheet" href="assets/css/projects.css">
+  <link rel="stylesheet" href="assets/css/contact.css">
+  <link rel="stylesheet" href="assets/css/cursor.css">
+  <link rel="icon" href="assets/img/image.png">
 </head>
 
 <body>
 
-    <canvas id="gridCanvas"></canvas>
 
-    <canvas id="fallingTextCanvas"></canvas>
+  <canvas id="gridCanvas"></canvas>
+  <canvas id="fallingTextCanvas"></canvas>
+  <div class="content-overlay"></div>
 
-    <div class="content-overlay"></div>
+  <header>
+    <a href="#home" class="logo">
+      <img src="assets/img/image.png" alt="Chan Coronado Logo">
+    </a>
 
-    <header>
-        <a href="#home" class="logo">
-            <img src="assets/img/image.png" alt="Chan Coronado Logo">
+    <nav id="mainNav" aria-label="Main Navigation">
+      <div class="nav-links-wrapper">
+        <a href="#home" class="nav-link active" data-section="home">
+          <i class='bx bx-home-alt'></i>
+          <span>Home</span>
         </a>
+        <a href="#about" class="nav-link" data-section="about">
+          <i class='bx bx-user'></i>
+          <span>About</span>
+        </a>
+        <a href="#projects" class="nav-link" data-section="projects">
+          <i class='bx bx-briefcase-alt-2'></i>
+          <span>Projects</span>
+        </a>
+        <a href="#contact" class="nav-link" data-section="contact">
+          <i class='bx bx-envelope'></i>
+          <span>Contact</span>
+        </a>
+      </div>
+    </nav>
 
-        <nav id="mainNav" aria-label="Main Navigation">
-            <div class="nav-links-wrapper">
-                <a href="#home" class="nav-link active" data-section="home">
-                    <i class='bx bx-home-alt'></i>
-                    <span>Home</span>
-                </a>
-                <a href="#about" class="nav-link" data-section="about">
-                    <i class='bx bx-user'></i>
-                    <span>About</span>
-                </a>
-                <a href="#projects" class="nav-link" data-section="projects">
-                    <i class='bx bx-briefcase-alt-2'></i>
-                    <span>Projects</span>
-                </a>
-                <a href="#contact" class="nav-link" data-section="contact">
-                    <i class='bx bx-envelope'></i>
-                    <span>Contact</span>
-                </a>
-            </div>
-        </nav>
-
-
-        <div class="header-controls">
-
-            <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle Theme">
-                <i class='bx bx-sun theme-icon'></i>
-            </button>
-
-            <!-- Mobile Menu Toggle -->
-            <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="mobile-menu-bg"></div>
-            <div class="mobile-menu-content">
-                <button class="mobile-close" id="mobileClose" aria-label="Close Menu">
-                    <span class="close-line close-line-dark"></span>
-                    <span class="close-line close-line-light"></span>
-                </button>
-
-
-                <div class="mobile-logo">
-                    <img src="assets/img/image.png" alt="Chan Coronado">
-                    <h2>Chan Coronado</h2>
-                    <p>Web Developer & Designer</p>
-                </div>
-
-                <nav class="mobile-nav">
-                    <a href="#home" class="mobile-nav-link" data-section="home">
-                        <span class="link-number">01</span>
-                        <span class="link-text">Home</span>
-                        <i class='bx bx-right-arrow-alt'></i>
-                    </a>
-                    <a href="#about" class="mobile-nav-link" data-section="about">
-                        <span class="link-number">02</span>
-                        <span class="link-text">About</span>
-                        <i class='bx bx-right-arrow-alt'></i>
-                    </a>
-                    <a href="#projects" class="mobile-nav-link" data-section="projects">
-                        <span class="link-number">03</span>
-                        <span class="link-text">Projects</span>
-                        <i class='bx bx-right-arrow-alt'></i>
-                    </a>
-                    <a href="#contact" class="mobile-nav-link" data-section="contact">
-                        <span class="link-number">04</span>
-                        <span class="link-text">Contact</span>
-                        <i class='bx bx-right-arrow-alt'></i>
-                    </a>
-                </nav>
-
-                <div class="mobile-footer">
-                    <div class="mobile-social">
-                        <a href="https://github.com/ChanCoronado" target="_blank" rel="noopener noreferrer"
-                            aria-label="GitHub">
-                            <i class='bx bxl-github'></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/christian-coronado-82a426390/" target="_blank"
-                            rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i class='bx bxl-linkedin'></i>
-                        </a>
-                        <a href="https://www.instagram.com/chrstnpps/" target="_blank" rel="noopener noreferrer"
-                            aria-label="Instagram">
-                            <i class='bx bxl-instagram'></i>
-                        </a>
-
-                        <a href="https://www.facebook.com/christian.coronado.96" target="_blank"
-                            rel="noopener noreferrer" aria-label="Facebook">
-                            <i class='bx bxl-facebook'></i>
-                        </a>
-                    </div>
-                    <p class="mobile-copyright">&copy; 2025 Chan Coronado</p>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Bars -->
-    <div class="bars-box">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+    <div class="header-controls">
+      <!-- Theme Toggle -->
+      <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <i class='bx bx-sun theme-icon'></i>
+      </button>
+      <!-- Mobile Menu Toggle -->
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
 
-    <!-- Main Content -->
-    <main id="mainContent">
-        <!-- Home Section -->
-        <section class="section active" id="home" data-section="home">
-            <div class="section-inner pb-0">
-                <div class="container-fluid container-custom home-container">
-                    <div class="row home-content-row g-0">
-                        <div class="col-12 col-lg-6 home-text-col">
-                            <div class="home-text">
-                                <h1 class="home-title">Chan Coronado</h1>
-                                <div class="home-subtitle">
-                                    <span class="subtitle-text">I'm a </span>
-                                    <span class="animated-text-container">
-                                        <span class="text-item active-text" data-text="IT Student">IT Student</span>
-                                        <span class="text-item" data-text="Developer">Developer</span>
-                                        <span class="text-item" data-text="Designer">Designer</span>
-                                        <span class="text-item" data-text="Creator">Creator</span>
-                                    </span>
-                                </div>
-                                <p class="home-description">
-                                    Hi, I'm Chan, a 22-year-old BSIT student at the Polytechnic University of the
-                                    Philippines Sto. Tomas Campus.
-                                    I'm passionate about coding and building creative, user-friendly websites as I work
-                                    towards becoming a web developer.
-                                </p>
-                                <div class="home-actions">
-                                    <a href="assets/files/Christian_Coronado_CV.pdf" class="btn btn-primary" download>
-                                        <i class='bx bx-download'></i>
-                                        <span>Download CV</span>
-                                    </a>
-                                    <div class="social-links">
-                                        <a href="https://github.com/ChanCoronado" target="_blank"
-                                            rel="noopener noreferrer" class="social-link" aria-label="GitHub">
-                                            <i class='bx bxl-github'></i>
-                                        </a>
-                                        <a href="https://www.linkedin.com/in/christian-coronado-82a426390/"
-                                            target="_blank" rel="noopener noreferrer" class="social-link"
-                                            aria-label="LinkedIn">
-                                            <i class='bx bxl-linkedin'></i>
-                                        </a>
-                                        <a href="https://www.instagram.com/chrstnpps/" target="_blank"
-                                            rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-                                            <i class='bx bxl-instagram'></i>
-                                        </a>
-                                        <a href="https://web.facebook.com/christian.coronado.96" target="_blank"
-                                            rel="noopener noreferrer" class="social-link" aria-label="Facebook">
-                                            <i class='bx bxl-facebook'></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-6 home-image-col">
-                            <div class="home-image">
-                                <div class="image-wrapper">
-                                    <div class="image-border"></div>
-                                    <div class="image-container">
-                                        <img src="assets/img/home1.png" alt="Chan Coronado Profile"
-                                            class="profile-img default-img">
-                                        <img src="assets/img/home2.png" alt="Chan Coronado Profile Alt"
-                                            class="profile-img hover-img">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-bg"></div>
+      <div class="mobile-menu-content">
+        <button class="mobile-close" id="mobileClose" aria-label="Close Menu">
+          <span class="close-line close-line-dark"></span>
+          <span class="close-line close-line-light"></span>
+        </button>
+
+        <div class="mobile-logo">
+          <img src="assets/img/image.png" alt="Chan Coronado">
+          <h2>Chan Coronado</h2>
+          <p>Web Developer & Designer</p>
+        </div>
+
+        <nav class="mobile-nav">
+          <a href="#home" class="mobile-nav-link" data-section="home">
+            <span class="link-number">01</span>
+            <span class="link-text">Home</span>
+            <i class='bx bx-right-arrow-alt'></i>
+          </a>
+          <a href="#about" class="mobile-nav-link" data-section="about">
+            <span class="link-number">02</span>
+            <span class="link-text">About</span>
+            <i class='bx bx-right-arrow-alt'></i>
+          </a>
+          <a href="#projects" class="mobile-nav-link" data-section="projects">
+            <span class="link-number">03</span>
+            <span class="link-text">Projects</span>
+            <i class='bx bx-right-arrow-alt'></i>
+          </a>
+          <a href="#contact" class="mobile-nav-link" data-section="contact">
+            <span class="link-number">04</span>
+            <span class="link-text">Contact</span>
+            <i class='bx bx-right-arrow-alt'></i>
+          </a>
+        </nav>
+
+        <div class="mobile-footer">
+          <div class="mobile-social">
+            <a href="https://github.com/ChanCoronado" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class='bx bxl-github'></i>
+            </a>
+            <a href="https://www.linkedin.com/in/christian-coronado-82a426390/" target="_blank"
+              rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class='bx bxl-linkedin'></i>
+            </a>
+            <a href="https://www.instagram.com/chrstnpps/" target="_blank" rel="noopener noreferrer"
+              aria-label="Instagram">
+              <i class='bx bxl-instagram'></i>
+            </a>
+            <a href="https://www.facebook.com/christian.coronado.96" target="_blank" rel="noopener noreferrer"
+              aria-label="Facebook">
+              <i class='bx bxl-facebook'></i>
+            </a>
+          </div>
+          <p class="mobile-copyright">&copy; 2025 Chan Coronado</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="bars-box">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <main id="mainContent">
+
+    <!-- HOME SECTION -->
+    <section class="section active" id="home" data-section="home">
+
+
+      <div class="home-scanlines"></div>
+
+
+      <div class="hud-corner hud-tl">
+        <span class="hud-line hud-h"></span>
+        <span class="hud-line hud-v"></span>
+        <span class="hud-label">SYS::ONLINE</span>
+      </div>
+      <div class="hud-corner hud-br">
+        <span class="hud-line hud-h"></span>
+        <span class="hud-line hud-v"></span>
+        <span class="hud-label">v2.0.25</span>
+      </div>
+
+
+      <div class="home-hero">
+
+
+        <div class="home-text-col" id="homeParallaxText">
+
+
+          <div class="home-status-badge">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for opportunities</span>
+          </div>
+
+
+          <h1 class="home-name">
+            <span class="name-line">Chan</span>
+            <span class="name-line name-accent">Coronado</span>
+          </h1>
+
+
+          <div class="home-role-row">
+            <span class="role-prefix">I'm a </span>
+            <span class="role-scramble" id="roleScramble">IT Student</span>
+            <span class="role-cursor">_</span>
+          </div>
+
+
+          <p class="home-desc">
+            Hi, I'm Chan — a 22-year-old BSIT student at the
+            <span class="desc-highlight">Polytechnic University of the Philippines Sto. Tomas Campus.</span>
+            Passionate about coding and building creative,
+            user-friendly websites as I work towards becoming a web developer.
+          </p>
+
+
+          <div class="home-actions">
+            <a href="assets/files/Christian_Coronado_CV.pdf" class="btn-cyber" download>
+              <span class="btn-cyber-glitch" data-text="Download CV">Download CV</span>
+              <i class='bx bx-download'></i>
+            </a>
+
+            <div class="social-links">
+              <a href="https://github.com/ChanCoronado" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="GitHub">
+                <i class='bx bxl-github'></i>
+              </a>
+              <a href="https://www.linkedin.com/in/christian-coronado-82a426390/" target="_blank"
+                rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                <i class='bx bxl-linkedin'></i>
+              </a>
+              <a href="https://www.instagram.com/chrstnpps/" target="_blank" rel="noopener noreferrer"
+                class="social-link" aria-label="Instagram">
+                <i class='bx bxl-instagram'></i>
+              </a>
+              <a href="https://web.facebook.com/christian.coronado.96" target="_blank" rel="noopener noreferrer"
+                class="social-link" aria-label="Facebook">
+                <i class='bx bxl-facebook'></i>
+              </a>
             </div>
-        </section>
+          </div>
 
-        <!-- About Section -->
-        <section class="section" id="about" data-section="about">
-            <div class="section-inner">
+        </div>
 
-                <!-- ABOUT ME  -->
 
-                <div class="about-intro-hero">
-                    <div class="about-hero-text">
-                        <span class="about-hero-eyebrow">Get to know me</span>
+        <div class="home-image-col" id="homeParallaxImage">
 
-                        <h1 class="about-hero-name">
-                            Christian
-                            <span class="name-accent">Coronado</span>
-                        </h1>
 
-                        <div class="about-hero-roles">
-                            <span class="role-badge">BSIT Student</span>
-                            <span class="role-badge">Frontend Developer</span>
-                            <span class="role-badge">UI Designer</span>
-                            <span class="role-badge">Creator</span>
-                        </div>
+          <div class="img-hud-frame">
+            <span class="hud-bracket hud-bracket-tl"></span>
+            <span class="hud-bracket hud-bracket-br"></span>
 
-                        <p class="about-hero-description">
-                            Hi, I'm <span class="text-highlight">Chan</span> — a 22-year-old
-                            <span class="text-highlight">BSIT student</span> at the
-                            <span class="text-highlight">Polytechnic University of the Philippines</span>
-                            Sto. Tomas Campus. I'm passionate about building
-                            <span class="text-highlight">creative, user-friendly</span> digital experiences
-                            and continuously pushing my skills toward becoming a
-                            <span class="text-highlight">full-stack web developer</span>.
-                        </p>
 
-                        <div class="about-hero-stats">
-                            <div class="hero-stat">
-                                <span class="hero-stat-number">2+</span>
-                                <span class="hero-stat-label">Years Coding</span>
-                            </div>
-                            <div class="hero-stat">
-                                <span class="hero-stat-number">8+</span>
-                                <span class="hero-stat-label">Projects Built</span>
-                            </div>
-                            <div class="hero-stat">
-                                <span class="hero-stat-number">24/7</span>
-                                <span class="hero-stat-label">Willing to Learn</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="glitch-wrap" id="glitchWrap">
+              <img src="assets/img/home1.png" alt="Chan Coronado" class="glitch-img glitch-main" id="glitchMain">
+              <img src="assets/img/home2.png" alt="Chan Coronado Alt" class="glitch-img glitch-alt" id="glitchAlt">
 
-                    <div class="about-hero-image-col">
-                        <div class="about-hero-image-frame">
-                            <div class="about-image-blob"></div>
 
-                            <!-- Floating Card Top Left -->
-                            <div class="about-img-floating-card card-top-left">
-                                <div class="floating-card-icon"><i class='bx bxs-graduation'></i></div>
-                                <div class="floating-card-text">PUP Sto. Tomas</div>
-                                <div class="floating-card-sub">BSIT • 2022–Present</div>
-                            </div>
+              <div class="glitch-layer glitch-r" id="glitchR"></div>
+              <div class="glitch-layer glitch-g" id="glitchG"></div>
 
-                            <div class="about-img-wrapper">
-                                <img src="assets/img/aboutpic1.png" alt="Christian Coronado" class="about-img-default"
-                                    loading="lazy">
-                                <img src="assets/img/aboutpic2.jpg" alt="Christian Coronado Alt" class="about-img-hover"
-                                    loading="lazy">
-                            </div>
 
-                            <!-- Floating Card Bottom Right -->
-                            <div class="about-img-floating-card card-bottom-right">
-                                <div class="floating-card-icon"><i class='bx bxs-trophy'></i></div>
-                                <div class="floating-card-text">Passionate Developer</div>
-                                <div class="floating-card-sub">Learning, Building, Improving</div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="holo-shimmer"></div>
 
-                    <!-- Scroll Indicator -->
-                    <div class="scroll-indicator" aria-label="Scroll down">
-                        <span class="scroll-indicator-text">Scroll</span>
-                        <div class="scroll-indicator-line"></div>
-                    </div>
-                </div>
 
-                <!-- Divider -->
-                <div class="about-divider"></div>
-
-                <div class="timeline-section">
-                    <div class="about-section-block" style="padding-top: 0; padding-bottom: 0;">
-                        <span class="subsection-label">My Journey</span>
-                        <h3 class="subsection-title">Education <span class="highlight">Timeline</span></h3>
-                    </div>
-
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-content">
-                                <span class="timeline-date">2010 – 2016</span>
-                                <h4>Elementary School</h4>
-                                <p>Lazaan-Malinao Elementary School</p>
-                            </div>
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-content">
-                                <span class="timeline-date">2016 – 2020</span>
-                                <h4>Junior High School</h4>
-                                <p>Upland Integrated National High School</p>
-                            </div>
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-content">
-                                <span class="timeline-date">2020 – 2022</span>
-                                <h4>Senior High School</h4>
-                                <p>Upland Integrated National High School</p>
-                            </div>
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <div class="timeline-content">
-                                <span class="timeline-date">2022 – Present</span>
-                                <h4>College</h4>
-                                <p>Polytechnic University of the Philippines Sto. Tomas Campus</p>
-                            </div>
-                            <div class="timeline-dot">
-                                <i class='bx bxs-graduation'></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="about-divider"></div>
-
-                <div class="skills-section-block">
-                    <span class="subsection-label">What I Work With</span>
-                    <h3 class="subsection-title">Technical <span class="highlight">Skills</span></h3>
-
-                    <!-- Frontend -->
-                    <div class="skills-category-group">
-                        <div class="skills-category-label">
-                            <div class="skills-category-line"></div>
-                            <span class="skills-category-text">Frontend Development</span>
-                            <div class="skills-category-line"></div>
-                        </div>
-                        <div class="skills-logo-grid">
-                            <div class="skill-logo-card" data-delay="0">
-                                <img src="assets/img/skills/html.png" alt="HTML5" loading="lazy">
-                                <span class="skill-logo-name">HTML5</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="90"></div>
-                                </div>
-                                <div class="skill-tooltip">90% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="80">
-                                <img src="assets/img/skills/css.png" alt="CSS3" loading="lazy">
-                                <span class="skill-logo-name">CSS3</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="88"></div>
-                                </div>
-                                <div class="skill-tooltip">88% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="160">
-                                <img src="assets/img/skills/js.png" alt="JavaScript" loading="lazy">
-                                <span class="skill-logo-name">JavaScript</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="85"></div>
-                                </div>
-                                <div class="skill-tooltip">85% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="240">
-                                <img src="assets/img/skills/bootsrap.png" alt="Bootstrap" loading="lazy">
-                                <span class="skill-logo-name">Bootstrap</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="85"></div>
-                                </div>
-                                <div class="skill-tooltip">85% Proficiency</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Languages -->
-                    <div class="skills-category-group">
-                        <div class="skills-category-label">
-                            <div class="skills-category-line"></div>
-                            <span class="skills-category-text">Programming Languages</span>
-                            <div class="skills-category-line"></div>
-                        </div>
-                        <div class="skills-logo-grid">
-                            <div class="skill-logo-card" data-delay="0">
-                                <img src="assets/img/skills/php.png" alt="PHP" loading="lazy">
-                                <span class="skill-logo-name">PHP</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="85"></div>
-                                </div>
-                                <div class="skill-tooltip">85% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="80">
-                                <img src="assets/img/skills/java.png" alt="Java" loading="lazy">
-                                <span class="skill-logo-name">Java</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="80"></div>
-                                </div>
-                                <div class="skill-tooltip">80% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="160">
-                                <img src="assets/img/skills/python.png" alt="Python" loading="lazy">
-                                <span class="skill-logo-name">Python</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="75"></div>
-                                </div>
-                                <div class="skill-tooltip">75% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="240">
-                                <img src="assets/img/skills/c.png" alt="C" loading="lazy">
-                                <span class="skill-logo-name">C</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="70"></div>
-                                </div>
-                                <div class="skill-tooltip">70% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="320">
-                                <img src="assets/img/skills/c++.png" alt="C++" loading="lazy">
-                                <span class="skill-logo-name">C++</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="65"></div>
-                                </div>
-                                <div class="skill-tooltip">70% Proficiency</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Database -->
-                    <div class="skills-category-group">
-                        <div class="skills-category-label">
-                            <div class="skills-category-line"></div>
-                            <span class="skills-category-text">Database & Backend</span>
-                            <div class="skills-category-line"></div>
-                        </div>
-                        <div class="skills-logo-grid">
-                            <div class="skill-logo-card" data-delay="0">
-                                <img src="assets/img/skills/mysql.png" alt="MySQL" loading="lazy">
-                                <span class="skill-logo-name">MySQL</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="82"></div>
-                                </div>
-                                <div class="skill-tooltip">82% Proficiency</div>
-                            </div>
-                            <div class="skill-logo-card" data-delay="80">
-                                <img src="assets/img/skills/sql server.png" alt="SQL Server" loading="lazy">
-                                <span class="skill-logo-name">SQL Server</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" data-level="75"></div>
-                                </div>
-                                <div class="skill-tooltip">75% Proficiency</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tools -->
-                    <div class="skills-category-group">
-                        <div class="skills-category-label">
-                            <div class="skills-category-line"></div>
-                            <span class="skills-category-text">Tools & Technologies</span>
-                            <div class="skills-category-line"></div>
-                        </div>
-                        <div class="skills-logo-grid">
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Version Control</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-                                    alt="Git">
-                                <span class="skill-logo-name">Git</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 85%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Code Hosting</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                                    alt="GitHub">
-                                <span class="skill-logo-name">GitHub</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 85%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Code Editor</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
-                                    alt="VS Code">
-                                <span class="skill-logo-name">VS Code</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 90%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">IDE</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg"
-                                    alt="Visual Studio">
-                                <span class="skill-logo-name">Visual Studio</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 75%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Local Server</span>
-                                <img src="https://upload.wikimedia.org/wikipedia/en/7/78/XAMPP_logo.svg" alt="XAMPP">
-                                <span class="skill-logo-name">XAMPP</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 80%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">UI/UX Design</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
-                                    alt="Figma">
-                                <span class="skill-logo-name">Figma</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 80%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Photo Editing</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg"
-                                    alt="Photoshop">
-                                <span class="skill-logo-name">Photoshop</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 70%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Graphic Design</span>
-                                <img src="assets/img/skills/canva.png" alt="Canva">
-                                <span class="skill-logo-name">Canva</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 90%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Data Science IDE</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
-                                    alt="Jupyter">
-                                <span class="skill-logo-name">Jupyter</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 75%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Python Distribution</span>
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/anaconda/anaconda-original.svg"
-                                    alt="Anaconda">
-                                <span class="skill-logo-name">Anaconda</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 70%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">IT Fundamentals</span>
-                                <img src="https://cdn-icons-png.flaticon.com/512/1336/1336494.png" alt="Networking">
-                                <span class="skill-logo-name">Networking</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 75%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">System Support</span>
-                                <img src="https://cdn-icons-png.flaticon.com/512/2911/2911178.png"
-                                    alt="OS Troubleshooting">
-                                <span class="skill-logo-name">OS Support</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 80%"></div>
-                                </div>
-                            </div>
-
-                            <div class="skill-logo-card">
-                                <span class="skill-tooltip">Hardware Tech</span>
-                                <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png"
-                                    alt="Hardware Servicing">
-                                <span class="skill-logo-name">Hardware</span>
-                                <div class="skill-logo-level">
-                                    <div class="skill-logo-level-fill" style="--level: 80%"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="about-divider"></div>
-
-                <div class="hobbies-section-block">
-                    <span class="subsection-label">Beyond the Code</span>
-                    <h3 class="subsection-title">Interests & <span class="highlight">Hobbies</span></h3>
-
-                    <div class="hobbies-gallery-grid">
-
-                        <div class="hobby-gallery-item large" data-imgs="assets/img/hobbies/fun-run.jpg"
-                            data-title="Fun Run Enthusiast"
-                            data-desc="Participating in community fun runs to stay active and motivated" data-delay="0">
-                            <img src="assets/img/hobbies/fun-run.jpg" alt="Running / Fun Run" class="hobby-img"
-                                loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Running</h4>
-                                <p class="hobby-overlay-desc">Joining fun runs and staying active</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-
-                        <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/mobile-gaming.jpg"
-                            data-title="Mobile Gaming"
-                            data-desc="Unwinding with mobile games and exploring virtual worlds" data-delay="100">
-                            <img src="assets/img/hobbies/mobile-gaming.jpg" alt="Gaming" class="hobby-img"
-                                loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Mobile Gaming</h4>
-                                <p class="hobby-overlay-desc">Unwinding with games</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-
-                        <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/hardware.jpg"
-                            data-title="Hardware Servicing"
-                            data-desc="Computer troubleshooting, system setup and hardware maintenance"
-                            data-delay="200">
-                            <img src="assets/img/hobbies/hardware.jpg" alt="Hardware" class="hobby-img" loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Hardware Servicing</h4>
-                                <p class="hobby-overlay-desc">Building & fixing computers</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-
-                        <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/design.png"
-                            data-title="Photo & Graphic Editing"
-                            data-desc="Editing photos and crafting graphics using Photoshop, Figma, and Canva — love bringing creative ideas to life visually"
-                            data-delay="300">
-                            <img src="assets/img/hobbies/design.png" alt="Graphic Editing" class="hobby-img"
-                                loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Photo & Graphic Editing</h4>
-                                <p class="hobby-overlay-desc">Editing with Photoshop, Figma & Canva</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-
-                        <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/leadership1.jpg"
-                            data-title="Leadership"
-                            data-desc="Leading student organizations and collaborating with diverse teams"
-                            data-delay="400">
-                            <img src="assets/img/hobbies/leadership.jpg" alt="Leadership" class="hobby-img"
-                                loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Leadership</h4>
-                                <p class="hobby-overlay-desc">Guiding teams forward</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-
-                        <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/learning.jpg"
-                            data-title="Continuous Learning"
-                            data-desc="Attending seminars on AI/ML, software development and emerging technologies"
-                            data-delay="500">
-                            <img src="assets/img/hobbies/learning.jpg" alt="Learning" class="hobby-img" loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Continuous Learning</h4>
-                                <p class="hobby-overlay-desc">Always growing, always building</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-
-                        <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/badminton.jpg"
-                            data-title="Playing Badminton"
-                            data-desc="Smashing shuttlecocks and staying active on the court — love the speed and agility the sport demands"
-                            data-delay="600">
-                            <img src="assets/img/hobbies/badminton.jpg" alt="Badminton" class="hobby-img"
-                                loading="lazy">
-                            <div class="hobby-overlay">
-                                <h4 class="hobby-overlay-title">Playing Badminton</h4>
-                                <p class="hobby-overlay-desc">Smashing it on the court</p>
-                            </div>
-                            <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lightbox Modal -->
-                <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true">
-                    <div class="lightbox-content">
-                        <button class="lightbox-close" aria-label="Close lightbox">
-                            <i class='bx bx-x'></i>
-                        </button>
-                        <img src="" alt="" class="lightbox-img" loading="lazy">
-                        <div class="lightbox-caption">
-                            <h4></h4>
-                            <p></p>
-                        </div>
-                    </div>
-                    <button class="lightbox-nav-btn lightbox-prev" aria-label="Previous image">
-                        <i class='bx bx-chevron-left'></i>
-                    </button>
-                    <button class="lightbox-nav-btn lightbox-next" aria-label="Next image">
-                        <i class='bx bx-chevron-right'></i>
-                    </button>
-                </div>
-
-                <!-- Divider -->
-                <div class="about-divider"></div>
-
-                <!-- CAREER GOALS -->
-
-                <div class="goals-section-block">
-                    <span class="subsection-label">Where I'm Headed</span>
-                    <h3 class="subsection-title">Career <span class="highlight">Goals</span></h3>
-
-                    <div class="goals-roadmap">
-                        <div class="goal-roadmap-item" data-delay="0">
-                            <div class="goal-roadmap-dot"></div>
-                            <div class="goal-roadmap-card">
-                                <div class="goal-roadmap-header">
-                                    <div>
-                                        <h4 class="goal-roadmap-title">Full-Stack Web Developer</h4>
-                                        <p class="goal-roadmap-desc">Skilled in both frontend and backend technologies,
-                                            building complete web applications that solve real-world problems while
-                                            continuously improving my craft.</p>
-                                    </div>
-                                    <span class="goal-roadmap-number">01</span>
-                                </div>
-                                <div class="goal-progress-bar">
-                                    <div class="goal-progress-label">
-                                        <span class="goal-progress-text">Progress</span>
-                                        <span class="goal-progress-pct">65%</span>
-                                    </div>
-                                    <div class="goal-progress-track">
-                                        <div class="goal-progress-fill" style="--progress: 65%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="goal-roadmap-item" data-delay="150">
-                            <div class="goal-roadmap-dot"></div>
-                            <div class="goal-roadmap-card">
-                                <div class="goal-roadmap-header">
-                                    <div>
-                                        <h4 class="goal-roadmap-title">Work on Impactful Projects</h4>
-                                        <p class="goal-roadmap-desc">Contribute to innovative projects that make a real
-                                            difference in people's lives through technology and digital solutions.</p>
-                                    </div>
-                                    <span class="goal-roadmap-number">02</span>
-                                </div>
-                                <div class="goal-progress-bar">
-                                    <div class="goal-progress-label">
-                                        <span class="goal-progress-text">Progress</span>
-                                        <span class="goal-progress-pct">40%</span>
-                                    </div>
-                                    <div class="goal-progress-track">
-                                        <div class="goal-progress-fill" style="--progress: 40%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="goal-roadmap-item" data-delay="300">
-                            <div class="goal-roadmap-dot"></div>
-                            <div class="goal-roadmap-card">
-                                <div class="goal-roadmap-header">
-                                    <div>
-                                        <h4 class="goal-roadmap-title">Join a Tech Company</h4>
-                                        <p class="goal-roadmap-desc">Work with talented developers in startups or
-                                            established tech companies to grow professionally and expand my technical
-                                            expertise.</p>
-                                    </div>
-                                    <span class="goal-roadmap-number">03</span>
-                                </div>
-                                <div class="goal-progress-bar">
-                                    <div class="goal-progress-label">
-                                        <span class="goal-progress-text">Progress</span>
-                                        <span class="goal-progress-pct">20%</span>
-                                    </div>
-                                    <div class="goal-progress-track">
-                                        <div class="goal-progress-fill" style="--progress: 20%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="goal-roadmap-item" data-delay="450">
-                            <div class="goal-roadmap-dot"></div>
-                            <div class="goal-roadmap-card">
-                                <div class="goal-roadmap-header">
-                                    <div>
-                                        <h4 class="goal-roadmap-title">Continue Academic Excellence</h4>
-                                        <p class="goal-roadmap-desc">Maintain President's Lister status and graduate
-                                            with honors while contributing to the tech community.</p>
-                                    </div>
-                                    <span class="goal-roadmap-number">04</span>
-                                </div>
-                                <div class="goal-progress-bar">
-                                    <div class="goal-progress-label">
-                                        <span class="goal-progress-text">Progress</span>
-                                        <span class="goal-progress-pct">80%</span>
-                                    </div>
-                                    <div class="goal-progress-track">
-                                        <div class="goal-progress-fill" style="--progress: 80%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="about-divider"></div>
-
-                <!-- ACHIEVEMENTS — Interactive Modal Cards  -->
-
-                <div class="achievements-section-block">
-                    <span class="subsection-label">Milestones</span>
-                    <h3 class="subsection-title">Achievements & <span class="highlight">Certifications</span></h3>
-
-                    <div class="achievements-grid">
-
-                        <div class="achievement-card" data-icon="bx bxs-trophy" data-title="President's Lister"
-                            data-date="2022 – Present"
-                            data-desc="Consistent academic excellence — President's Lister from 2022 to Present at PUP Sto. Tomas."
-                            data-imgs="assets/img/certifications/1-1.jpg,assets/img/certifications/1-2.jpg,assets/img/certifications/2-1.jpg,assets/img/certifications/2-2.jpg,assets/img/certifications/3-1.jpg,assets/img/certifications/3-2.jpg"
-                            data-delay="0">
-                            <div class="achievement-card-icon"><i class='bx bxs-trophy'></i></div>
-                            <h4 class="achievement-card-title">President's Lister</h4>
-                            <p class="achievement-card-desc">Consistent academic excellence at PUP Sto. Tomas from 2022
-                                to Present.</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2022 – Present</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-graduation" data-title="High Honors Graduate"
-                            data-date="2022"
-                            data-desc="Graduated Senior High School with High Honors in the TVL-ICT track at Upland Integrated National High School."
-                            data-imgs="assets/img/hobbies/senior-high.jpg,assets/img/certifications/Senior High Graduate.jpg"
-                            data-delay="100">
-                            <div class="achievement-card-icon"><i class='bx bxs-graduation'></i></div>
-                            <h4 class="achievement-card-title">High Honors Graduate</h4>
-                            <p class="achievement-card-desc">Graduated SHS with High Honors in TVL-ICT track
-                                (2020–2022).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2022</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certification" data-title="TESDA NCII Certified"
-                            data-date="2022"
-                            data-desc="TESDA National Certificate II (NC II) in Computer Systems Servicing — certified in 2022."
-                            data-imgs="assets/img/certifications/NCII Cert.jpg" data-delay="300">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">NCII Certified</h4>
-                            <p class="achievement-card-desc">TESDA NC II in Computer Systems Servicing — 2022.</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2022</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-briefcase-alt-2" data-title="Student Leader"
-                            data-date="2024 – 2025"
-                            data-desc="Central Student Council Representative (2024–2025) & Former Class Vice President at PUP Sto. Tomas."
-                            data-imgs="assets/img/hobbies/leadership.jpg,assets/img/hobbies/leadership1.jpg "
-                            data-delay="400">
-                            <div class="achievement-card-icon"><i class='bx bxs-briefcase-alt-2'></i></div>
-                            <h4 class="achievement-card-title">Student Leader</h4>
-                            <p class="achievement-card-desc">CSC College Representative (2024–2025)</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2024 – 2025</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxl-google" data-title="GDSC Member"
-                            data-date="2023 – 2024"
-                            data-desc="Google Developers Student Clubs member at PUP Sto. Tomas Campus (2023–2024)."
-                            data-imgs="assets/img/certifications/GDSC.jpg"="" data-delay="500">
-                            <div class="achievement-card-icon"><i class='bx bxl-google'></i></div>
-                            <h4 class="achievement-card-title">GDSC Member</h4>
-                            <p class="achievement-card-desc">Google Developers Student Clubs at PUP Sto. Tomas
-                                (2023–2024).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2023 – 2024</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certification"
-                            data-title="Tech Nexus 2024: Empowering Campus Innovators" data-date="2024"
-                            data-desc="Awarded a Certificate of Recognition for successfully attending and participating in Tech Nexus 2024: Empowering Campus Innovators held on December 7, 2024 at University of Batangas - Lipa Campus. Organized by Campus DEVCON."
-                            data-imgs="assets/img/certifications/Tech Nexus.png" data-delay="700">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">Tech Nexus 2024</h4>
-                            <p class="achievement-card-desc">Certificate of Recognition — Campus DEVCON (2024).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2024</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certification"
-                            data-title="PAGLINANG: PUPSTC Student Leaders Executive Training" data-date="2024"
-                            data-desc="Awarded a Certificate of Participation for active participation in the executive leadership training — PAGLINANG: PUPSTC Student Leaders Executive Training, held on December 3, 2024 at Polytechnic University of the Philippines - Sto. Tomas Campus, Batangas."
-                            data-imgs="assets/img/certifications/LEADERS EXECUTIVE TRAINING.png" data-delay="800">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">PAGLINANG: Student Leaders Training</h4>
-                            <p class="achievement-card-desc">Certificate of Participation — PUP Sto. Tomas Campus
-                                (2024).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2024</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certificate"
-                            data-title="Introduction to Project Management with ClickUp" data-date="2025"
-                            data-desc="Completed Introduction to Project Management with ClickUp via Coursera (2025)."
-                            data-imgs="assets/img/certifications/Introduction to Project Management with ClickUp.png"
-                            data-delay="600">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">Introduction to Project Management with ClickUp</h4>
-                            <p class="achievement-card-desc">Coursera (2025).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2025</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certification"
-                            data-title="From Algorithms to Intelligence: Your Journey into Artificial Intelligence & Machine Learning"
-                            data-date="2025"
-                            data-desc="Awarded a Certificate of Participation for active participation in the seminar/workshop — From Algorithms to Intelligence: Your Journey into Artificial Intelligence & Machine Learning, held on December 5, 2025 at PUP Sto. Tomas Campus, Sto. Tomas Batangas."
-                            data-imgs="assets/img/certifications/Artificial Intelligence & Machine Learning.png"
-                            data-delay="900">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">From Algorithms to Intelligence</h4>
-                            <p class="achievement-card-desc">Certificate of Participation — AI & Machine Learning
-                                Seminar, PUP Sto. Tomas (2025).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2025</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certification"
-                            data-title="TechSTART November — Git Ready, Set, Commit" data-date="2024"
-                            data-desc="Awarded a Certificate of Participation for distinguished presence and valuable contribution as a participant at TechSTART November, held on November 22, 2024 via Zoom Meeting. Organized by the Department of Science and Technology - Science Education Institute (DOST-SEI)."
-                            data-imgs="assets/img/certifications/TechSTART.png" data-delay="1100">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">TechSTART November — Git Ready, Set, Commit</h4>
-                            <p class="achievement-card-desc">Certificate of Participation — DOST-SEI Git Ready, Set,
-                                Commit (2025).</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2025</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-
-                        <div class="achievement-card" data-icon="bx bxs-certification"
-                            data-title="Salesforce Supported Virtual Internship Program 2025 - Philippines"
-                            data-date="2025"
-                            data-desc="Awarded a Certificate of Completion for successfully completing the Salesforce Supported Virtual Internship Program 2025 - Philippines. Completed Salesforce trailhead modules and a capstone project during the 8-week virtual internship program (September – December 2025). Modules: Salesforce Fundamentals, Data & Security Modeling, Declarative Automation, Apex in Salesforce, Visualforce Pages, Lightning Web Components, Agentforce Essentials, and Agentblazer Champion."
-                            data-imgs="assets/img/certifications/Salesforce.png" data-delay="1000">
-                            <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-                            <h4 class="achievement-card-title">Salesforce Virtual Internship</h4>
-                            <p class="achievement-card-desc">Certificate of Completion — Salesforce Supported Virtual
-                                Internship Program 2025 Philippines.</p>
-                            <div class="achievement-card-footer">
-                                <span class="achievement-card-date">2025</span>
-                                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Achievement Modal -->
-                <div class="achievement-modal-overlay" id="achievementModalOverlay" role="dialog" aria-modal="true">
-                    <div class="achievement-modal">
-                        <button class="achievement-modal-close" aria-label="Close modal">
-                            <i class='bx bx-x'></i>
-                        </button>
-                        <img src="" alt="" class="achievement-modal-img" style="display:none;" loading="lazy">
-                        <div class="achievement-modal-img-placeholder">
-                            <i class='bx bxs-trophy'></i>
-                        </div>
-                        <div class="achievement-modal-body">
-                            <div class="achievement-modal-icon">
-                                <i class='bx bxs-trophy'></i>
-                            </div>
-                            <h3 class="achievement-modal-title"></h3>
-                            <p class="achievement-modal-date"></p>
-                            <p class="achievement-modal-desc"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="about-divider"></div>
-
-                <!-- 7. FUN FACTS  -->
-
-                <div class="funfacts-section-block">
-                    <span class="subsection-label">The Fun Part</span>
-                    <h3 class="subsection-title">Fun <span class="highlight">Facts</span></h3>
-
-                    <div class="funfacts-grid">
-                        <div class="funfact-flip-card" data-delay="0">
-                            <div class="funfact-flip-inner">
-                                <div class="funfact-front">
-                                    <div class="funfact-icon"><i class='bx bx-code-block'></i></div>
-                                    <span class="funfact-front-title">Favorite Stack</span>
-                                    <span class="funfact-front-hint">Hover to reveal</span>
-                                </div>
-                                <div class="funfact-back">
-                                    <p class="funfact-back-text">HTML · CSS · JavaScript · PHP · Bootstrap · MySQL </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="funfact-flip-card" data-delay="100">
-                            <div class="funfact-flip-inner">
-                                <div class="funfact-front">
-                                    <div class="funfact-icon"><i class='bx bx-bulb'></i></div>
-                                    <span class="funfact-front-title">How I Started</span>
-                                    <span class="funfact-front-hint">Hover to reveal</span>
-                                </div>
-                                <div class="funfact-back">
-                                    <p class="funfact-back-text">Started with TVL-ICT in SHS, fell in love with coding,
-                                        and pursued BSIT at PUP Sto. Tomas.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="funfact-flip-card" data-delay="200">
-                            <div class="funfact-flip-inner">
-                                <div class="funfact-front">
-                                    <div class="funfact-icon"><i class='bx bx-heart'></i></div>
-                                    <span class="funfact-front-title">My Philosophy</span>
-                                    <span class="funfact-front-hint">Hover to reveal</span>
-                                </div>
-                                <div class="funfact-back">
-                                    <p class="funfact-back-text">"Still learning, still building, still improving."</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="funfact-flip-card" data-delay="300">
-                            <div class="funfact-flip-inner">
-                                <div class="funfact-front">
-                                    <div class="funfact-icon"><i class='bx bx-walk'></i></div>
-                                    <span class="funfact-front-title">How I Relax</span>
-                                    <span class="funfact-front-hint">Hover to reveal</span>
-                                </div>
-                                <div class="funfact-back">
-                                    <p class="funfact-back-text">I unwind by strolling with friends and catching up with
-                                        my special person.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="funfact-flip-card" data-delay="400">
-                            <div class="funfact-flip-inner">
-                                <div class="funfact-front">
-                                    <div class="funfact-icon"><i class='bx bx-coffee'></i></div>
-                                    <span class="funfact-front-title">Off the Clock</span>
-                                    <span class="funfact-front-hint">Hover to reveal</span>
-                                </div>
-                                <div class="funfact-back">
-                                    <p class="funfact-back-text">You'll find me playing mobile games, relaxing, and
-                                        exploring hobbies outside of tech.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="funfact-flip-card" data-delay="400">
-                            <div class="funfact-flip-inner">
-                                <div class="funfact-front">
-                                    <div class="funfact-icon"><i class='bx bx-moon'></i></div>
-                                    <span class="funfact-front-title">Night Owl or Early Bird?</span>
-                                    <span class="funfact-front-hint">Hover to reveal</span>
-                                </div>
-                                <div class="funfact-back">
-                                    <p class="funfact-back-text">Night Owl </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Animated Counters -->
-                    <div class="counter-grid">
-                        <div class="counter-item" data-delay="0">
-                            <span class="counter-number" data-target="2" data-suffix="+">0+</span>
-                            <span class="counter-label">Years Coding</span>
-                        </div>
-                        <div class="counter-item" data-delay="100">
-                            <span class="counter-number" data-target="8" data-suffix="+">0+</span>
-                            <span class="counter-label">Projects Built</span>
-                        </div>
-                        <div class="counter-item" data-delay="200">
-                            <span class="counter-number" data-target="5" data-suffix="+">0+</span>
-                            <span class="counter-label">Certifications</span>
-                        </div>
-                    </div>
-                </div>
-                <button class="about-scroll-top" id="aboutScrollTop" aria-label="Scroll to top">
-                    <i class='bx bx-chevron-up'></i>
-                </button>
+              <div class="img-scanlines"></div>
             </div>
-        </section>
 
-        <!-- Projects Section -->
-        <section class="section" id="projects" data-section="projects">
-            <div class="section-inner">
-                <div class="container-fluid container-custom projects-wrapper">
-                    <div class="row">
-                        <div class="col-12 pt-5">
-                            <h2 class="section-title">My <span class="highlight">Projects</span></h2>
-                        </div>
-                    </div>
 
-                    <div class="row projects-grid-row g-0">
-                        <div class="col-12 col-lg-5 project-details-col-wrapper">
-                            <div class="project-details-col">
-                                <div class="project-detail active" data-project="0">
-                                    <span class="project-number">01</span>
-                                    <h3 class="project-title">Chan’s Typing Test</h3>
-                                    <p class="project-description">
-                                        A modern typing speed test minigame designed to measure your typing accuracy,
-                                        speed, and consistency in real time. Built with a sleek interface, responsive
-                                        layout, and smooth performance.
-                                    </p>
-                                    <div class="project-tech">
-                                        <span class="tech-tag">HTML</span>
-                                        <span class="tech-tag">CSS</span>
-                                        <span class="tech-tag">JavaScript</span>
-                                        <span class="tech-tag">Bootstrap</span>
-                                    </div>
-                                    <div class="project-links">
-                                        <a href="projects/001/index.html" class="project-link"
-                                            aria-label="View Live Project">
-                                            <i class='bx bx-link-external'></i>
-                                            <span class="link-tooltip">Live Project</span>
-                                        </a>
-                                        <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
-                                            aria-label="View GitHub Repository">
-                                            <i class='bx bxl-github'></i>
-                                            <span class="link-tooltip">GitHub Repo</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="project-detail" data-project="1">
-                                    <span class="project-number">02</span>
-                                    <h3 class="project-title">Student Life Organizer</h3>
-                                    <p class="project-description">
-                                        A comprehensive productivity platform for students featuring task management
-                                        with priority filtering,
-                                        color-coded weekly schedule planner, and budget tracking system. Implements
-                                        modular JavaScript
-                                        architecture with LocalStorage persistence and real-time dashboard analytics.
-                                    </p>
-                                    <div class="project-tech">
-                                        <span class="tech-tag">Html</span>
-                                        <span class="tech-tag">CSS</span>
-                                        <span class="tech-tag">JavaScript</span>
-                                        <span class="tech-tag">Bootstrap</span>
-                                    </div>
-                                    <div class="project-links">
-                                        <a href="projects/002/index.html" class="project-link"
-                                            aria-label="View Live Project">
-                                            <i class='bx bx-link-external'></i>
-                                            <span class="link-tooltip">Live Project</span>
-                                        </a>
-                                        <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
-                                            aria-label="View GitHub Repository">
-                                            <i class='bx bxl-github'></i>
-                                            <span class="link-tooltip">GitHub Repo</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="project-detail" data-project="2">
-                                    <span class="project-number">03</span>
-                                    <h3 class="project-title">NEONBREAK</h3>
-                                    <p class="project-description">
-                                        A retro arcade-style Breakout game built with HTML5 Canvas featuring
-                                        neon glow effects, progressive difficulty across 5 levels, and a
-                                        full power-up system. Implements modular JavaScript architecture with
-                                        procedural Web Audio, multi-ball mechanics, and per-difficulty brick
-                                        layouts with LocalStorage high score persistence.
-                                    </p>
-                                    <div class="project-tech">
-                                        <span class="tech-tag">HTML</span>
-                                        <span class="tech-tag">CSS</span>
-                                        <span class="tech-tag">JavaScript</span>
-                                        <span class="tech-tag">Bootstrap</span>
-                                    </div>
-                                    <div class="project-links">
-                                        <a href="projects/003/index.html" class="project-link"
-                                            aria-label="View Live Project">
-                                            <i class='bx bx-link-external'></i>
-                                            <span class="link-tooltip">Live Project</span>
-                                        </a>
-                                        <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
-                                            aria-label="View GitHub Repository">
-                                            <i class='bx bxl-github'></i>
-                                            <span class="link-tooltip">GitHub Repo</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-lg-7 project-carousel-col-wrapper pb-5">
-                            <div class="project-carousel-col">
-                                <div class="project-carousel">
-                                    <div class="carousel-track">
-                                        <div class="project-slide">
-                                            <a href="projects/001/index.html" class="project-image-link" target="_blank"
-                                                rel="noopener noreferrer">
-                                                <img src="assets/img/001 logo.png" alt="Web Development Project">
-                                                <div class="project-overlay">
-                                                    <h4>Chan's Typing Test</h4>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="project-slide">
-                                            <a href="projects/002/index.html" class="project-image-link" target="_blank"
-                                                rel="noopener noreferrer">
-                                                <img src="assets/img/002 banner.png" alt="Student Life Organizer">
-                                                <div class="project-overlay">
-                                                    <h4>Student Life Organizer</h4>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="project-slide">
-                                            <a href="projects/003/index.html" class="project-image-link" target="_blank"
-                                                rel="noopener noreferrer">
-                                                <img src="projects/003/assets/img/NBthumb.png" alt="NEON BREAK">
-                                                <div class="project-overlay">
-                                                    <h4>NEONBREAK</h4>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-controls">
-                                    <button class="carousel-btn prev-btn" aria-label="Previous Project">
-                                        <i class='bx bx-chevron-left'></i>
-                                    </button>
-                                    <button class="carousel-btn next-btn" aria-label="Next Project">
-                                        <i class='bx bx-chevron-right'></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="img-hud-data">
+              <span class="hud-data-item">ID::CHAN_CORONADO</span>
+              <span class="hud-data-item">ROLE::DEV</span>
+              <span class="hud-data-item">STATUS::ACTIVE</span>
             </div>
-        </section>
+          </div>
 
-        <!-- Contact Section -->
-        <section class="section" id="contact" data-section="contact">
-            <div class="section-inner">
-                <div class="container-fluid container-custom contact-wrapper-oneview">
-                    <div class="row">
-                        <div class="col-12">
-                            <h2 class="section-title-compact">Get In <span class="highlight">Touch</span></h2>
-                        </div>
-                    </div>
+        </div>
 
-                    <div class="row contact-content-compact g-0">
-                        <div class="col-12 col-lg-4 contact-info-col-compact">
-                            <div class="contact-info-compact">
-                                <div class="contact-card-compact">
-                                    <div class="contact-icon-compact">
-                                        <i class='bx bx-envelope'></i>
-                                    </div>
-                                    <h4>Email</h4>
-                                    <p>coronadochristian415@gmail.com</p>
-                                </div>
-                                <div class="contact-card-compact">
-                                    <div class="contact-icon-compact">
-                                        <i class='bx bx-phone'></i>
-                                    </div>
-                                    <h4>Phone</h4>
-                                    <p><a href="tel:+639091436435">+63 909 143 6435</a></p>
-                                </div>
-                                <div class="contact-card-compact">
-                                    <div class="contact-icon-compact">
-                                        <i class='bx bx-map'></i>
-                                    </div>
-                                    <h4>Location</h4>
-                                    <p>Nagcarlan, Laguna</p>
-                                </div>
-                            </div>
-                        </div>
+      </div>
 
-                        <div class="col-12 col-lg-8 contact-form-col-compact pb-3">
-                            <div class="contact-form-wrapper-compact">
-                                <form class="contact-form-compact" id="contactForm">
-                                    <div class="row form-row-compact g-0">
-                                        <div class="col-12 col-md-6 form-col-left">
-                                            <div class="form-group-compact">
-                                                <input type="text" name="name" class="form-input-compact"
-                                                    placeholder="Your Name" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6 form-col-right">
-                                            <div class="form-group-compact">
-                                                <input type="email" name="email" class="form-input-compact"
-                                                    placeholder="Your Email" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group-compact">
-                                        <input type="text" name="subject" class="form-input-compact"
-                                            placeholder="Subject" required>
-                                    </div>
-                                    <div class="form-group-compact">
-                                        <textarea name="message" class="form-input-compact" rows="4"
-                                            placeholder="Your Message" required></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-submit-compact">
-                                        <i class='bx bx-send'></i>
-                                        <span>Send Message</span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    </section>
+    <!-- END HOME SECTION -->
+
+    <!-- ABOUT SECTION -->
+    <section class="section" id="about" data-section="about">
+      <div class="section-inner">
+
+        <!-- ABOUT INTRO HERO -->
+        <div class="about-intro-hero">
+          <div class="about-hero-text">
+            <span class="about-hero-eyebrow">Get to know me</span>
+            <h1 class="about-hero-name">
+              Christian
+              <span class="name-accent">Coronado</span>
+            </h1>
+            <div class="about-hero-roles">
+              <span class="role-badge">BSIT Student</span>
+              <span class="role-badge">Frontend Developer</span>
+              <span class="role-badge">UI Designer</span>
+              <span class="role-badge">Creator</span>
             </div>
-        </section>
-    </main>
+            <p class="about-hero-description">
+              Hi, I'm <span class="text-highlight">Chan</span> — a 22-year-old
+              <span class="text-highlight">BSIT student</span> at the
+              <span class="text-highlight">Polytechnic University of the Philippines</span>
+              Sto. Tomas Campus. I'm passionate about building
+              <span class="text-highlight">creative, user-friendly</span> digital experiences
+              and continuously pushing my skills toward becoming a
+              <span class="text-highlight">full-stack web developer</span>.
+            </p>
+            <div class="about-hero-stats">
+              <div class="hero-stat">
+                <span class="hero-stat-number">2+</span>
+                <span class="hero-stat-label">Years Coding</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-number">8+</span>
+                <span class="hero-stat-label">Projects Built</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-number">24/7</span>
+                <span class="hero-stat-label">Willing to Learn</span>
+              </div>
+            </div>
+          </div>
 
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+          <div class="about-hero-image-col">
+            <div class="about-hero-image-frame">
+              <div class="about-image-blob"></div>
+              <div class="about-img-floating-card card-top-left">
+                <div class="floating-card-icon"><i class='bx bxs-graduation'></i></div>
+                <div class="floating-card-text">PUP Sto. Tomas</div>
+                <div class="floating-card-sub">BSIT • 2022–Present</div>
+              </div>
+              <div class="about-img-wrapper">
+                <img src="assets/img/aboutpic1.png" alt="Christian Coronado" class="about-img-default" loading="lazy">
+                <img src="assets/img/aboutpic2.jpg" alt="Christian Coronado Alt" class="about-img-hover" loading="lazy">
+              </div>
+              <div class="about-img-floating-card card-bottom-right">
+                <div class="floating-card-icon"><i class='bx bxs-trophy'></i></div>
+                <div class="floating-card-text">Passionate Developer</div>
+                <div class="floating-card-sub">Learning, Building, Improving</div>
+              </div>
+            </div>
+          </div>
 
-    <!-- JavaScript -->
-    <script src="assets/js/script.js"></script>
-    <script src="assets/js/about.js"></script>
-    <script src="assets/js/cursor.js"></script>
+          <div class="scroll-indicator" aria-label="Scroll down">
+            <span class="scroll-indicator-text">Scroll</span>
+            <div class="scroll-indicator-line"></div>
+          </div>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <!-- TIMELINE -->
+        <div class="timeline-section">
+          <div class="about-section-block" style="padding-top: 0; padding-bottom: 0;">
+            <span class="subsection-label">My Journey</span>
+            <h3 class="subsection-title">Education <span class="highlight">Timeline</span></h3>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-date">2010 – 2016</span>
+                <h4>Elementary School</h4>
+                <p>Lazaan-Malinao Elementary School</p>
+              </div>
+              <div class="timeline-dot"><i class='bx bxs-graduation'></i></div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-date">2016 – 2020</span>
+                <h4>Junior High School</h4>
+                <p>Upland Integrated National High School</p>
+              </div>
+              <div class="timeline-dot"><i class='bx bxs-graduation'></i></div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-date">2020 – 2022</span>
+                <h4>Senior High School</h4>
+                <p>Upland Integrated National High School</p>
+              </div>
+              <div class="timeline-dot"><i class='bx bxs-graduation'></i></div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <span class="timeline-date">2022 – Present</span>
+                <h4>College</h4>
+                <p>Polytechnic University of the Philippines Sto. Tomas Campus</p>
+              </div>
+              <div class="timeline-dot"><i class='bx bxs-graduation'></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <!-- SKILLS -->
+        <div class="skills-section-block">
+          <span class="subsection-label">What I Work With</span>
+          <h3 class="subsection-title">Technical <span class="highlight">Skills</span></h3>
+
+          <!-- Frontend -->
+          <div class="skills-category-group">
+            <div class="skills-category-label">
+              <div class="skills-category-line"></div>
+              <span class="skills-category-text">Frontend Development</span>
+              <div class="skills-category-line"></div>
+            </div>
+            <div class="skills-logo-grid">
+              <div class="skill-logo-card" data-delay="0">
+                <img src="assets/img/skills/html.png" alt="HTML5" loading="lazy">
+                <span class="skill-logo-name">HTML5</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="90"></div>
+                </div>
+                <div class="skill-tooltip">90% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="80">
+                <img src="assets/img/skills/css.png" alt="CSS3" loading="lazy">
+                <span class="skill-logo-name">CSS3</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="88"></div>
+                </div>
+                <div class="skill-tooltip">88% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="160">
+                <img src="assets/img/skills/js.png" alt="JavaScript" loading="lazy">
+                <span class="skill-logo-name">JavaScript</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="85"></div>
+                </div>
+                <div class="skill-tooltip">85% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="240">
+                <img src="assets/img/skills/bootsrap.png" alt="Bootstrap" loading="lazy">
+                <span class="skill-logo-name">Bootstrap</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="85"></div>
+                </div>
+                <div class="skill-tooltip">85% Proficiency</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Programming Languages -->
+          <div class="skills-category-group">
+            <div class="skills-category-label">
+              <div class="skills-category-line"></div>
+              <span class="skills-category-text">Programming Languages</span>
+              <div class="skills-category-line"></div>
+            </div>
+            <div class="skills-logo-grid">
+              <div class="skill-logo-card" data-delay="0">
+                <img src="assets/img/skills/php.png" alt="PHP" loading="lazy">
+                <span class="skill-logo-name">PHP</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="85"></div>
+                </div>
+                <div class="skill-tooltip">85% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="80">
+                <img src="assets/img/skills/java.png" alt="Java" loading="lazy">
+                <span class="skill-logo-name">Java</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="80"></div>
+                </div>
+                <div class="skill-tooltip">80% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="160">
+                <img src="assets/img/skills/python.png" alt="Python" loading="lazy">
+                <span class="skill-logo-name">Python</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="75"></div>
+                </div>
+                <div class="skill-tooltip">75% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="240">
+                <img src="assets/img/skills/c.png" alt="C" loading="lazy">
+                <span class="skill-logo-name">C</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="70"></div>
+                </div>
+                <div class="skill-tooltip">70% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="320">
+                <img src="assets/img/skills/c++.png" alt="C++" loading="lazy">
+                <span class="skill-logo-name">C++</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="65"></div>
+                </div>
+                <div class="skill-tooltip">65% Proficiency</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Database & Backend -->
+          <div class="skills-category-group">
+            <div class="skills-category-label">
+              <div class="skills-category-line"></div>
+              <span class="skills-category-text">Database & Backend</span>
+              <div class="skills-category-line"></div>
+            </div>
+            <div class="skills-logo-grid">
+              <div class="skill-logo-card" data-delay="0">
+                <img src="assets/img/skills/mysql.png" alt="MySQL" loading="lazy">
+                <span class="skill-logo-name">MySQL</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="82"></div>
+                </div>
+                <div class="skill-tooltip">82% Proficiency</div>
+              </div>
+              <div class="skill-logo-card" data-delay="80">
+                <img src="assets/img/skills/sql server.png" alt="SQL Server" loading="lazy">
+                <span class="skill-logo-name">SQL Server</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" data-level="75"></div>
+                </div>
+                <div class="skill-tooltip">75% Proficiency</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tools & Technologies -->
+          <div class="skills-category-group">
+            <div class="skills-category-label">
+              <div class="skills-category-line"></div>
+              <span class="skills-category-text">Tools & Technologies</span>
+              <div class="skills-category-line"></div>
+            </div>
+            <div class="skills-logo-grid">
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Version Control</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                <span class="skill-logo-name">Git</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 85%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Code Hosting</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+                <span class="skill-logo-name">GitHub</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 85%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Code Editor</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+                <span class="skill-logo-name">VS Code</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 90%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">IDE</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg"
+                  alt="Visual Studio">
+                <span class="skill-logo-name">Visual Studio</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 75%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Local Server</span>
+                <img src="https://upload.wikimedia.org/wikipedia/en/7/78/XAMPP_logo.svg" alt="XAMPP">
+                <span class="skill-logo-name">XAMPP</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 80%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">UI/UX Design</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+                <span class="skill-logo-name">Figma</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 80%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Photo Editing</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg"
+                  alt="Photoshop">
+                <span class="skill-logo-name">Photoshop</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 70%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Graphic Design</span>
+                <img src="assets/img/skills/canva.png" alt="Canva">
+                <span class="skill-logo-name">Canva</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 90%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Data Science IDE</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
+                  alt="Jupyter">
+                <span class="skill-logo-name">Jupyter</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 75%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Python Distribution</span>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/anaconda/anaconda-original.svg"
+                  alt="Anaconda">
+                <span class="skill-logo-name">Anaconda</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 70%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">IT Fundamentals</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/1336/1336494.png" alt="Networking">
+                <span class="skill-logo-name">Networking</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 75%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">System Support</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/2911/2911178.png" alt="OS Troubleshooting">
+                <span class="skill-logo-name">OS Support</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 80%"></div>
+                </div>
+              </div>
+              <div class="skill-logo-card">
+                <span class="skill-tooltip">Hardware Tech</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="Hardware Servicing">
+                <span class="skill-logo-name">Hardware</span>
+                <div class="skill-logo-level">
+                  <div class="skill-logo-level-fill" style="--level: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <!-- HOBBIES -->
+        <div class="hobbies-section-block">
+          <span class="subsection-label">Beyond the Code</span>
+          <h3 class="subsection-title">Interests & <span class="highlight">Hobbies</span></h3>
+
+          <div class="hobbies-gallery-grid">
+            <div class="hobby-gallery-item large" data-imgs="assets/img/hobbies/fun-run.jpg"
+              data-title="Fun Run Enthusiast"
+              data-desc="Participating in community fun runs to stay active and motivated" data-delay="0">
+              <img src="assets/img/hobbies/fun-run.jpg" alt="Running / Fun Run" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Running</h4>
+                <p class="hobby-overlay-desc">Joining fun runs and staying active</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/mobile-gaming.jpg" data-title="Mobile Gaming"
+              data-desc="Unwinding with mobile games and exploring virtual worlds" data-delay="100">
+              <img src="assets/img/hobbies/mobile-gaming.jpg" alt="Gaming" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Mobile Gaming</h4>
+                <p class="hobby-overlay-desc">Unwinding with games</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/hardware.jpg" data-title="Hardware Servicing"
+              data-desc="Computer troubleshooting, system setup and hardware maintenance" data-delay="200">
+              <img src="assets/img/hobbies/hardware.jpg" alt="Hardware" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Hardware Servicing</h4>
+                <p class="hobby-overlay-desc">Building & fixing computers</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/design.png"
+              data-title="Photo & Graphic Editing"
+              data-desc="Editing photos and crafting graphics using Photoshop, Figma, and Canva" data-delay="300">
+              <img src="assets/img/hobbies/design.png" alt="Graphic Editing" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Photo & Graphic Editing</h4>
+                <p class="hobby-overlay-desc">Editing with Photoshop, Figma & Canva</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/leadership1.jpg" data-title="Leadership"
+              data-desc="Leading student organizations and collaborating with diverse teams" data-delay="400">
+              <img src="assets/img/hobbies/leadership.jpg" alt="Leadership" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Leadership</h4>
+                <p class="hobby-overlay-desc">Guiding teams forward</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/learning.jpg" data-title="Continuous Learning"
+              data-desc="Attending seminars on AI/ML, software development and emerging technologies" data-delay="500">
+              <img src="assets/img/hobbies/learning.jpg" alt="Learning" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Continuous Learning</h4>
+                <p class="hobby-overlay-desc">Always growing, always building</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/badminton.jpg" data-title="Playing Badminton"
+              data-desc="Smashing shuttlecocks and staying active on the court" data-delay="600">
+              <img src="assets/img/hobbies/badminton.jpg" alt="Badminton" class="hobby-img" loading="lazy">
+              <div class="hobby-overlay">
+                <h4 class="hobby-overlay-title">Playing Badminton</h4>
+                <p class="hobby-overlay-desc">Smashing it on the court</p>
+              </div>
+              <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true">
+          <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close lightbox"><i class='bx bx-x'></i></button>
+            <img src="" alt="" class="lightbox-img" loading="lazy">
+            <div class="lightbox-caption">
+              <h4></h4>
+              <p></p>
+            </div>
+          </div>
+          <button class="lightbox-nav-btn lightbox-prev" aria-label="Previous image"><i
+              class='bx bx-chevron-left'></i></button>
+          <button class="lightbox-nav-btn lightbox-next" aria-label="Next image"><i
+              class='bx bx-chevron-right'></i></button>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <!-- CAREER GOALS -->
+        <div class="goals-section-block">
+          <span class="subsection-label">Where I'm Headed</span>
+          <h3 class="subsection-title">Career <span class="highlight">Goals</span></h3>
+          <div class="goals-roadmap">
+            <div class="goal-roadmap-item" data-delay="0">
+              <div class="goal-roadmap-dot"></div>
+              <div class="goal-roadmap-card">
+                <div class="goal-roadmap-header">
+                  <div>
+                    <h4 class="goal-roadmap-title">Full-Stack Web Developer</h4>
+                    <p class="goal-roadmap-desc">Skilled in both frontend and backend technologies, building complete
+                      web applications that solve real-world problems.</p>
+                  </div>
+                  <span class="goal-roadmap-number">01</span>
+                </div>
+                <div class="goal-progress-bar">
+                  <div class="goal-progress-label">
+                    <span class="goal-progress-text">Progress</span>
+                    <span class="goal-progress-pct">65%</span>
+                  </div>
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" style="--progress: 65%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="goal-roadmap-item" data-delay="150">
+              <div class="goal-roadmap-dot"></div>
+              <div class="goal-roadmap-card">
+                <div class="goal-roadmap-header">
+                  <div>
+                    <h4 class="goal-roadmap-title">Work on Impactful Projects</h4>
+                    <p class="goal-roadmap-desc">Contribute to innovative projects that make a real difference in
+                      people's lives through technology and digital solutions.</p>
+                  </div>
+                  <span class="goal-roadmap-number">02</span>
+                </div>
+                <div class="goal-progress-bar">
+                  <div class="goal-progress-label">
+                    <span class="goal-progress-text">Progress</span>
+                    <span class="goal-progress-pct">40%</span>
+                  </div>
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" style="--progress: 40%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="goal-roadmap-item" data-delay="300">
+              <div class="goal-roadmap-dot"></div>
+              <div class="goal-roadmap-card">
+                <div class="goal-roadmap-header">
+                  <div>
+                    <h4 class="goal-roadmap-title">Join a Tech Company</h4>
+                    <p class="goal-roadmap-desc">Work with talented developers in startups or established tech companies
+                      to grow professionally.</p>
+                  </div>
+                  <span class="goal-roadmap-number">03</span>
+                </div>
+                <div class="goal-progress-bar">
+                  <div class="goal-progress-label">
+                    <span class="goal-progress-text">Progress</span>
+                    <span class="goal-progress-pct">20%</span>
+                  </div>
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" style="--progress: 20%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="goal-roadmap-item" data-delay="450">
+              <div class="goal-roadmap-dot"></div>
+              <div class="goal-roadmap-card">
+                <div class="goal-roadmap-header">
+                  <div>
+                    <h4 class="goal-roadmap-title">Continue Academic Excellence</h4>
+                    <p class="goal-roadmap-desc">Maintain President's Lister status and graduate with honors while
+                      contributing to the tech community.</p>
+                  </div>
+                  <span class="goal-roadmap-number">04</span>
+                </div>
+                <div class="goal-progress-bar">
+                  <div class="goal-progress-label">
+                    <span class="goal-progress-text">Progress</span>
+                    <span class="goal-progress-pct">80%</span>
+                  </div>
+                  <div class="goal-progress-track">
+                    <div class="goal-progress-fill" style="--progress: 80%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <!-- ACHIEVEMENTS -->
+        <div class="achievements-section-block">
+          <span class="subsection-label">Milestones</span>
+          <h3 class="subsection-title">Achievements & <span class="highlight">Certifications</span></h3>
+          <div class="achievements-grid">
+            <div class="achievement-card" data-icon="bx bxs-trophy" data-title="President's Lister"
+              data-date="2022 – Present"
+              data-desc="Consistent academic excellence — President's Lister from 2022 to Present at PUP Sto. Tomas."
+              data-imgs="assets/img/certifications/1-1.jpg,assets/img/certifications/1-2.jpg,assets/img/certifications/2-1.jpg,assets/img/certifications/2-2.jpg,assets/img/certifications/3-1.jpg,assets/img/certifications/3-2.jpg"
+              data-delay="0">
+              <div class="achievement-card-icon"><i class='bx bxs-trophy'></i></div>
+              <h4 class="achievement-card-title">President's Lister</h4>
+              <p class="achievement-card-desc">Consistent academic excellence at PUP Sto. Tomas from 2022 to Present.
+              </p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2022 – Present</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-graduation" data-title="High Honors Graduate"
+              data-date="2022"
+              data-desc="Graduated Senior High School with High Honors in the TVL-ICT track at Upland Integrated National High School."
+              data-imgs="assets/img/hobbies/senior-high.jpg,assets/img/certifications/Senior High Graduate.jpg"
+              data-delay="100">
+              <div class="achievement-card-icon"><i class='bx bxs-graduation'></i></div>
+              <h4 class="achievement-card-title">High Honors Graduate</h4>
+              <p class="achievement-card-desc">Graduated SHS with High Honors in TVL-ICT track (2020–2022).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2022</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certification" data-title="TESDA NCII Certified"
+              data-date="2022"
+              data-desc="TESDA National Certificate II (NC II) in Computer Systems Servicing — certified in 2022."
+              data-imgs="assets/img/certifications/NCII Cert.jpg" data-delay="300">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">NCII Certified</h4>
+              <p class="achievement-card-desc">TESDA NC II in Computer Systems Servicing — 2022.</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2022</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-briefcase-alt-2" data-title="Student Leader"
+              data-date="2024 – 2025"
+              data-desc="Central Student Council Representative (2024–2025) & Former Class Vice President at PUP Sto. Tomas."
+              data-imgs="assets/img/hobbies/leadership.jpg,assets/img/hobbies/leadership1.jpg" data-delay="400">
+              <div class="achievement-card-icon"><i class='bx bxs-briefcase-alt-2'></i></div>
+              <h4 class="achievement-card-title">Student Leader</h4>
+              <p class="achievement-card-desc">CSC College Representative (2024–2025)</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2024 – 2025</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxl-google" data-title="GDSC Member" data-date="2023 – 2024"
+              data-desc="Google Developers Student Clubs member at PUP Sto. Tomas Campus (2023–2024)."
+              data-imgs="assets/img/certifications/GDSC.jpg" data-delay="500">
+              <div class="achievement-card-icon"><i class='bx bxl-google'></i></div>
+              <h4 class="achievement-card-title">GDSC Member</h4>
+              <p class="achievement-card-desc">Google Developers Student Clubs at PUP Sto. Tomas (2023–2024).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2023 – 2024</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certification"
+              data-title="Tech Nexus 2024: Empowering Campus Innovators" data-date="2024"
+              data-desc="Certificate of Recognition for attending Tech Nexus 2024: Empowering Campus Innovators, December 7, 2024 at University of Batangas - Lipa Campus. Organized by Campus DEVCON."
+              data-imgs="assets/img/certifications/Tech Nexus.png" data-delay="700">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">Tech Nexus 2024</h4>
+              <p class="achievement-card-desc">Certificate of Recognition — Campus DEVCON (2024).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2024</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certification"
+              data-title="PAGLINANG: PUPSTC Student Leaders Executive Training" data-date="2024"
+              data-desc="Certificate of Participation for PAGLINANG: PUPSTC Student Leaders Executive Training, December 3, 2024 at PUP Sto. Tomas Campus."
+              data-imgs="assets/img/certifications/LEADERS EXECUTIVE TRAINING.png" data-delay="800">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">PAGLINANG: Student Leaders Training</h4>
+              <p class="achievement-card-desc">Certificate of Participation — PUP Sto. Tomas Campus (2024).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2024</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certificate"
+              data-title="Introduction to Project Management with ClickUp" data-date="2025"
+              data-desc="Completed Introduction to Project Management with ClickUp via Coursera (2025)."
+              data-imgs="assets/img/certifications/Introduction to Project Management with ClickUp.png"
+              data-delay="600">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">Introduction to Project Management with ClickUp</h4>
+              <p class="achievement-card-desc">Coursera (2025).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2025</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certification"
+              data-title="From Algorithms to Intelligence: AI & Machine Learning" data-date="2025"
+              data-desc="Certificate of Participation for the seminar — From Algorithms to Intelligence: Your Journey into Artificial Intelligence & Machine Learning, December 5, 2025 at PUP Sto. Tomas Campus."
+              data-imgs="assets/img/certifications/Artificial Intelligence & Machine Learning.png" data-delay="900">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">From Algorithms to Intelligence</h4>
+              <p class="achievement-card-desc">Certificate of Participation — AI & Machine Learning Seminar, PUP Sto.
+                Tomas (2025).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2025</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certification"
+              data-title="TechSTART November — Git Ready, Set, Commit" data-date="2024"
+              data-desc="Certificate of Participation at TechSTART November, November 22, 2024 via Zoom. Organized by DOST-SEI."
+              data-imgs="assets/img/certifications/TechSTART.png" data-delay="1100">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">TechSTART November — Git Ready, Set, Commit</h4>
+              <p class="achievement-card-desc">Certificate of Participation — DOST-SEI (2024).</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2024</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+            <div class="achievement-card" data-icon="bx bxs-certification"
+              data-title="Salesforce Supported Virtual Internship Program 2025 - Philippines" data-date="2025"
+              data-desc="Certificate of Completion for the Salesforce Supported Virtual Internship Program 2025 Philippines. 8-week virtual internship covering Salesforce Fundamentals, Apex, LWC, Agentforce, and more."
+              data-imgs="assets/img/certifications/Salesforce.png" data-delay="1000">
+              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
+              <h4 class="achievement-card-title">Salesforce Virtual Internship</h4>
+              <p class="achievement-card-desc">Certificate of Completion — Salesforce Supported Virtual Internship
+                Program 2025 Philippines.</p>
+              <div class="achievement-card-footer">
+                <span class="achievement-card-date">2025</span>
+                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievement Modal -->
+        <div class="achievement-modal-overlay" id="achievementModalOverlay" role="dialog" aria-modal="true">
+          <div class="achievement-modal">
+            <button class="achievement-modal-close" aria-label="Close modal"><i class='bx bx-x'></i></button>
+            <img src="" alt="" class="achievement-modal-img" style="display:none;" loading="lazy">
+            <div class="achievement-modal-img-placeholder"><i class='bx bxs-trophy'></i></div>
+            <div class="achievement-modal-body">
+              <div class="achievement-modal-icon"><i class='bx bxs-trophy'></i></div>
+              <h3 class="achievement-modal-title"></h3>
+              <p class="achievement-modal-date"></p>
+              <p class="achievement-modal-desc"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <!-- FUN FACTS -->
+        <div class="funfacts-section-block">
+          <span class="subsection-label">The Fun Part</span>
+          <h3 class="subsection-title">Fun <span class="highlight">Facts</span></h3>
+          <div class="funfacts-grid">
+            <div class="funfact-flip-card" data-delay="0">
+              <div class="funfact-flip-inner">
+                <div class="funfact-front">
+                  <div class="funfact-icon"><i class='bx bx-code-block'></i></div>
+                  <span class="funfact-front-title">Favorite Stack</span>
+                  <span class="funfact-front-hint">Hover to reveal</span>
+                </div>
+                <div class="funfact-back">
+                  <p class="funfact-back-text">HTML · CSS · JavaScript · PHP · Bootstrap · MySQL</p>
+                </div>
+              </div>
+            </div>
+            <div class="funfact-flip-card" data-delay="100">
+              <div class="funfact-flip-inner">
+                <div class="funfact-front">
+                  <div class="funfact-icon"><i class='bx bx-bulb'></i></div>
+                  <span class="funfact-front-title">How I Started</span>
+                  <span class="funfact-front-hint">Hover to reveal</span>
+                </div>
+                <div class="funfact-back">
+                  <p class="funfact-back-text">Started with TVL-ICT in SHS, fell in love with coding, and pursued BSIT
+                    at PUP Sto. Tomas.</p>
+                </div>
+              </div>
+            </div>
+            <div class="funfact-flip-card" data-delay="200">
+              <div class="funfact-flip-inner">
+                <div class="funfact-front">
+                  <div class="funfact-icon"><i class='bx bx-heart'></i></div>
+                  <span class="funfact-front-title">My Philosophy</span>
+                  <span class="funfact-front-hint">Hover to reveal</span>
+                </div>
+                <div class="funfact-back">
+                  <p class="funfact-back-text">"Still learning, still building, still improving."</p>
+                </div>
+              </div>
+            </div>
+            <div class="funfact-flip-card" data-delay="300">
+              <div class="funfact-flip-inner">
+                <div class="funfact-front">
+                  <div class="funfact-icon"><i class='bx bx-walk'></i></div>
+                  <span class="funfact-front-title">How I Relax</span>
+                  <span class="funfact-front-hint">Hover to reveal</span>
+                </div>
+                <div class="funfact-back">
+                  <p class="funfact-back-text">I unwind by strolling with friends and catching up with my special
+                    person.</p>
+                </div>
+              </div>
+            </div>
+            <div class="funfact-flip-card" data-delay="400">
+              <div class="funfact-flip-inner">
+                <div class="funfact-front">
+                  <div class="funfact-icon"><i class='bx bx-coffee'></i></div>
+                  <span class="funfact-front-title">Off the Clock</span>
+                  <span class="funfact-front-hint">Hover to reveal</span>
+                </div>
+                <div class="funfact-back">
+                  <p class="funfact-back-text">You'll find me playing mobile games, relaxing, and exploring hobbies
+                    outside of tech.</p>
+                </div>
+              </div>
+            </div>
+            <div class="funfact-flip-card" data-delay="400">
+              <div class="funfact-flip-inner">
+                <div class="funfact-front">
+                  <div class="funfact-icon"><i class='bx bx-moon'></i></div>
+                  <span class="funfact-front-title">Night Owl or Early Bird?</span>
+                  <span class="funfact-front-hint">Hover to reveal</span>
+                </div>
+                <div class="funfact-back">
+                  <p class="funfact-back-text">Night Owl 🦉</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Animated Counters -->
+          <div class="counter-grid">
+            <div class="counter-item" data-delay="0">
+              <span class="counter-number" data-target="2" data-suffix="+">0+</span>
+              <span class="counter-label">Years Coding</span>
+            </div>
+            <div class="counter-item" data-delay="100">
+              <span class="counter-number" data-target="8" data-suffix="+">0+</span>
+              <span class="counter-label">Projects Built</span>
+            </div>
+            <div class="counter-item" data-delay="200">
+              <span class="counter-number" data-target="5" data-suffix="+">0+</span>
+              <span class="counter-label">Certifications</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="about-scroll-top" id="aboutScrollTop" aria-label="Scroll to top">
+          <i class='bx bx-chevron-up'></i>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION-->
+    <section class="section" id="projects" data-section="projects">
+      <div class="section-inner">
+        <div class="container-fluid container-custom projects-wrapper">
+          <div class="row">
+            <div class="col-12 pt-5">
+              <h2 class="section-title">My <span class="highlight">Projects</span></h2>
+            </div>
+          </div>
+          <div class="row projects-grid-row g-0">
+            <!-- Project Details -->
+            <div class="col-12 col-lg-5 project-details-col-wrapper">
+              <div class="project-details-col">
+                <div class="project-detail active" data-project="0">
+                  <span class="project-number">01</span>
+                  <h3 class="project-title">Chan's Typing Test</h3>
+                  <p class="project-description">
+                    A modern typing speed test minigame designed to measure your typing accuracy,
+                    speed, and consistency in real time. Built with a sleek interface, responsive
+                    layout, and smooth performance.
+                  </p>
+                  <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Bootstrap</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="projects/001/index.html" class="project-link" aria-label="View Live Project">
+                      <i class='bx bx-link-external'></i>
+                      <span class="link-tooltip">Live Project</span>
+                    </a>
+                    <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
+                      aria-label="View GitHub Repository">
+                      <i class='bx bxl-github'></i>
+                      <span class="link-tooltip">GitHub Repo</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="project-detail" data-project="1">
+                  <span class="project-number">02</span>
+                  <h3 class="project-title">Student Life Organizer</h3>
+                  <p class="project-description">
+                    A comprehensive productivity platform for students featuring task management
+                    with priority filtering, color-coded weekly schedule planner, and budget tracking system.
+                    Implements modular JavaScript architecture with LocalStorage persistence and real-time dashboard
+                    analytics.
+                  </p>
+                  <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Bootstrap</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="projects/002/index.html" class="project-link" aria-label="View Live Project">
+                      <i class='bx bx-link-external'></i>
+                      <span class="link-tooltip">Live Project</span>
+                    </a>
+                    <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
+                      aria-label="View GitHub Repository">
+                      <i class='bx bxl-github'></i>
+                      <span class="link-tooltip">GitHub Repo</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="project-detail" data-project="2">
+                  <span class="project-number">03</span>
+                  <h3 class="project-title">NEONBREAK</h3>
+                  <p class="project-description">
+                    A retro arcade-style Breakout game built with HTML5 Canvas featuring
+                    neon glow effects, progressive difficulty across 5 levels, and a
+                    full power-up system. Implements modular JavaScript architecture with
+                    procedural Web Audio, multi-ball mechanics, and LocalStorage high score persistence.
+                  </p>
+                  <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Bootstrap</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="projects/003/index.html" class="project-link" aria-label="View Live Project">
+                      <i class='bx bx-link-external'></i>
+                      <span class="link-tooltip">Live Project</span>
+                    </a>
+                    <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
+                      aria-label="View GitHub Repository">
+                      <i class='bx bxl-github'></i>
+                      <span class="link-tooltip">GitHub Repo</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Carousel -->
+            <div class="col-12 col-lg-7 project-carousel-col-wrapper pb-5">
+              <div class="project-carousel-col">
+                <div class="project-carousel">
+                  <div class="carousel-track">
+                    <div class="project-slide">
+                      <a href="projects/001/index.html" class="project-image-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="assets/img/001 logo.png" alt="Chan's Typing Test">
+                        <div class="project-overlay">
+                          <h4>Chan's Typing Test</h4>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="project-slide">
+                      <a href="projects/002/index.html" class="project-image-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="assets/img/002 banner.png" alt="Student Life Organizer">
+                        <div class="project-overlay">
+                          <h4>Student Life Organizer</h4>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="project-slide">
+                      <a href="projects/003/index.html" class="project-image-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="projects/003/assets/img/NBthumb.png" alt="NEON BREAK">
+                        <div class="project-overlay">
+                          <h4>NEONBREAK</h4>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-controls">
+                  <button class="carousel-btn prev-btn" aria-label="Previous Project">
+                    <i class='bx bx-chevron-left'></i>
+                  </button>
+                  <button class="carousel-btn next-btn" aria-label="Next Project">
+                    <i class='bx bx-chevron-right'></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section" id="contact" data-section="contact">
+      <div class="section-inner">
+        <div class="container-fluid container-custom contact-wrapper-oneview">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="section-title-compact">Get In <span class="highlight">Touch</span></h2>
+            </div>
+          </div>
+          <div class="row contact-content-compact g-0">
+            <!-- Contact Info -->
+            <div class="col-12 col-lg-4 contact-info-col-compact">
+              <div class="contact-info-compact">
+                <div class="contact-card-compact">
+                  <div class="contact-icon-compact"><i class='bx bx-envelope'></i></div>
+                  <h4>Email</h4>
+                  <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                      data-cfemail="01626e736e6f60656e62697368727568606f35303441666c60686d2f626e6c">[email&#160;protected]</a>
+                  </p>
+                </div>
+                <div class="contact-card-compact">
+                  <div class="contact-icon-compact"><i class='bx bx-phone'></i></div>
+                  <h4>Phone</h4>
+                  <p><a href="tel:+639091436435">+63 909 143 6435</a></p>
+                </div>
+                <div class="contact-card-compact">
+                  <div class="contact-icon-compact"><i class='bx bx-map'></i></div>
+                  <h4>Location</h4>
+                  <p>Nagcarlan, Laguna</p>
+                </div>
+              </div>
+            </div>
+            <!-- Contact Form -->
+            <div class="col-12 col-lg-8 contact-form-col-compact pb-3">
+              <div class="contact-form-wrapper-compact">
+                <form class="contact-form-compact" id="contactForm">
+                  <div class="row form-row-compact g-0">
+                    <div class="col-12 col-md-6 form-col-left">
+                      <div class="form-group-compact">
+                        <input type="text" name="name" class="form-input-compact" placeholder="Your Name" required>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6 form-col-right">
+                      <div class="form-group-compact">
+                        <input type="email" name="email" class="form-input-compact" placeholder="Your Email" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group-compact">
+                    <input type="text" name="subject" class="form-input-compact" placeholder="Subject" required>
+                  </div>
+                  <div class="form-group-compact">
+                    <textarea name="message" class="form-input-compact" rows="4" placeholder="Your Message"
+                      required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-submit-compact">
+                    <i class='bx bx-send'></i>
+                    <span>Send Message</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+  <!-- scripts -->
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/about.js"></script>
+  <script src="assets/js/cursor.js"></script>
+  <script src="assets/js/home-three.js"></script>
+
 </body>
 
 </html>
