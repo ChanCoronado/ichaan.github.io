@@ -20,6 +20,7 @@
     --accent-primary: #10b981;
     --accent-secondary: #059669;
     --accent-glow: #10b98133;
+    --text-pup: #10b981;
 
     /* UI Elements */
     --border-color: #ffffff1a;
@@ -92,6 +93,7 @@ body.light-mode {
     --accent-primary: #B8860B;
     --accent-secondary: #DAA520;
     --accent-glow: #B8860B4d;
+    --text-pup: #800000;
 
     /* UI Elements */
     --border-color: #80000026;
