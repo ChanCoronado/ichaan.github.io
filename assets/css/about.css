@@ -386,10 +386,6 @@
 }
 
 .scroll-indicator {
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -399,6 +395,13 @@
     animation: fadeUpIn 0.7s ease 1.2s forwards;
     transition: opacity 0.3s ease;
     z-index: 5;
+    position: static;
+    transform: none;
+    bottom: auto;
+    left: auto;
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
 }
 
 .scroll-indicator:hover {
@@ -1799,8 +1802,26 @@
     }
 
     .about-hero-image-frame {
-        max-width: 340px;
+        max-width: 280px;
         margin: 0 auto;
+    }
+
+    .about-img-floating-card {
+        padding: 1rem 1.4rem;
+        border-radius: 1rem;
+    }
+
+    .floating-card-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .floating-card-text {
+        font-size: 1.1rem;
+    }
+
+    .floating-card-sub {
+        font-size: 0.95rem;
     }
 
     .about-img-floating-card.card-top-left {
@@ -1834,6 +1855,27 @@
 @media screen and (max-width: 768px) {
     .about-intro-hero {
         padding: 4rem clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .about-hero-image-frame {
+        max-width: 240px;
+    }
+
+    .about-img-floating-card {
+        padding: 0.8rem 1.2rem;
+        border-radius: 0.8rem;
+    }
+
+    .floating-card-icon {
+        font-size: 1.4rem;
+    }
+
+    .floating-card-text {
+        font-size: 1rem;
+    }
+
+    .floating-card-sub {
+        font-size: 0.85rem;
     }
 
     .about-section-block,
@@ -1932,11 +1974,25 @@
     }
 }
 
-
-
 @media screen and (max-width: 480px) {
     .about-hero-stats {
         gap: 2.5rem;
+    }
+
+    .about-hero-image-frame {
+        max-width: 200px;
+    }
+
+    .about-img-floating-card {
+        padding: 0.6rem 1rem;
+    }
+
+    .floating-card-text {
+        font-size: 0.9rem;
+    }
+
+    .floating-card-sub {
+        display: none;
     }
 
     .skills-logo-grid {
