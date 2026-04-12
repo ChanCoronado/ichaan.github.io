@@ -1972,6 +1972,51 @@
     .about-scroll-top i {
         font-size: 2.2rem;
     }
+
+    /* ── Skills collapse (mobile only) ── */
+    .skills-logo-grid .skill-logo-card:nth-child(n+7) {
+        display: none;
+    }
+
+    .skills-logo-grid.expanded .skill-logo-card:nth-child(n+7) {
+        display: flex;
+    }
+
+    .skills-show-more-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        width: 100%;
+        margin-top: 1.6rem;
+        padding: 1.2rem;
+        font-family: var(--font-body);
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--accent-primary);
+        background: var(--card-bg);
+        border: 1.5px solid var(--accent-primary);
+        border-radius: 10rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .skills-show-more-btn:hover {
+        background: var(--accent-primary);
+        color: var(--bg-primary);
+        box-shadow: 0 8px 20px var(--accent-glow);
+    }
+
+    .skills-show-more-btn i {
+        font-size: 1.8rem;
+        transition: transform 0.3s ease;
+    }
+
+    .skills-show-more-btn.expanded i {
+        transform: rotate(180deg);
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -2039,6 +2084,12 @@
         right: 1.6rem;
         width: 40px;
         height: 40px;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .skills-show-more-btn {
+        display: none;
     }
 }
 
