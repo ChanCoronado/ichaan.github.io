@@ -437,3 +437,30 @@ window.addEventListener('DOMContentLoaded', () => {
         setTimeout(initAboutSection, 600);
     }
 });
+
+function initSkillsCollapse() {
+    const grids = document.querySelectorAll('.skills-logo-grid');
+
+    grids.forEach(grid => {
+        const cards = grid.querySelectorAll('.skill-logo-card');
+        if (cards.length <= 6) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'skills-show-more-btn';
+        btn.innerHTML = `<i class='bx bx-chevron-down'></i><span>Show More (${cards.length - 6} more)</span>`;
+
+        btn.addEventListener('click', () => {
+            const isExpanded = grid.classList.toggle('expanded');
+            btn.classList.toggle('expanded', isExpanded);
+            btn.innerHTML = isExpanded
+                ? `<i class='bx bx-chevron-down'></i><span>Show Less</span>`
+                : `<i class='bx bx-chevron-down'></i><span>Show More (${cards.length - 6} more)</span>`;
+        });
+
+        grid.insertAdjacentElement('afterend', btn);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSkillsCollapse();
+});
