@@ -819,147 +819,230 @@
         <div class="about-divider"></div>
 
         <!-- ACHIEVEMENTS -->
-        <div class="achievements-section-block">
+      <div class="achievements-section-block">
           <span class="subsection-label">Milestones</span>
           <h3 class="subsection-title">Achievements & <span class="highlight">Certifications</span></h3>
-          <div class="achievements-grid">
-            <div class="achievement-card" data-icon="bx bxs-trophy" data-title="President's Lister"
-              data-date="2022 – Present"
+
+          <div class="achievements-filter-bar">
+            <button class="ach-filter-btn active" data-filter="all">All</button>
+            <button class="ach-filter-btn" data-filter="academic">Academic</button>
+            <button class="ach-filter-btn" data-filter="certification">Certifications</button>
+            <button class="ach-filter-btn" data-filter="leadership">Leadership</button>
+            <button class="ach-filter-btn" data-filter="community">Community</button>
+          </div>
+
+          <div class="achievements-wall" id="achievementsWall">
+
+            <div class="ach-frame-wrap featured" data-category="academic" data-delay="0"
+              data-icon="bx bxs-trophy" data-title="President's Lister" data-date="2022 – Present"
               data-desc="Consistent academic excellence — President's Lister from 2022 to Present at PUP Sto. Tomas."
-              data-imgs="assets/img/certifications/1-1.jpg,assets/img/certifications/1-2.jpg,assets/img/certifications/2-1.jpg,assets/img/certifications/2-2.jpg,assets/img/certifications/3-1.jpg,assets/img/certifications/3-2.jpg"
-              data-delay="0">
-              <div class="achievement-card-icon"><i class='bx bxs-trophy'></i></div>
-              <h4 class="achievement-card-title">President's Lister</h4>
-              <p class="achievement-card-desc">Consistent academic excellence at PUP Sto. Tomas from 2022 to Present.
-              </p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2022 – Present</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/certifications/1-1.jpg,assets/img/certifications/1-2.jpg,assets/img/certifications/2-1.jpg,assets/img/certifications/2-2.jpg,assets/img/certifications/3-1.jpg,assets/img/certifications/3-2.jpg">
+              <div class="ach-ribbon"><i class='bx bxs-crown'></i></div>
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal academic"><i class='bx bxs-trophy'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">President's Lister</div>
+                  <div class="ach-caption-date">2022 – Present</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 6 photos</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-graduation" data-title="High Honors Graduate"
-              data-date="2022"
+
+            <div class="ach-frame-wrap" data-category="academic" data-delay="80"
+              data-icon="bx bxs-graduation" data-title="High Honors Graduate" data-date="2022"
               data-desc="Graduated Senior High School with High Honors in the TVL-ICT track at Upland Integrated National High School."
-              data-imgs="assets/img/hobbies/senior-high.jpg,assets/img/certifications/Senior High Graduate.jpg"
-              data-delay="100">
-              <div class="achievement-card-icon"><i class='bx bxs-graduation'></i></div>
-              <h4 class="achievement-card-title">High Honors Graduate</h4>
-              <p class="achievement-card-desc">Graduated SHS with High Honors in TVL-ICT track (2020–2022).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2022</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/hobbies/senior-high.jpg,assets/img/certifications/Senior High Graduate.jpg">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal academic"><i class='bx bxs-graduation'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">High Honors Graduate</div>
+                  <div class="ach-caption-date">2022</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 2 photos</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-certification" data-title="TESDA NCII Certified"
-              data-date="2022"
+
+            <div class="ach-frame-wrap" data-category="certification" data-delay="160"
+              data-icon="bx bxs-certification" data-title="TESDA NCII Certified" data-date="2022"
               data-desc="TESDA National Certificate II (NC II) in Computer Systems Servicing — certified in 2022."
-              data-imgs="assets/img/certifications/NCII Cert.jpg" data-delay="300">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">NCII Certified</h4>
-              <p class="achievement-card-desc">TESDA NC II in Computer Systems Servicing — 2022.</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2022</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/certifications/NCII Cert.jpg">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal certification"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">NCII Certified</div>
+                  <div class="ach-caption-date">2022</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-briefcase-alt-2" data-title="Student Leader"
-              data-date="2024 – 2025"
+
+            <div class="ach-frame-wrap" data-category="leadership" data-delay="240"
+              data-icon="bx bxs-briefcase-alt-2" data-title="Student Leader" data-date="2024 – 2025"
               data-desc="Central Student Council Representative (2024–2025) & Former Class Vice President at PUP Sto. Tomas."
-              data-imgs="assets/img/hobbies/leadership.jpg,assets/img/hobbies/leadership1.jpg" data-delay="400">
-              <div class="achievement-card-icon"><i class='bx bxs-briefcase-alt-2'></i></div>
-              <h4 class="achievement-card-title">Student Leader</h4>
-              <p class="achievement-card-desc">CSC College Representative (2024–2025)</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2024 – 2025</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/hobbies/leadership.jpg,assets/img/hobbies/leadership1.jpg">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal leadership"><i class='bx bxs-briefcase-alt-2'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">Student Leader</div>
+                  <div class="ach-caption-date">2024 – 2025</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 2 photos</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxl-google" data-title="GDSC Member" data-date="2023 – 2024"
+
+            <div class="ach-frame-wrap" data-category="community" data-delay="320"
+              data-icon="bx bxl-google" data-title="GDSC Member" data-date="2023 – 2024"
               data-desc="Google Developers Student Clubs member at PUP Sto. Tomas Campus (2023–2024)."
-              data-imgs="assets/img/certifications/GDSC.jpg" data-delay="500">
-              <div class="achievement-card-icon"><i class='bx bxl-google'></i></div>
-              <h4 class="achievement-card-title">GDSC Member</h4>
-              <p class="achievement-card-desc">Google Developers Student Clubs at PUP Sto. Tomas (2023–2024).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2023 – 2024</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/certifications/GDSC.jpg">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal community"><i class='bx bxl-google'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">GDSC Member</div>
+                  <div class="ach-caption-date">2023 – 2024</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-certification"
-              data-title="Tech Nexus 2024: Empowering Campus Innovators" data-date="2024"
-              data-desc="Certificate of Recognition for attending Tech Nexus 2024: Empowering Campus Innovators, December 7, 2024 at University of Batangas - Lipa Campus. Organized by Campus DEVCON."
-              data-imgs="assets/img/certifications/Tech Nexus.png" data-delay="700">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">Tech Nexus 2024</h4>
-              <p class="achievement-card-desc">Certificate of Recognition — Campus DEVCON (2024).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2024</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-              </div>
-            </div>
-            <div class="achievement-card" data-icon="bx bxs-certification"
-              data-title="PAGLINANG: PUPSTC Student Leaders Executive Training" data-date="2024"
-              data-desc="Certificate of Participation for PAGLINANG: PUPSTC Student Leaders Executive Training, December 3, 2024 at PUP Sto. Tomas Campus."
-              data-imgs="assets/img/certifications/LEADERS EXECUTIVE TRAINING.png" data-delay="800">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">PAGLINANG: Student Leaders Training</h4>
-              <p class="achievement-card-desc">Certificate of Participation — PUP Sto. Tomas Campus (2024).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2024</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
-              </div>
-            </div>
-            <div class="achievement-card" data-icon="bx bxs-certificate"
-              data-title="Introduction to Project Management with ClickUp" data-date="2025"
+
+            <div class="ach-frame-wrap" data-category="certification" data-delay="400"
+              data-icon="bx bxs-certificate" data-title="Introduction to Project Management with ClickUp" data-date="2025"
               data-desc="Completed Introduction to Project Management with ClickUp via Coursera (2025)."
-              data-imgs="assets/img/certifications/Introduction to Project Management with ClickUp.png"
-              data-delay="600">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">Introduction to Project Management with ClickUp</h4>
-              <p class="achievement-card-desc">Coursera (2025).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2025</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/certifications/Introduction to Project Management with ClickUp.png">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal certification"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">Project Mgmt – ClickUp</div>
+                  <div class="ach-caption-date">2025</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-certification"
-              data-title="From Algorithms to Intelligence: AI & Machine Learning" data-date="2025"
-              data-desc="Certificate of Participation for the seminar — From Algorithms to Intelligence: Your Journey into Artificial Intelligence & Machine Learning, December 5, 2025 at PUP Sto. Tomas Campus."
-              data-imgs="assets/img/certifications/Artificial Intelligence & Machine Learning.png" data-delay="900">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">From Algorithms to Intelligence</h4>
-              <p class="achievement-card-desc">Certificate of Participation — AI & Machine Learning Seminar, PUP Sto.
-                Tomas (2025).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2025</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+
+            <div class="ach-frame-wrap" data-category="community" data-delay="480"
+              data-icon="bx bxs-certification" data-title="Tech Nexus 2024: Empowering Campus Innovators" data-date="2024"
+              data-desc="Certificate of Recognition for attending Tech Nexus 2024: Empowering Campus Innovators, December 7, 2024 at University of Batangas - Lipa Campus. Organized by Campus DEVCON."
+              data-imgs="assets/img/certifications/Tech Nexus.png">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal community"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">Tech Nexus 2024</div>
+                  <div class="ach-caption-date">2024</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-certification"
-              data-title="TechSTART November — Git Ready, Set, Commit" data-date="2024"
-              data-desc="Certificate of Participation at TechSTART November, November 22, 2024 via Zoom. Organized by DOST-SEI."
-              data-imgs="assets/img/certifications/TechSTART.png" data-delay="1100">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">TechSTART November — Git Ready, Set, Commit</h4>
-              <p class="achievement-card-desc">Certificate of Participation — DOST-SEI (2024).</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2024</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+
+            <div class="ach-frame-wrap" data-category="leadership" data-delay="560"
+              data-icon="bx bxs-certification" data-title="PAGLINANG: PUPSTC Student Leaders Executive Training" data-date="2024"
+              data-desc="Certificate of Participation for PAGLINANG: PUPSTC Student Leaders Executive Training, December 3, 2024 at PUP Sto. Tomas Campus."
+              data-imgs="assets/img/certifications/LEADERS EXECUTIVE TRAINING.png">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal leadership"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">PAGLINANG Training</div>
+                  <div class="ach-caption-date">2024</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
-            <div class="achievement-card" data-icon="bx bxs-certification"
-              data-title="Salesforce Supported Virtual Internship Program 2025 - Philippines" data-date="2025"
+
+            <div class="ach-frame-wrap" data-category="certification" data-delay="640"
+              data-icon="bx bxs-certification" data-title="Salesforce Virtual Internship" data-date="2025"
               data-desc="Certificate of Completion for the Salesforce Supported Virtual Internship Program 2025 Philippines. 8-week virtual internship covering Salesforce Fundamentals, Apex, LWC, Agentforce, and more."
-              data-imgs="assets/img/certifications/Salesforce.png" data-delay="1000">
-              <div class="achievement-card-icon"><i class='bx bxs-certification'></i></div>
-              <h4 class="achievement-card-title">Salesforce Virtual Internship</h4>
-              <p class="achievement-card-desc">Certificate of Completion — Salesforce Supported Virtual Internship
-                Program 2025 Philippines.</p>
-              <div class="achievement-card-footer">
-                <span class="achievement-card-date">2025</span>
-                <span class="achievement-view-btn">View <i class='bx bx-right-arrow-alt'></i></span>
+              data-imgs="assets/img/certifications/Salesforce.png">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal certification"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">Salesforce Internship</div>
+                  <div class="ach-caption-date">2025</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
               </div>
+              <div class="ach-pin"></div>
             </div>
+
+            <div class="ach-frame-wrap" data-category="community" data-delay="720"
+              data-icon="bx bxs-certification" data-title="TechSTART November — Git Ready, Set, Commit" data-date="2024"
+              data-desc="Certificate of Participation at TechSTART November, November 22, 2024 via Zoom. Organized by DOST-SEI."
+              data-imgs="assets/img/certifications/TechSTART.png">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal community"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">TechSTART — Git</div>
+                  <div class="ach-caption-date">2024</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
+              </div>
+              <div class="ach-pin"></div>
+            </div>
+
+            <div class="ach-frame-wrap" data-category="community" data-delay="800"
+              data-icon="bx bxs-certification" data-title="From Algorithms to Intelligence: AI & Machine Learning" data-date="2025"
+              data-desc="Certificate of Participation for the seminar — From Algorithms to Intelligence: Your Journey into Artificial Intelligence & Machine Learning, December 5, 2025 at PUP Sto. Tomas Campus."
+              data-imgs="assets/img/certifications/Artificial Intelligence & Machine Learning.png">
+              <div class="ach-frame">
+                <div class="ach-frame-border"></div>
+                <div class="ach-photo-area">
+                  <div class="ach-seal community"><i class='bx bxs-certification'></i></div>
+                  <div class="ach-img-placeholder"><i class='bx bxs-image'></i></div>
+                </div>
+                <div class="ach-caption">
+                  <div class="ach-caption-title">AI & ML Seminar</div>
+                  <div class="ach-caption-date">2025</div>
+                  <div class="ach-caption-meta"><i class='bx bx-images'></i> 1 photo</div>
+                </div>
+              </div>
+              <div class="ach-pin"></div>
+            </div>
+
           </div>
         </div>
 
