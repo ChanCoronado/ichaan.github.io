@@ -7,6 +7,7 @@ function initAboutSection() {
     initAboutImageTouch();
     initHobbyLightbox();
     initAchievementLightbox();
+    initAchievementsFilter();
     initAboutInViewAnimations();
     initFlipCards();
     initCounters();
@@ -255,7 +256,7 @@ function initHobbyLightbox() {
 }
 
 function initAchievementLightbox() {
-    const cards = document.querySelectorAll('.achievement-card');
+    const cards = document.querySelectorAll('.ach-frame-wrap');
     if (!cards.length) return;
 
     const overlay = createAchievementLightboxOverlay();
@@ -266,13 +267,6 @@ function initAchievementLightbox() {
     cards.forEach(card => {
         const rawImgs = (card.dataset.imgs || '').trim();
         const imgList = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
-
-        if (imgList.length > 0) {
-            const badge = document.createElement('span');
-            badge.className = 'achievement-img-badge';
-            badge.innerHTML = `<i class='bx bx-images'></i> ${imgList.length}`;
-            card.appendChild(badge);
-        }
 
         card.addEventListener('click', () => {
             if (lbIcon) lbIcon.className = card.dataset.icon || 'bx bxs-trophy';
@@ -285,6 +279,114 @@ function initAchievementLightbox() {
     });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// BUG FIX 1: Achievements filter
+//
+// Problems in original:
+//   a) animationend sometimes never fires (if element is already hidden /
+//      display:none), so cards get stuck and never receive .hidden.
+//   b) After un-hiding a card, .filtering-in plays but the card still has
+//      opacity:0 + transform from the base .ach-frame-wrap rule, AND it
+//      may have lost .in-view — so it appears blank after the animation.
+//   c) Rapid filter clicks cause overlapping animation states (race condition).
+//
+// Fix strategy:
+//   • Use a short setTimeout fallback instead of relying solely on animationend.
+//   • After showing a card, ensure .in-view is present and inline opacity/
+//     transform are cleared so the CSS tilt + visible state applies correctly.
+//   • Cancel any pending timers on each new filter click to avoid race conditions.
+// ─────────────────────────────────────────────────────────────────────────────
+function initAchievementsFilter() {
+    const filterBtns = document.querySelectorAll('.ach-filter-btn');
+    const wall = document.getElementById('achievementsWall');
+    if (!filterBtns.length || !wall) return;
+
+    // Keep track of pending timers so we can cancel on rapid clicks
+    let pendingTimers = [];
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Cancel any in-flight timers from previous filter clicks
+            pendingTimers.forEach(id => clearTimeout(id));
+            pendingTimers = [];
+
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            const cards = wall.querySelectorAll('.ach-frame-wrap');
+
+            cards.forEach((card, idx) => {
+                const match = filter === 'all' || card.dataset.category === filter;
+
+                // Clean up any leftover animation classes from previous runs
+                card.classList.remove('filtering-in', 'filtering-out');
+
+                if (!match) {
+                    // ── HIDE ──
+                    // Only animate out if currently visible
+                    if (!card.classList.contains('hidden')) {
+                        card.classList.add('filtering-out');
+
+                        const ANIM_DURATION = 260; // slightly longer than CSS 0.25s
+                        const timerId = setTimeout(() => {
+                            card.classList.remove('filtering-out');
+                            card.classList.add('hidden');
+                            // Reset inline styles so next show starts clean
+                            card.style.opacity = '';
+                            card.style.transform = '';
+                        }, ANIM_DURATION);
+                        pendingTimers.push(timerId);
+                    }
+                } else {
+                    // ── SHOW ──
+                    card.classList.remove('hidden');
+
+                    // Make sure .in-view is set so the card has correct base styles
+                    // (without it, opacity stays 0 from the base .ach-frame-wrap rule)
+                    card.classList.add('in-view');
+
+                    // Stagger each visible card slightly so they don't all pop at once
+                    const stagger = idx * 40;
+                    const timerId = setTimeout(() => {
+                        card.classList.add('filtering-in');
+
+                        const onDone = () => {
+                            card.classList.remove('filtering-in');
+                            // Ensure final state is correct (tilt + fully visible)
+                            card.style.opacity = '';
+                            card.style.transform = '';
+                        };
+
+                        // Primary: animationend
+                        card.addEventListener('animationend', onDone, { once: true });
+
+                        // Fallback: if animationend never fires (e.g. display issues)
+                        const fallbackId = setTimeout(() => {
+                            card.removeEventListener('animationend', onDone);
+                            onDone();
+                        }, 500);
+                        pendingTimers.push(fallbackId);
+                    }, stagger);
+                    pendingTimers.push(timerId);
+                }
+            });
+        });
+    });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUG FIX 2: IntersectionObserver for about section animations
+//
+// Problem: skill-logo-card level bars used `data-level` attribute in HTML but
+// the CSS transition rule uses `var(--level)`. The JS set `fill.style.width`
+// directly which works, but `--level` CSS variable was never updated, so on
+// re-observation the CSS override would win with an undefined variable (0%).
+//
+// Fix: Set BOTH the inline width AND the --level CSS variable to be safe,
+// and also handle the case where data-level is missing but --level is already
+// defined inline via the style attribute.
+// ─────────────────────────────────────────────────────────────────────────────
 function initAboutInViewAnimations() {
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
@@ -302,17 +404,33 @@ function initAboutInViewAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const el = entry.target;
-                const delay = el.getAttribute('data-delay') || 0;
+                const delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+
                 setTimeout(() => {
                     el.classList.add('in-view');
+
                     if (el.classList.contains('skill-logo-card')) {
                         const fill = el.querySelector('.skill-logo-level-fill');
                         if (fill) {
-                            const level = fill.getAttribute('data-level');
-                            fill.style.width = level + '%';
+                            // Support both data-level attribute AND inline --level CSS var
+                            const dataLevel = fill.getAttribute('data-level');
+                            if (dataLevel) {
+                                const pct = dataLevel + '%';
+                                // Set CSS variable used by the stylesheet rule
+                                fill.style.setProperty('--level', pct);
+                                // Also set width directly as a reliable fallback
+                                fill.style.width = pct;
+                            } else {
+                                // Fallback: trigger width from existing --level var
+                                const existingLevel = fill.style.getPropertyValue('--level');
+                                if (existingLevel) {
+                                    fill.style.width = existingLevel;
+                                }
+                            }
                         }
                     }
-                }, parseInt(delay));
+                }, delay);
+
                 observer.unobserve(el);
             }
         });
@@ -320,7 +438,7 @@ function initAboutInViewAnimations() {
 
     const targets = aboutSection.querySelectorAll(
         '.timeline-item, .skill-logo-card, .tool-tag, .hobby-gallery-item, ' +
-        '.goal-roadmap-item, .achievement-card, .funfact-flip-card, .counter-item'
+        '.goal-roadmap-item, .ach-frame-wrap, .funfact-flip-card, .counter-item'
     );
 
     targets.forEach(el => observer.observe(el));
@@ -413,6 +531,33 @@ function initAboutScrollTop() {
     });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// BUG FIX 3: Filter button click detection on mobile
+//
+// Problem: `.ach-frame-wrap` cards have a z-index stacking context and the
+// `.ach-pin` / `.ach-ribbon` pseudo-elements can sit on top of the filter
+// buttons if the achievements wall overflows or the layout shifts.
+// The filter bar also had no `position: relative` / `z-index`, so on some
+// viewports the card hover shadow would render over the buttons, blocking clicks.
+//
+// Fix: Ensure the filter bar sits above achievement cards by injecting a
+// runtime style that guarantees correct stacking. This avoids touching the
+// existing CSS file.
+// ─────────────────────────────────────────────────────────────────────────────
+function fixFilterBarStacking() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .achievements-filter-bar {
+            position: relative;
+            z-index: 10;
+        }
+        .ach-frame-wrap:hover {
+            z-index: 5 !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
 const aboutNavLink = document.querySelector('.nav-link[data-section="about"]');
 if (aboutNavLink) {
     aboutNavLink.addEventListener('click', () => {
@@ -432,6 +577,9 @@ if (mobileAboutLink) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    // Fix filter bar stacking immediately on load
+    fixFilterBarStacking();
+
     const hash = window.location.hash.substring(1) || 'home';
     if (hash === 'about') {
         setTimeout(initAboutSection, 600);
