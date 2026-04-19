@@ -13,6 +13,137 @@ function initAboutSection() {
     initCounters();
     initScrollIndicator();
     initAboutScrollTop();
+    initFunFactsSwipeStack();
+
+    function initFunFactsSwipeStack() {
+    const container = document.querySelector('.funfacts-swipe-stack');
+    if (!container) return;
+
+    const CARDS = [
+        { icon: 'bx bx-code-block', front: 'Favorite Stack', back: 'HTML · CSS · JavaScript · PHP · Bootstrap · MySQL' },
+        { icon: 'bx bx-bulb', front: 'How I Started', back: 'Started with TVL-ICT in SHS, fell in love with coding, then pursued BSIT at PUP Sto. Tomas.' },
+        { icon: 'bx bx-heart', front: 'My Philosophy', back: '"Still learning, still building, still improving."' },
+        { icon: 'bx bx-walk', front: 'How I Relax', back: 'Strolling with friends and catching up with my special person.' },
+        { icon: 'bx bx-coffee', front: 'Off the Clock', back: 'Mobile games, relaxing, and hobbies outside of tech.' },
+        { icon: 'bx bx-moon', front: 'Night Owl or Early Bird?', back: 'Night Owl 🦉' },
+    ];
+
+    const TILTS = [0, -3, 1.5, -2, 2, -1];
+    const SCALES = [1, 0.97, 0.94, 0.91, 0.88, 0.85];
+    const YOFFS = [0, 10, 20, 30, 40, 50];
+    let current = 0, flipped = false, startX = 0, startY = 0, dragX = 0, isDragging = false;
+    let topCard = null;
+
+    const deckEl = container.querySelector('.ff-deck-area');
+    const dotsEl = container.querySelector('.ff-swipe-dots');
+    const counterEl = container.querySelector('.ff-swipe-counter');
+
+    function buildDeck() {
+        deckEl.innerHTML = '';
+        const visible = Math.min(3, CARDS.length);
+        for (let i = visible - 1; i >= 0; i--) {
+            const idx = (current + i) % CARDS.length;
+            const card = document.createElement('div');
+            card.className = 'ff-swipe-card';
+            card.style.zIndex = visible - i;
+            if (i === 0) {
+                card.style.transform = 'rotate(0deg) scale(1) translateY(0)';
+                card.innerHTML = `
+                    <span class="ff-swipe-label">tap to flip</span>
+                    <div class="ff-swipe-icon"><i class='${CARDS[idx].icon}'></i></div>
+                    <span class="ff-swipe-title">${CARDS[idx].front}</span>
+                    <span class="ff-swipe-hint">swipe to skip</span>`;
+                topCard = card;
+            } else {
+                card.style.transform = `rotate(${TILTS[i]}deg) scale(${SCALES[i]}) translateY(${YOFFS[i]}px)`;
+                card.innerHTML = `<span class="ff-swipe-title" style="opacity:0.35">${CARDS[(current + i) % CARDS.length].front}</span>`;
+            }
+            deckEl.appendChild(card);
+        }
+        flipped = false;
+        updateDots();
+    }
+
+    function updateDots() {
+        dotsEl.innerHTML = '';
+        CARDS.forEach((_, i) => {
+            const d = document.createElement('div');
+            d.className = 'ff-swipe-dot' + (i === current ? ' active' : '');
+            dotsEl.appendChild(d);
+        });
+        if (counterEl) counterEl.textContent = (current + 1) + ' / ' + CARDS.length;
+    }
+
+    function flipTop() {
+        if (!topCard) return;
+        flipped = !flipped;
+        const idx = current;
+        if (flipped) {
+            topCard.innerHTML = `<span class="ff-swipe-back-text">${CARDS[idx].back}</span>`;
+            topCard.style.borderColor = 'var(--accent-primary)';
+            topCard.style.boxShadow = '0 12px 40px var(--accent-glow)';
+        } else {
+            topCard.innerHTML = `
+                <span class="ff-swipe-label">tap to flip</span>
+                <div class="ff-swipe-icon"><i class='${CARDS[idx].icon}'></i></div>
+                <span class="ff-swipe-title">${CARDS[idx].front}</span>
+                <span class="ff-swipe-hint">swipe to skip</span>`;
+            topCard.style.borderColor = '';
+            topCard.style.boxShadow = '';
+        }
+    }
+
+    function goTo(dir) {
+        current = (((current + dir) % CARDS.length) + CARDS.length) % CARDS.length;
+        buildDeck();
+    }
+
+    function swipeOut(dir) {
+        if (!topCard) return;
+        topCard.style.transition = 'transform 0.35s ease, opacity 0.35s';
+        topCard.style.transform = `translateX(${dir * 450}px) rotate(${dir * 18}deg)`;
+        topCard.style.opacity = '0';
+        setTimeout(() => goTo(dir), 320);
+    }
+
+    deckEl.addEventListener('mousedown', e => {
+        isDragging = true; startX = e.clientX; startY = e.clientY; dragX = 0;
+        if (topCard) topCard.style.transition = 'none';
+    });
+    deckEl.addEventListener('mousemove', e => {
+        if (!isDragging || !topCard) return;
+        dragX = e.clientX - startX;
+        topCard.style.transform = `translateX(${dragX}px) rotate(${dragX * 0.07}deg)`;
+    });
+    deckEl.addEventListener('mouseup', e => {
+        if (!isDragging) return; isDragging = false;
+        const movedY = Math.abs(e.clientY - startY);
+        if (Math.abs(dragX) < 8 && movedY < 8) { flipTop(); if (topCard) topCard.style.transform = ''; return; }
+        if (Math.abs(dragX) > 70) swipeOut(dragX > 0 ? 1 : -1);
+        else if (topCard) { topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
+    });
+    deckEl.addEventListener('mouseleave', () => {
+        if (isDragging && topCard) { isDragging = false; topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
+    });
+    deckEl.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX; startY = e.touches[0].clientY; dragX = 0;
+        if (topCard) topCard.style.transition = 'none';
+    }, { passive: true });
+    deckEl.addEventListener('touchmove', e => {
+        if (!topCard) return;
+        dragX = e.touches[0].clientX - startX;
+        topCard.style.transform = `translateX(${dragX}px) rotate(${dragX * 0.07}deg)`;
+    }, { passive: true });
+    deckEl.addEventListener('touchend', e => {
+        if (!topCard) return;
+        const movedY = Math.abs(e.changedTouches[0].clientY - startY);
+        if (Math.abs(dragX) < 8 && movedY < 8) { flipTop(); topCard.style.transform = ''; return; }
+        if (Math.abs(dragX) > 70) swipeOut(dragX > 0 ? 1 : -1);
+        else { topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
+    });
+
+    buildDeck();
+}
 }
 
 function initAboutImageTouch() {
@@ -279,89 +410,72 @@ function initAchievementLightbox() {
     });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BUG FIX 1: Achievements filter
-//
-// Problems in original:
-//   a) animationend sometimes never fires (if element is already hidden /
-//      display:none), so cards get stuck and never receive .hidden.
-//   b) After un-hiding a card, .filtering-in plays but the card still has
-//      opacity:0 + transform from the base .ach-frame-wrap rule, AND it
-//      may have lost .in-view — so it appears blank after the animation.
-//   c) Rapid filter clicks cause overlapping animation states (race condition).
-//
-// Fix strategy:
-//   • Use a short setTimeout fallback instead of relying solely on animationend.
-//   • After showing a card, ensure .in-view is present and inline opacity/
-//     transform are cleared so the CSS tilt + visible state applies correctly.
-//   • Cancel any pending timers on each new filter click to avoid race conditions.
-// ─────────────────────────────────────────────────────────────────────────────
 function initAchievementsFilter() {
-    const filterBtns = document.querySelectorAll('.ach-filter-btn');
+    const track = document.getElementById('achPillTrack');
+    const slider = document.getElementById('achPillSlider');
     const wall = document.getElementById('achievementsWall');
-    if (!filterBtns.length || !wall) return;
+    if (!track || !wall) return;
 
-    // Keep track of pending timers so we can cancel on rapid clicks
+    const filterBtns = track.querySelectorAll('.ach-filter-btn');
     let pendingTimers = [];
+
+    function moveSlider(btn) {
+        const trackRect = track.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+        slider.style.left = (btnRect.left - trackRect.left + track.scrollLeft) + 'px';
+        slider.style.width = btnRect.width + 'px';
+    }
+
+    // Init slider position after fonts load
+    requestAnimationFrame(() => {
+        const active = track.querySelector('.ach-filter-btn.active');
+        if (active) moveSlider(active);
+    });
+    window.addEventListener('resize', () => {
+        const active = track.querySelector('.ach-filter-btn.active');
+        if (active) moveSlider(active);
+    });
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Cancel any in-flight timers from previous filter clicks
             pendingTimers.forEach(id => clearTimeout(id));
             pendingTimers = [];
 
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            moveSlider(btn);
+            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
             const filter = btn.dataset.filter;
             const cards = wall.querySelectorAll('.ach-frame-wrap');
 
             cards.forEach((card, idx) => {
                 const match = filter === 'all' || card.dataset.category === filter;
-
-                // Clean up any leftover animation classes from previous runs
                 card.classList.remove('filtering-in', 'filtering-out');
 
                 if (!match) {
-                    // ── HIDE ──
-                    // Only animate out if currently visible
                     if (!card.classList.contains('hidden')) {
                         card.classList.add('filtering-out');
-
-                        const ANIM_DURATION = 260; // slightly longer than CSS 0.25s
                         const timerId = setTimeout(() => {
                             card.classList.remove('filtering-out');
                             card.classList.add('hidden');
-                            // Reset inline styles so next show starts clean
                             card.style.opacity = '';
                             card.style.transform = '';
-                        }, ANIM_DURATION);
+                        }, 260);
                         pendingTimers.push(timerId);
                     }
                 } else {
-                    // ── SHOW ──
                     card.classList.remove('hidden');
-
-                    // Make sure .in-view is set so the card has correct base styles
-                    // (without it, opacity stays 0 from the base .ach-frame-wrap rule)
                     card.classList.add('in-view');
-
-                    // Stagger each visible card slightly so they don't all pop at once
                     const stagger = idx * 40;
                     const timerId = setTimeout(() => {
                         card.classList.add('filtering-in');
-
                         const onDone = () => {
                             card.classList.remove('filtering-in');
-                            // Ensure final state is correct (tilt + fully visible)
                             card.style.opacity = '';
                             card.style.transform = '';
                         };
-
-                        // Primary: animationend
                         card.addEventListener('animationend', onDone, { once: true });
-
-                        // Fallback: if animationend never fires (e.g. display issues)
                         const fallbackId = setTimeout(() => {
                             card.removeEventListener('animationend', onDone);
                             onDone();
@@ -375,18 +489,6 @@ function initAchievementsFilter() {
     });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BUG FIX 2: IntersectionObserver for about section animations
-//
-// Problem: skill-logo-card level bars used `data-level` attribute in HTML but
-// the CSS transition rule uses `var(--level)`. The JS set `fill.style.width`
-// directly which works, but `--level` CSS variable was never updated, so on
-// re-observation the CSS override would win with an undefined variable (0%).
-//
-// Fix: Set BOTH the inline width AND the --level CSS variable to be safe,
-// and also handle the case where data-level is missing but --level is already
-// defined inline via the style attribute.
-// ─────────────────────────────────────────────────────────────────────────────
 function initAboutInViewAnimations() {
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
