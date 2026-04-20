@@ -1263,40 +1263,82 @@
 }
 
 .achievements-filter-bar {
+    position: relative;
+    z-index: 10;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     margin-bottom: 4rem;
-    align-items: center;
+}
+.achievements-filter-bar::-webkit-scrollbar { display: none; }
+
+.ach-pill-track {
+    position: relative;
+    display: inline-flex;
+    background: var(--card-bg);
+    border-radius: 10rem;
+    padding: 5px;
+    border: 1.5px solid var(--border-color);
+    gap: 0;
+    flex-shrink: 0;
+}
+
+.ach-pill-slider {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: calc(100% - 10px);
+    background: var(--accent-primary);
+    border-radius: 10rem;
+    transition: left 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), width 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
+    pointer-events: none;
+    box-shadow: 0 4px 14px var(--accent-glow);
+    z-index: 0;
 }
 
 .ach-filter-btn {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-body);
     font-size: 1.3rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--text-secondary);
-    background: var(--card-bg);
-    border: 1.5px solid var(--border-color);
+    background: transparent;
+    border: none;
     border-radius: 10rem;
-    padding: 0.8rem 2rem;
+    padding: 0.8rem 1.8rem;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: color 0.2s ease;
 }
-
-.ach-filter-btn:hover {
-    border-color: var(--accent-primary);
+.ach-filter-btn.active {
+    color: var(--bg-primary);
+}
+.ach-filter-btn:hover:not(.active) {
     color: var(--accent-primary);
 }
-
-.ach-filter-btn.active {
-    background: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: var(--bg-primary);
-    box-shadow: 0 6px 20px var(--accent-glow);
+.ach-filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.ach-filter-btn:not(.active) .ach-filter-count {
+    background: var(--border-color);
+    color: var(--text-secondary);
 }
 
 .achievements-wall {
@@ -1792,12 +1834,11 @@
     }
 
     .achievements-filter-bar {
-        gap: 0.8rem;
+        margin-bottom: 2.5rem;
     }
-
     .ach-filter-btn {
-        font-size: 1.15rem;
-        padding: 0.6rem 1.4rem;
+        font-size: 1.2rem;
+        padding: 0.7rem 1.4rem;
     }
 
     .achievement-lightbox .lightbox-content {
@@ -2074,6 +2115,91 @@
     visibility: hidden !important;
 }
 
+.ff-deck-area {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    height: 210px;
+    margin: 0 auto 2rem;
+    user-select: none;
+    touch-action: pan-y;
+}
+.ff-swipe-card {
+    position: absolute;
+    inset: 0;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border-color);
+    border-radius: 2rem;
+    padding: 3rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    text-align: center;
+    cursor: grab;
+    will-change: transform;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.ff-swipe-card:active { cursor: grabbing; }
+.ff-swipe-icon {
+    width: 52px; height: 52px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px var(--accent-glow);
+}
+.ff-swipe-icon i { font-size: 2.4rem; color: var(--bg-primary); }
+.ff-swipe-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--text-tertiary);
+}
+.ff-swipe-hint {
+    font-family: var(--font-body);
+    font-size: 1.2rem; color: var(--text-secondary);
+    letter-spacing: 0.04em;
+}
+.ff-swipe-back-text {
+    font-family: var(--font-body);
+    font-size: 1.5rem; color: var(--text-secondary);
+    line-height: 1.7;
+}
+.ff-swipe-label {
+    position: absolute;
+    top: 1.2rem; right: 1.4rem;
+    font-size: 1.1rem; color: var(--text-secondary);
+    background: var(--border-color);
+    padding: 0.3rem 1rem; border-radius: 10rem;
+    opacity: 0.7;
+}
+.ff-swipe-hint-row {
+    display: flex; align-items: center; gap: 1rem;
+    font-family: var(--font-body);
+    font-size: 1.2rem; color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+.ff-swipe-dots {
+    display: flex; gap: 0.6rem; margin-top: 0.4rem;
+}
+.ff-swipe-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: background 0.2s, transform 0.2s;
+}
+.ff-swipe-dot.active {
+    background: var(--accent-primary);
+    transform: scale(1.4);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+.ff-swipe-counter {
+    font-family: var(--font-body);
+    font-size: 1.2rem; color: var(--text-secondary);
+    margin-top: 0.8rem;
+}
+
 @media screen and (max-width: 1024px) {
     .about-intro-hero {
         grid-template-columns: 1fr;
@@ -2307,7 +2433,12 @@
     }
 
     .funfacts-grid {
-        grid-template-columns: 1fr 1fr;
+        display: none;
+    }
+    .funfacts-swipe-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .counter-grid {
@@ -2475,6 +2606,11 @@
 }
 
 @media screen and (min-width: 769px) {
+
+    .funfacts-swipe-stack {
+        display: none;
+    }
+
     .skills-show-more-btn {
         display: none;
     }
