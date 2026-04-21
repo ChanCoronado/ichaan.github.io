@@ -2122,7 +2122,7 @@
     height: 210px;
     margin: 0 auto 2rem;
     user-select: none;
-    touch-action: pan-y;
+    touch-action: none;
 }
 .ff-swipe-card {
     position: absolute;
