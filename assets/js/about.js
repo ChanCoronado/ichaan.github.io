@@ -118,7 +118,7 @@ function initAboutSection() {
     deckEl.addEventListener('mouseup', e => {
         if (!isDragging) return; isDragging = false;
         const movedY = Math.abs(e.clientY - startY);
-        if (Math.abs(dragX) < 8 && movedY < 8) { flipTop(); if (topCard) topCard.style.transform = ''; return; }
+        if (Math.abs(dragX) < 12 && movedY < 12) { flipTop(); if (topCard) topCard.style.transform = ''; return; }
         if (Math.abs(dragX) > 70) swipeOut(dragX > 0 ? 1 : -1);
         else if (topCard) { topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
     });
@@ -137,7 +137,7 @@ function initAboutSection() {
     deckEl.addEventListener('touchend', e => {
         if (!topCard) return;
         const movedY = Math.abs(e.changedTouches[0].clientY - startY);
-        if (Math.abs(dragX) < 8 && movedY < 8) { flipTop(); topCard.style.transform = ''; return; }
+        if (Math.abs(dragX) < 12 && movedY < 12) { flipTop(); topCard.style.transform = ''; return; }
         if (Math.abs(dragX) > 70) swipeOut(dragX > 0 ? 1 : -1);
         else { topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
     });
