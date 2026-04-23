@@ -1272,7 +1272,10 @@
     -ms-overflow-style: none;
     margin-bottom: 4rem;
 }
-.achievements-filter-bar::-webkit-scrollbar { display: none; }
+
+.achievements-filter-bar::-webkit-scrollbar {
+    display: none;
+}
 
 .ach-pill-track {
     position: relative;
@@ -1317,12 +1320,15 @@
     gap: 0.6rem;
     transition: color 0.2s ease;
 }
+
 .ach-filter-btn.active {
     color: var(--bg-primary);
 }
+
 .ach-filter-btn:hover:not(.active) {
     color: var(--accent-primary);
 }
+
 .ach-filter-count {
     display: inline-flex;
     align-items: center;
@@ -1330,12 +1336,13 @@
     min-width: 20px;
     height: 20px;
     padding: 0 5px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 10rem;
     font-size: 1.1rem;
     font-weight: 600;
     transition: background 0.2s;
 }
+
 .ach-filter-btn:not(.active) .ach-filter-count {
     background: var(--border-color);
     color: var(--text-secondary);
@@ -1836,6 +1843,7 @@
     .achievements-filter-bar {
         margin-bottom: 2.5rem;
     }
+
     .ach-filter-btn {
         font-size: 1.2rem;
         padding: 0.7rem 1.4rem;
@@ -1984,8 +1992,8 @@
 
 .counter-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
     margin-top: 4rem;
     padding-top: 4rem;
     border-top: 1px solid var(--border-color);
@@ -1993,7 +2001,7 @@
 
 .counter-item {
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 2rem 1.2rem;
     background: var(--card-bg);
     border: 1.5px solid var(--border-color);
     border-radius: 1.6rem;
@@ -2016,22 +2024,22 @@
 
 .counter-number {
     font-family: var(--font-heading);
-    font-size: clamp(3.5rem, 5vw, 5rem);
+    font-size: clamp(2.8rem, 4vw, 5rem);
     font-weight: 800;
     color: var(--accent-primary);
     letter-spacing: -0.04em;
     line-height: 1;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.6rem;
     display: block;
 }
 
 .counter-label {
     font-family: var(--font-body);
-    font-size: 1.4rem;
+    font-size: clamp(1.1rem, 1.2vw, 1.4rem);
     font-weight: 500;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
 }
 
 @keyframes fadeUpIn {
@@ -2124,6 +2132,7 @@
     user-select: none;
     touch-action: none;
 }
+
 .ff-swipe-card {
     position: absolute;
     inset: 0;
@@ -2142,61 +2151,94 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
-.ff-swipe-card:active { cursor: grabbing; }
+
+.ff-swipe-card:active {
+    cursor: grabbing;
+}
+
 .ff-swipe-icon {
-    width: 52px; height: 52px;
+    width: 52px;
+    height: 52px;
     background: var(--accent-primary);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 6px 18px var(--accent-glow);
 }
-.ff-swipe-icon i { font-size: 2.4rem; color: var(--bg-primary); }
+
+.ff-swipe-icon i {
+    font-size: 2.4rem;
+    color: var(--bg-primary);
+}
+
 .ff-swipe-title {
     font-family: var(--font-heading);
-    font-size: 1.8rem; font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 700;
     color: var(--text-tertiary);
 }
+
 .ff-swipe-hint {
     font-family: var(--font-body);
-    font-size: 1.2rem; color: var(--text-secondary);
+    font-size: 1.2rem;
+    color: var(--text-secondary);
     letter-spacing: 0.04em;
 }
+
 .ff-swipe-back-text {
     font-family: var(--font-body);
-    font-size: 1.5rem; color: var(--text-secondary);
+    font-size: 1.5rem;
+    color: var(--text-secondary);
     line-height: 1.7;
 }
+
 .ff-swipe-label {
     position: absolute;
-    top: 1.2rem; right: 1.4rem;
-    font-size: 1.1rem; color: var(--text-secondary);
+    top: 1.2rem;
+    right: 1.4rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
     background: var(--border-color);
-    padding: 0.3rem 1rem; border-radius: 10rem;
+    padding: 0.3rem 1rem;
+    border-radius: 10rem;
     opacity: 0.7;
 }
+
 .ff-swipe-hint-row {
-    display: flex; align-items: center; gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     font-family: var(--font-body);
-    font-size: 1.2rem; color: var(--text-secondary);
+    font-size: 1.2rem;
+    color: var(--text-secondary);
     margin-bottom: 1rem;
 }
+
 .ff-swipe-dots {
-    display: flex; gap: 0.6rem; margin-top: 0.4rem;
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
 }
+
 .ff-swipe-dot {
-    width: 7px; height: 7px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--border-color);
     transition: background 0.2s, transform 0.2s;
 }
+
 .ff-swipe-dot.active {
     background: var(--accent-primary);
     transform: scale(1.4);
     box-shadow: 0 0 8px var(--accent-glow);
 }
+
 .ff-swipe-counter {
     font-family: var(--font-body);
-    font-size: 1.2rem; color: var(--text-secondary);
+    font-size: 1.2rem;
+    color: var(--text-secondary);
     margin-top: 0.8rem;
 }
 
@@ -2435,6 +2477,7 @@
     .funfacts-grid {
         display: none;
     }
+
     .funfacts-swipe-stack {
         display: flex;
         flex-direction: column;
@@ -2442,7 +2485,25 @@
     }
 
     .counter-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+        margin-top: 2.5rem;
+        padding-top: 2.5rem;
+    }
+
+    .counter-item {
+        padding: 1.4rem 0.8rem;
+        border-radius: 1.2rem;
+    }
+
+    .counter-number {
+        font-size: clamp(2.2rem, 6vw, 3rem);
+        margin-bottom: 0.4rem;
+    }
+
+    .counter-label {
+        font-size: 1rem;
+        letter-spacing: 0.04em;
     }
 
     .lightbox-nav-btn {
@@ -2544,7 +2605,23 @@
     }
 
     .counter-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6rem;
+    }
+
+    .counter-item {
+        padding: 1.2rem 0.5rem;
+        border-radius: 1rem;
+    }
+
+    .counter-number {
+        font-size: clamp(1.9rem, 5.5vw, 2.4rem);
+        margin-bottom: 0.3rem;
+    }
+
+    .counter-label {
+        font-size: 0.9rem;
+        letter-spacing: 0.02em;
     }
 
     .achievements-grid {
