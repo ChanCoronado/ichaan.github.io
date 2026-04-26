@@ -320,6 +320,10 @@
         opacity: 1;
         transform: scale(1);
     }
+
+    .funfact-flip-card.flipped .funfact-flip-inner {
+        transform: rotateY(180deg);
+    }
 }
 
 .about-img-floating-card {
@@ -1915,9 +1919,11 @@
     transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.funfact-flip-card:hover .funfact-flip-inner,
-.funfact-flip-card.flipped .funfact-flip-inner {
-    transform: rotateY(180deg);
+@media (hover: hover) and (pointer: fine) {
+    .funfact-flip-card:hover .funfact-flip-inner,
+    .funfact-flip-card.flipped .funfact-flip-inner {
+        transform: rotateY(180deg);
+    }
 }
 
 .funfact-front,
