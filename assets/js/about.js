@@ -38,6 +38,11 @@ function initAboutSection() {
     const dotsEl = container.querySelector('.ff-swipe-dots');
     const counterEl = container.querySelector('.ff-swipe-counter');
 
+    // Block long-press context menu on the deck
+    deckEl.style.webkitUserSelect = 'none';
+    deckEl.style.userSelect = 'none';
+    deckEl.style.webkitTouchCallout = 'none';
+    deckEl.addEventListener('contextmenu', e => e.preventDefault());
     function buildDeck() {
         deckEl.innerHTML = '';
         const visible = Math.min(3, CARDS.length);
@@ -106,6 +111,7 @@ function initAboutSection() {
         setTimeout(() => goTo(dir), 320);
     }
 
+    // ── Mouse events ──
     deckEl.addEventListener('mousedown', e => {
         isDragging = true; startX = e.clientX; startY = e.clientY; dragX = 0;
         if (topCard) topCard.style.transition = 'none';
@@ -125,21 +131,45 @@ function initAboutSection() {
     deckEl.addEventListener('mouseleave', () => {
         if (isDragging && topCard) { isDragging = false; topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
     });
+
+    // ── Touch events (instant tap = flip, swipe = skip) ──
+    let touchMoved = false;
+
     deckEl.addEventListener('touchstart', e => {
-        startX = e.touches[0].clientX; startY = e.touches[0].clientY; dragX = 0;
-        if (topCard) topCard.style.transition = 'none';
-    }, { passive: true });
+        e.preventDefault(); // blocks long-press context menu
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        dragX = 0;
+        touchMoved = false;
+    }, { passive: false }); // must be false to allow preventDefault
+
     deckEl.addEventListener('touchmove', e => {
         if (!topCard) return;
         dragX = e.touches[0].clientX - startX;
-        topCard.style.transform = `translateX(${dragX}px) rotate(${dragX * 0.07}deg)`;
+        const movedY = Math.abs(e.touches[0].clientY - startY);
+        if (Math.abs(dragX) > 15 || movedY > 15) {
+            touchMoved = true;
+        }
+        if (touchMoved) {
+            topCard.style.transition = 'none';
+            topCard.style.transform = `translateX(${dragX}px) rotate(${dragX * 0.07}deg)`;
+        }
     }, { passive: true });
+
     deckEl.addEventListener('touchend', e => {
         if (!topCard) return;
-        const movedY = Math.abs(e.changedTouches[0].clientY - startY);
-        if (Math.abs(dragX) < 12 && movedY < 12) { flipTop(); topCard.style.transform = ''; return; }
-        if (Math.abs(dragX) > 70) swipeOut(dragX > 0 ? 1 : -1);
-        else { topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
+        if (!touchMoved) {
+            // Instant tap — flip immediately
+            flipTop();
+            return;
+        }
+        // Swipe gesture
+        if (Math.abs(dragX) > 70) {
+            swipeOut(dragX > 0 ? 1 : -1);
+        } else {
+            topCard.style.transition = 'transform 0.3s';
+            topCard.style.transform = '';
+        }
     });
 
     buildDeck();
@@ -514,16 +544,12 @@ function initAboutInViewAnimations() {
                     if (el.classList.contains('skill-logo-card')) {
                         const fill = el.querySelector('.skill-logo-level-fill');
                         if (fill) {
-                            // Support both data-level attribute AND inline --level CSS var
                             const dataLevel = fill.getAttribute('data-level');
                             if (dataLevel) {
                                 const pct = dataLevel + '%';
-                                // Set CSS variable used by the stylesheet rule
                                 fill.style.setProperty('--level', pct);
-                                // Also set width directly as a reliable fallback
                                 fill.style.width = pct;
                             } else {
-                                // Fallback: trigger width from existing --level var
                                 const existingLevel = fill.style.getPropertyValue('--level');
                                 if (existingLevel) {
                                     fill.style.width = existingLevel;
@@ -635,16 +661,6 @@ function initAboutScrollTop() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BUG FIX 3: Filter button click detection on mobile
-//
-// Problem: `.ach-frame-wrap` cards have a z-index stacking context and the
-// `.ach-pin` / `.ach-ribbon` pseudo-elements can sit on top of the filter
-// buttons if the achievements wall overflows or the layout shifts.
-// The filter bar also had no `position: relative` / `z-index`, so on some
-// viewports the card hover shadow would render over the buttons, blocking clicks.
-//
-// Fix: Ensure the filter bar sits above achievement cards by injecting a
-// runtime style that guarantees correct stacking. This avoids touching the
-// existing CSS file.
 // ─────────────────────────────────────────────────────────────────────────────
 function fixFilterBarStacking() {
     const style = document.createElement('style');
@@ -679,7 +695,6 @@ if (mobileAboutLink) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    // Fix filter bar stacking immediately on load
     fixFilterBarStacking();
 
     const hash = window.location.hash.substring(1) || 'home';
