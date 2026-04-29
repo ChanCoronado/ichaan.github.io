@@ -1352,6 +1352,20 @@
     color: var(--text-secondary);
 }
 
+.ach-photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ach-frame-wrap:hover .ach-photo-img {
+    transform: scale(1.05);
+}
+
 .achievements-wall {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
