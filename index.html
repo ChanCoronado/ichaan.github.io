@@ -677,8 +677,10 @@
               </div>
               <div class="hobby-open-btn"><i class='bx bx-expand-alt'></i></div>
             </div>
-            <div class="hobby-gallery-item" data-imgs="assets/img/hobbies/leadership.jpg, assets/img/hobbies/leadership1.jpg, assets/img/hobbies/leadership2.jpg, assets/img/hobbies/leadership3.jpg, assets/img/hobbies/leadership4.jpg, assets/img/hobbies/leadership5.jpg, assets/img/hobbies/leadership6.jpg" data-title="Leadership"
-              data-desc="Leading student organizations and collaborating with diverse teams" data-delay="400">
+            <div class="hobby-gallery-item"
+              data-imgs="assets/img/hobbies/leadership.jpg, assets/img/hobbies/leadership1.jpg, assets/img/hobbies/leadership2.jpg, assets/img/hobbies/leadership3.jpg, assets/img/hobbies/leadership4.jpg, assets/img/hobbies/leadership5.jpg, assets/img/hobbies/leadership6.jpg"
+              data-title="Leadership" data-desc="Leading student organizations and collaborating with diverse teams"
+              data-delay="400">
               <img src="assets/img/hobbies/leadership.jpg" alt="Leadership" class="hobby-img" loading="lazy">
               <div class="hobby-overlay">
                 <h4 class="hobby-overlay-title">Leadership</h4>
@@ -1192,142 +1194,162 @@
     <!-- PROJECTS SECTION-->
     <section class="section" id="projects" data-section="projects">
       <div class="section-inner">
-        <div class="container-fluid container-custom projects-wrapper">
-          <div class="row">
-            <div class="col-12 pt-5">
-              <h2 class="section-title">My <span class="highlight">Projects</span></h2>
+        <div class="proj-header">
+          <div>
+            <span class="proj-eyebrow">Selected Work</span>
+            <h2 class="section-title">My <span class="highlight">Projects</span></h2>
+          </div>
+          <div class="proj-counter">
+            <span class="curr" id="currNum">1</span>
+            <span class="sep">/</span>
+            <span class="total">3</span>
+          </div>
+        </div>
+
+        <div class="proj-body">
+          <!-- SIDEBAR -->
+          <div class="proj-sidebar">
+            <div class="proj-sidebar-inner">
+              <div class="proj-nav-item active" data-idx="0">
+                <span class="proj-nav-num">01</span>
+                <div class="proj-nav-thumb">
+                  <img src="assets/img/001 logo.png" alt="Typing Test">
+                </div>
+                <div class="proj-nav-info">
+                  <div class="proj-nav-name">Chan's Typing Test</div>
+                  <div class="proj-nav-tags">
+                    <span class="proj-nav-tag">HTML</span>
+                    <span class="proj-nav-tag">CSS</span>
+                    <span class="proj-nav-tag">JS</span>
+                  </div>
+                </div>
+                <i class='bx bx-chevron-right proj-nav-arrow'></i>
+              </div>
+              <div class="proj-nav-item" data-idx="1">
+                <span class="proj-nav-num">02</span>
+                <div class="proj-nav-thumb">
+                  <img src="assets/img/002 banner.png" alt="Student Life Organizer">
+                </div>
+                <div class="proj-nav-info">
+                  <div class="proj-nav-name">Student Life Organizer</div>
+                  <div class="proj-nav-tags">
+                    <span class="proj-nav-tag">HTML</span>
+                    <span class="proj-nav-tag">JS</span>
+                    <span class="proj-nav-tag">Bootstrap</span>
+                  </div>
+                </div>
+                <i class='bx bx-chevron-right proj-nav-arrow'></i>
+              </div>
+              <div class="proj-nav-item" data-idx="2">
+                <span class="proj-nav-num">03</span>
+                <div class="proj-nav-thumb">
+                  <img src="projects/003/assets/img/NBthumb.png" alt="NEONBREAK">
+                </div>
+                <div class="proj-nav-info">
+                  <div class="proj-nav-name">NEONBREAK</div>
+                  <div class="proj-nav-tags">
+                    <span class="proj-nav-tag">Canvas</span>
+                    <span class="proj-nav-tag">JS</span>
+                  </div>
+                </div>
+                <i class='bx bx-chevron-right proj-nav-arrow'></i>
+              </div>
             </div>
           </div>
-          <div class="row projects-grid-row g-0">
-            <!-- Project Details -->
-            <div class="col-12 col-lg-5 project-details-col-wrapper">
-              <div class="project-details-col">
-                <div class="project-detail active" data-project="0">
-                  <span class="project-number">01</span>
-                  <h3 class="project-title">Chan's Typing Test</h3>
-                  <p class="project-description">
-                    A modern typing speed test minigame designed to measure your typing accuracy,
-                    speed, and consistency in real time. Built with a sleek interface, responsive
-                    layout, and smooth performance.
-                  </p>
-                  <div class="project-tech">
-                    <span class="tech-tag">HTML</span>
-                    <span class="tech-tag">CSS</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Bootstrap</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="projects/001/index.html" class="project-link" aria-label="View Live Project">
-                      <i class='bx bx-link-external'></i>
-                      <span class="link-tooltip">Live Project</span>
-                    </a>
-                    <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
-                      aria-label="View GitHub Repository">
-                      <i class='bx bxl-github'></i>
-                      <span class="link-tooltip">GitHub Repo</span>
-                    </a>
-                  </div>
+
+          <!-- PANEL -->
+          <div class="proj-panel" id="projPanel">
+            <div class="proj-detail active" data-project="0">
+              <div class="proj-img-wrap">
+                <img src="assets/img/001 logo.png" alt="Chan's Typing Test">
+                <div class="proj-img-overlay"></div>
+                <span class="proj-img-badge"><span class="live-dot"></span>Live</span>
+                <div class="proj-img-links">
+                  <a href="projects/001/index.html" class="proj-img-link"><i class='bx bx-link-external'></i></a>
+                  <a href="https://github.com/ChanCoronado/ichaan.github.io" class="proj-img-link" target="_blank"><i
+                      class='bx bxl-github'></i></a>
                 </div>
-                <div class="project-detail" data-project="1">
-                  <span class="project-number">02</span>
-                  <h3 class="project-title">Student Life Organizer</h3>
-                  <p class="project-description">
-                    A comprehensive productivity platform for students featuring task management
-                    with priority filtering, color-coded weekly schedule planner, and budget tracking system.
-                    Implements modular JavaScript architecture with LocalStorage persistence and real-time dashboard
-                    analytics.
-                  </p>
-                  <div class="project-tech">
-                    <span class="tech-tag">HTML</span>
-                    <span class="tech-tag">CSS</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Bootstrap</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="projects/002/index.html" class="project-link" aria-label="View Live Project">
-                      <i class='bx bx-link-external'></i>
-                      <span class="link-tooltip">Live Project</span>
-                    </a>
-                    <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
-                      aria-label="View GitHub Repository">
-                      <i class='bx bxl-github'></i>
-                      <span class="link-tooltip">GitHub Repo</span>
-                    </a>
-                  </div>
-                </div>
-                <div class="project-detail" data-project="2">
-                  <span class="project-number">03</span>
-                  <h3 class="project-title">NEONBREAK</h3>
-                  <p class="project-description">
-                    A retro arcade-style Breakout game built with HTML5 Canvas featuring
-                    neon glow effects, progressive difficulty across 5 levels, and a
-                    full power-up system. Implements modular JavaScript architecture with
-                    procedural Web Audio, multi-ball mechanics, and LocalStorage high score persistence.
-                  </p>
-                  <div class="project-tech">
-                    <span class="tech-tag">HTML</span>
-                    <span class="tech-tag">CSS</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Bootstrap</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="projects/003/index.html" class="project-link" aria-label="View Live Project">
-                      <i class='bx bx-link-external'></i>
-                      <span class="link-tooltip">Live Project</span>
-                    </a>
-                    <a href="https://github.com/ChanCoronado/ichaan.github.io" class="project-link"
-                      aria-label="View GitHub Repository">
-                      <i class='bx bxl-github'></i>
-                      <span class="link-tooltip">GitHub Repo</span>
-                    </a>
-                  </div>
-                </div>
+              </div>
+              <div class="proj-detail-num">Project 01 · Web App</div>
+              <h3 class="proj-detail-title">Chan's Typing Test</h3>
+              <p class="proj-detail-desc">A modern typing speed test minigame designed to measure your typing accuracy,
+                speed, and consistency in real time. Built with a sleek interface, responsive layout, and smooth
+                performance.</p>
+              <div class="proj-tech-list">
+                <span class="proj-tech-chip">HTML5</span>
+                <span class="proj-tech-chip">CSS3</span>
+                <span class="proj-tech-chip">JavaScript</span>
+                <span class="proj-tech-chip">Bootstrap</span>
+              </div>
+              <div class="proj-detail-actions">
+                <a href="projects/001/index.html" class="btn-proj-primary"><i class='bx bx-play'></i> View Project</a>
+                <a href="https://github.com/ChanCoronado/ichaan.github.io" class="btn-proj-ghost" target="_blank"><i
+                    class='bx bxl-github'></i> Source Code</a>
               </div>
             </div>
 
-            <!-- Project Carousel -->
-            <div class="col-12 col-lg-7 project-carousel-col-wrapper pb-5">
-              <div class="project-carousel-col">
-                <div class="project-carousel">
-                  <div class="carousel-track">
-                    <div class="project-slide">
-                      <a href="projects/001/index.html" class="project-image-link" target="_blank"
-                        rel="noopener noreferrer">
-                        <img src="assets/img/001 logo.png" alt="Chan's Typing Test">
-                        <div class="project-overlay">
-                          <h4>Chan's Typing Test</h4>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="project-slide">
-                      <a href="projects/002/index.html" class="project-image-link" target="_blank"
-                        rel="noopener noreferrer">
-                        <img src="assets/img/002 banner.png" alt="Student Life Organizer">
-                        <div class="project-overlay">
-                          <h4>Student Life Organizer</h4>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="project-slide">
-                      <a href="projects/003/index.html" class="project-image-link" target="_blank"
-                        rel="noopener noreferrer">
-                        <img src="projects/003/assets/img/NBthumb.png" alt="NEON BREAK">
-                        <div class="project-overlay">
-                          <h4>NEONBREAK</h4>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="carousel-controls">
-                  <button class="carousel-btn prev-btn" aria-label="Previous Project">
-                    <i class='bx bx-chevron-left'></i>
-                  </button>
-                  <button class="carousel-btn next-btn" aria-label="Next Project">
-                    <i class='bx bx-chevron-right'></i>
-                  </button>
+            <div class="proj-detail" data-project="1">
+              <div class="proj-img-wrap">
+                <img src="assets/img/002 banner.png" alt="Student Life Organizer">
+                <div class="proj-img-overlay"></div>
+                <span class="proj-img-badge"><span class="live-dot"></span>Live</span>
+                <div class="proj-img-links">
+                  <a href="projects/002/index.html" class="proj-img-link"><i class='bx bx-link-external'></i></a>
+                  <a href="https://github.com/ChanCoronado/ichaan.github.io" class="proj-img-link" target="_blank"><i
+                      class='bx bxl-github'></i></a>
                 </div>
               </div>
+              <div class="proj-detail-num">Project 02 · Productivity Tool</div>
+              <h3 class="proj-detail-title">Student Life Organizer</h3>
+              <p class="proj-detail-desc">A comprehensive productivity platform for students featuring task management
+                with priority filtering, color-coded weekly schedule planner, and budget tracking with real-time
+                dashboard analytics.</p>
+              <div class="proj-tech-list">
+                <span class="proj-tech-chip">HTML5</span>
+                <span class="proj-tech-chip">CSS3</span>
+                <span class="proj-tech-chip">JavaScript</span>
+                <span class="proj-tech-chip">Bootstrap</span>
+                <span class="proj-tech-chip">LocalStorage</span>
+              </div>
+              <div class="proj-detail-actions">
+                <a href="projects/002/index.html" class="btn-proj-primary"><i class='bx bx-play'></i> View Project</a>
+                <a href="https://github.com/ChanCoronado/ichaan.github.io" class="btn-proj-ghost" target="_blank"><i
+                    class='bx bxl-github'></i> Source Code</a>
+              </div>
+            </div>
+
+            <div class="proj-detail" data-project="2">
+              <div class="proj-img-wrap">
+                <img src="projects/003/assets/img/NBthumb.png" alt="NEONBREAK">
+                <div class="proj-img-overlay"></div>
+                <span class="proj-img-badge"><span class="live-dot"></span>Live</span>
+                <div class="proj-img-links">
+                  <a href="projects/003/index.html" class="proj-img-link"><i class='bx bx-link-external'></i></a>
+                  <a href="https://github.com/ChanCoronado/ichaan.github.io" class="proj-img-link" target="_blank"><i
+                      class='bx bxl-github'></i></a>
+                </div>
+              </div>
+              <div class="proj-detail-num">Project 03 · Arcade Game</div>
+              <h3 class="proj-detail-title">NEONBREAK</h3>
+              <p class="proj-detail-desc">A retro arcade-style Breakout game built with HTML5 Canvas featuring neon glow
+                effects, progressive difficulty across 5 levels, a full power-up system with multi-ball mechanics and
+                high score persistence.</p>
+              <div class="proj-tech-list">
+                <span class="proj-tech-chip">HTML5 Canvas</span>
+                <span class="proj-tech-chip">CSS3</span>
+                <span class="proj-tech-chip">JavaScript</span>
+                <span class="proj-tech-chip">Web Audio API</span>
+                <span class="proj-tech-chip">LocalStorage</span>
+              </div>
+              <div class="proj-detail-actions">
+                <a href="projects/003/index.html" class="btn-proj-primary"><i class='bx bx-joystick'></i> Play Game</a>
+                <a href="https://github.com/ChanCoronado/ichaan.github.io" class="btn-proj-ghost" target="_blank"><i
+                    class='bx bxl-github'></i> Source Code</a>
+              </div>
+            </div>
+
+            <div class="proj-progress">
+              <div class="proj-progress-fill" id="projProgress" style="width:33.33%"></div>
             </div>
           </div>
         </div>
