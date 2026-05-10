@@ -262,7 +262,7 @@
 .proj-img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, var(--bg-primary) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 40%);
     pointer-events: none;
 }
 
@@ -325,7 +325,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary);
+    color: var(--accent-primary);
     font-size: 1.6rem;
     text-decoration: none;
     transition: all 0.3s;
