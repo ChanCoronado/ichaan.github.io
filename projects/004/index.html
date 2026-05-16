@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Baymax AI — Your emotionally intelligent companion. Futuristic health monitoring and AI assistance." />
+  <title>Baymax AI — Your Personal Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../004/css/style.css" />
+  <link rel="stylesheet" href="../004/css/animation.css" />
+  <link rel="stylesheet" href="../004/css/responsive.css" />
+  <style>
+    .hero-section {
+      min-height: 100vh;
+      padding-top: 130px;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .hero-bg-radial {
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      margin-bottom: 0;
+    }
+
+    .hero-headline .accent-outline {
+      -webkit-text-stroke: 2px var(--black);
+      color: transparent;
+    }
+
+    .hero-lead {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 1.1rem;
+      color: var(--mid-gray);
+      line-height: 1.75;
+      max-width: 480px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--dark-gray);
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .baymax-visual-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 520px;
+    }
+
+    .baymax-glow-bg {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .baymax-svg-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .orbit-system {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 50%;
+    }
+
+    .orbit-system-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      border: 1px dashed rgba(0, 0, 0, 0.08);
+      border-radius: 50%;
+    }
+
+    .orbit-dot-el {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: var(--charcoal);
+      border-radius: 50%;
+      margin: -5px;
+      transform-origin: 210px 0;
+    }
+
+    .orbit-dot-el.small {
+      width: 7px;
+      height: 7px;
+      margin: -3.5px;
+      background: var(--mid-gray);
+      transform-origin: 150px 0;
+    }
+
+    .floating-info-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      box-shadow: var(--shadow-md);
+      z-index: 3;
+      white-space: nowrap;
+    }
+
+    .floating-info-card .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 4px;
+    }
+
+    .floating-info-card .card-value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--black);
+    }
+
+    .floating-info-card.card-pulse {
+      top: 12%;
+      right: -8%;
+    }
+
+    .floating-info-card.card-mood {
+      bottom: 18%;
+      left: -8%;
+    }
+
+    .floating-info-card.card-status {
+      top: 45%;
+      right: -14%;
+    }
+
+    .hero-stats-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--silver);
+    }
+
+    .hero-stat-item .stat-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--black);
+      letter-spacing: -0.03em;
+    }
+
+    .hero-stat-item .stat-label {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--mid-gray);
+      margin-top: 2px;
+    }
+
+    .section-padding {
+      padding: 120px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 36px 32px;
+      border-radius: var(--radius-lg);
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--charcoal);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: var(--radius-lg);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .feature-card:hover .feature-title,
+    .feature-card:hover .feature-desc,
+    .feature-card:hover .feature-num {
+      color: var(--white);
+    }
+
+    .feature-card:hover .feature-icon-wrap {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .feature-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .feature-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--light-gray);
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+      transition: var(--transition-base);
+    }
+
+    .feature-icon-wrap {
+      width: 52px;
+      height: 52px;
+      background: var(--silver);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: var(--transition-base);
+    }
+
+    .feature-icon-wrap svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--charcoal);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feature-card:hover .feature-icon-wrap svg {
+      stroke: var(--white);
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      transition: var(--transition-base);
+    }
+
+    .feature-desc {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.88rem;
+      color: var(--mid-gray);
+      line-height: 1.65;
+      transition: var(--transition-base);
+    }
+
+    .feature-card.large-card {
+      grid-column: span 2;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .assistant-section {
+      background: var(--off-white);
+    }
+
+    .assistant-panel {
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .assistant-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--silver);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .baymax-mini-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--charcoal);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .baymax-mini-avatar svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--white);
+    }
+
+    .assistant-header-info .assistant-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--black);
+    }
+
+    .assistant-header-info .assistant-status {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--mid-gray);
+      letter-spacing: 0.05em;
+    }
+
+    .assistant-chat-body {
+      height: 360px;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    .assistant-chat-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .assistant-chat-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .assistant-chat-body::-webkit-scrollbar-thumb {
+      background: var(--silver);
+      border-radius: 2px;
+    }
+
+    .assistant-message-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .assistant-message-wrap.user-wrap {
+      flex-direction: row-reverse;
+    }
+
+    .assistant-message {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .bot-message {
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      color: var(--charcoal);
+      border-bottom-left-radius: 6px;
+    }
+
+    .user-message {
+      background: var(--charcoal);
+      color: var(--white);
+      border-bottom-right-radius: 6px;
+    }
+
+    .bot-avatar {
+      width: 30px;
+      height: 30px;
+      background: var(--charcoal);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bot-avatar svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--white);
+    }
+
+    .typing-indicator-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .typing-dots {
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      border-radius: 18px;
+      border-bottom-left-radius: 6px;
+      padding: 14px 18px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background: var(--mid-gray);
+      border-radius: 50%;
+      animation: typing-bounce 1.2s ease-in-out infinite;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes typing-bounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .assistant-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--silver);
+    }
+
+    .assistant-input-wrap {
+      display: flex;
+      gap: 10px;
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-full);
+      padding: 6px 6px 6px 18px;
+      align-items: center;
+    }
+
+    .assistant-input-wrap input {
+      flex: 1;
+      border: none;
+      background: none;
+      outline: none;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      color: var(--charcoal);
+      min-width: 0;
+    }
+
+    .assistant-input-wrap input::placeholder {
+      color: var(--light-gray);
+    }
+
+    .assistant-send-btn {
+      width: 36px;
+      height: 36px;
+      background: var(--charcoal);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: var(--transition-spring);
+    }
+
+    .assistant-send-btn:hover {
+      background: var(--black);
+      transform: scale(1.08);
+    }
+
+    .assistant-send-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .quick-prompts {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .quick-prompt-btn {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--dark-gray);
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .quick-prompt-btn:hover {
+      background: var(--charcoal);
+      color: var(--white);
+      border-color: var(--charcoal);
+    }
+
+    .assistant-feature-info {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      height: 100%;
+      border: 1px solid var(--silver);
+    }
+
+    .big-number {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 4.5rem;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--black);
+    }
+
+    .about-section {
+      background: var(--black);
+      overflow: hidden;
+    }
+
+    .about-content {
+      color: var(--silver);
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-image-frame {
+      background: var(--charcoal);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-image-frame::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    }
+
+    .about-tag-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .about-tag-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--dark-gray);
+    }
+
+    .about-tag-item .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .about-tag-item .check-icon svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--mid-gray);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .large-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: var(--white);
+    }
+
+    .large-quote .quote-dim {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .dashboard-section {
+      background: var(--off-white);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .metric-card {
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: var(--transition-base);
+    }
+
+    .metric-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 12px;
+    }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2rem;
+      color: var(--black);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .metric-unit {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--mid-gray);
+      margin-left: 4px;
+    }
+
+    .metric-delta {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--mid-gray);
+      margin-top: 8px;
+    }
+
+    .metric-delta.positive {
+      color: #4CAF50;
+    }
+
+    .metric-delta.negative {
+      color: #F44336;
+    }
+
+    .health-score-wrap {
+      grid-column: span 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .health-score-ring-wrap {
+      position: relative;
+      width: 130px;
+      height: 130px;
+    }
+
+    .health-score-ring-wrap svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .health-score-ring-wrap .ring-bg {
+      fill: none;
+      stroke: var(--silver);
+      stroke-width: 8;
+    }
+
+    .health-score-ring-wrap .ring-progress {
+      fill: none;
+      stroke: var(--charcoal);
+      stroke-width: 8;
+      stroke-linecap: round;
+    }
+
+    .health-score-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .health-score-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .health-score-unit {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--mid-gray);
+      letter-spacing: 0.06em;
+    }
+
+    .sparkline-wrap {
+      grid-column: span 2;
+    }
+
+    .sparkline-wrap canvas {
+      width: 100%;
+      height: 60px;
+      margin-top: 12px;
+    }
+
+    .big-metric-card {
+      grid-column: span 3;
+      background: var(--charcoal);
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .big-metric-card .metric-label {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .big-metric-card .metric-value {
+      color: var(--white);
+      font-size: 3.5rem;
+    }
+
+    .big-metric-card .metric-unit {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .dashboard-status-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .status-chip {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .status-chip.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .contact-section {
+      background: var(--white);
+    }
+
+    .contact-form-wrap {
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+    }
+
+    .form-control-custom {
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      transition: var(--transition-base);
+      width: 100%;
+      outline: none;
+      appearance: none;
+    }
+
+    .form-control-custom:focus {
+      border-color: var(--charcoal);
+      box-shadow: 0 0 0 3px rgba(30, 30, 28, 0.06);
+    }
+
+    .form-label-custom {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .contact-info-wrap {
+      padding: 48px 40px;
+    }
+
+    .contact-info-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .contact-info-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--off-white);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-info-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--charcoal);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .contact-info-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 4px;
+    }
+
+    .contact-info-value {
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--dark-gray);
+    }
+
+    .section-divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--silver), transparent);
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="noise-overlay"></div>
+  <div class="custom-cursor"></div>
+  <div class="custom-cursor-ring"></div>
+  <div class="scroll-progress"></div>
+  <div class="page-transition"></div>
+
+  <nav class="navbar navbar-custom navbar-expand-lg">
+    <div class="container">
+      <a href="index.html" class="navbar-brand-custom">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="8.5" cy="11" r="1.5" fill="white" stroke="none" />
+            <circle cx="15.5" cy="11" r="1.5" fill="white" stroke="none" />
+            <path d="M8.5 15.5c1.333.667 5.167.667 7 0" stroke="white" stroke-width="1.5" stroke-linecap="round"
+              fill="none" />
+          </svg>
+        </div>
+        Baymax<span style="font-weight:300">AI</span>
+      </a>
+
+      <button class="navbar-toggler-custom d-lg-none" id="navToggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navCollapse" aria-expanded="false">
+        <span class="toggler-line"></span>
+        <span class="toggler-line"></span>
+        <span class="toggler-line"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navCollapse">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a href="#features" class="nav-link-custom">Features</a></li>
+          <li class="nav-item"><a href="#assistant" class="nav-link-custom">Assistant</a></li>
+          <li class="nav-item"><a href="#dashboard" class="nav-link-custom">Dashboard</a></li>
+          <li class="nav-item"><a href="../004/pages/about.html" class="nav-link-custom">About</a></li>
+          <li class="nav-item"><a href="../004/pages/contact.html" class="nav-link-custom">Contact</a></li>
+        </ul>
+        <a href="#assistant" class="btn-nav-cta magnetic-btn">
+          <span class="status-dot"></span>
+          Start Free
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-radial"></div>
+    <div class="particles-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
+
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="hero-content d-flex flex-column">
+            <div class="hero-entrance hero-entrance-delay-1">
+              <div class="hero-badge mb-4">
+                <span class="status-dot"></span>
+                AI Companion — Now Live
+              </div>
+            </div>
+
+            <h1 class="hero-headline hero-entrance hero-entrance-delay-2">
+              Your<br>
+              <span class="accent-outline">Intelligent</span><br>
+              Companion
+            </h1>
+
+            <p class="hero-lead mt-4 hero-entrance hero-entrance-delay-3">
+              A calm, emotionally intelligent AI system designed to monitor, guide, and support your wellbeing with
+              precision and care.
+            </p>
+
+            <div class="d-flex gap-3 mt-5 flex-wrap hero-cta-wrap hero-entrance hero-entrance-delay-4">
+              <a href="#assistant" class="btn-primary-custom magnetic-btn">
+                Meet Baymax
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a href="#features" class="btn-ghost-custom magnetic-btn">
+                Explore Features
+              </a>
+            </div>
+
+            <div class="hero-stats-row hero-entrance hero-entrance-delay-5">
+              <div class="hero-stat-item">
+                <div class="stat-num" data-counter="98" data-suffix="%">0%</div>
+                <div class="stat-label">Accuracy Rate</div>
+              </div>
+              <div class="hero-stat-item">
+                <div class="stat-num" data-counter="50000" data-suffix="+">0</div>
+                <div class="stat-label">Active Users</div>
+              </div>
+              <div class="hero-stat-item">
+                <div class="stat-num" data-counter="24" data-suffix="/7">0</div>
+                <div class="stat-label">Always On</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="baymax-visual-container scale-entrance scale-entrance-delay-1">
+            <div class="orbit-system spin-ring"></div>
+            <div class="orbit-system-inner spin-ring-reverse"></div>
+            <div class="orbit-dot-el orbit-dot"></div>
+            <div class="orbit-dot-el small orbit-dot-2"></div>
+            <div class="baymax-glow-bg morph-bg"></div>
+
+            <div class="baymax-svg-wrap hero-baymax">
+              <svg class="baymax-body-svg" width="260" height="300" viewBox="0 0 260 300" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="130" cy="200" rx="90" ry="95" fill="white" stroke="#E8E8E6" stroke-width="1.5" />
+                <ellipse cx="130" cy="100" rx="70" ry="70" fill="white" stroke="#E8E8E6" stroke-width="1.5" />
+                <line x1="60" y1="200" x2="20" y2="240" stroke="#E8E8E6" stroke-width="8" stroke-linecap="round" />
+                <line x1="200" y1="200" x2="240" y2="240" stroke="#E8E8E6" stroke-width="8" stroke-linecap="round" />
+                <line x1="100" y1="295" x2="80" y2="295" stroke="#E8E8E6" stroke-width="8" stroke-linecap="round" />
+                <line x1="160" y1="295" x2="180" y2="295" stroke="#E8E8E6" stroke-width="8" stroke-linecap="round" />
+                <ellipse cx="108" cy="97" rx="12" ry="7" fill="#1E1E1C" class="hero-baymax-core" />
+                <ellipse cx="152" cy="97" rx="12" ry="7" fill="#1E1E1C" class="hero-baymax-core" />
+                <path d="M105 115 Q130 127 155 115" stroke="#D4D4D2" stroke-width="2" stroke-linecap="round"
+                  fill="none" />
+                <rect x="105" y="165" width="50" height="6" rx="3" fill="#F2F2F0" />
+                <path d="M60 200 Q130 230 200 200" stroke="#E8E8E6" stroke-width="1" fill="none" />
+              </svg>
+            </div>
+
+            <div class="floating-info-card card-pulse floating-card">
+              <div class="card-label">Heart Rate</div>
+              <div class="card-value">72 <span
+                  style="font-size:0.7rem;color:var(--mid-gray);font-family:var(--font-mono)">BPM</span></div>
+            </div>
+
+            <div class="floating-info-card card-mood floating-card">
+              <div class="card-label">Mood Index</div>
+              <div class="card-value">😊 Calm</div>
+            </div>
+
+            <div class="floating-info-card card-status floating-card">
+              <div class="card-label">System</div>
+              <div class="card-value" style="font-size:0.9rem;color:#4CAF50">All Clear</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider-line"></div>
+
+  <section class="section-padding" id="features">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-lg-6 reveal-on-scroll">
+          <span class="section-tag">Capabilities</span>
+          <h2 class="section-title">Built to care.<br>Designed to think.</h2>
+        </div>
+        <div class="col-lg-6 d-flex align-items-end reveal-on-scroll reveal-delay-2">
+          <p class="section-subtitle">Every feature is crafted with the philosophy that technology should serve human
+            wellbeing — calmly, precisely, and with intelligence.</p>
+        </div>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card feature-card-tilt reveal-on-scroll">
+          <div class="feature-num">01</div>
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Health Monitoring</h3>
+          <p class="feature-desc">Continuous real-time analysis of your vital signs with intelligent anomaly detection
+            and early warnings.</p>
+        </div>
+
+        <div class="feature-card feature-card-tilt reveal-on-scroll reveal-delay-1">
+          <div class="feature-num">02</div>
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4l3 3" />
+            </svg>
+          </div>
+          <h3 class="feature-title">24/7 Availability</h3>
+          <p class="feature-desc">Always present, always responsive. Baymax never sleeps so you always have support when
+            you need it.</p>
+        </div>
+
+        <div class="feature-card feature-card-tilt reveal-on-scroll reveal-delay-2">
+          <div class="feature-num">03</div>
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Adaptive Learning</h3>
+          <p class="feature-desc">Baymax learns your patterns, preferences, and health baseline to deliver personalized
+            guidance over time.</p>
+        </div>
+
+        <div class="feature-card large-card feature-card-tilt reveal-on-scroll reveal-delay-3">
+          <div style="flex-shrink:0">
+            <div class="feature-num">04</div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <h3 class="feature-title">Emotional Intelligence</h3>
+            <p class="feature-desc">Beyond data — Baymax understands emotional context and responds with empathy,
+              warmth, and care. It doesn't just analyze; it listens, adapts, and provides comfort when you need it most.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card feature-card-tilt reveal-on-scroll reveal-delay-4">
+          <div class="feature-num">05</div>
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0110 0v4" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Private by Design</h3>
+          <p class="feature-desc">Your health data stays yours. End-to-end encrypted with zero third-party data sharing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider-line"></div>
+
+  <section class="assistant-section section-padding" id="assistant">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-12 text-center reveal-on-scroll">
+          <span class="section-tag" style="justify-content:center">Interactive AI</span>
+          <h2 class="section-title" style="max-width:500px;margin:0 auto">
+            Say hello to<br><span class="shimmer-text">Baymax</span>
+          </h2>
+          <p class="section-subtitle mx-auto mt-3 text-center">Try the assistant directly. Baymax is ready to respond.
+          </p>
+        </div>
+      </div>
+
+      <div class="row gy-4 align-items-stretch">
+        <div class="col-lg-7 reveal-on-scroll">
+          <div class="assistant-panel">
+            <div class="assistant-header">
+              <div class="baymax-mini-avatar">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="8.5" cy="11" r="1.5" fill="white" stroke="none" />
+                  <circle cx="15.5" cy="11" r="1.5" fill="white" stroke="none" />
+                  <path d="M8.5 15.5c1.333.667 5.167.667 7 0" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                    fill="none" />
+                </svg>
+              </div>
+              <div class="assistant-header-info">
+                <div class="assistant-name">Baymax</div>
+                <div class="assistant-status"><span class="status-dot" style="width:5px;height:5px;"></span>Online ·
+                  Ready to assist</div>
+              </div>
+              <div class="ms-auto">
+                <span class="text-mono" style="font-size:0.7rem;color:var(--mid-gray)">v2.4.1</span>
+              </div>
+            </div>
+
+            <div class="assistant-chat-body" id="assistant-chat">
+              <div class="assistant-message-wrap bot-wrap">
+                <div class="bot-avatar">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="9" />
+                    <circle cx="8.5" cy="11" r="1.5" fill="white" />
+                    <circle cx="15.5" cy="11" r="1.5" fill="white" />
+                    <path d="M8.5 15.5c1.333.667 5.167.667 7 0" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                      fill="none" />
+                  </svg>
+                </div>
+                <div class="assistant-message bot-message">Hello! I am Baymax, your personal AI health companion. I am
+                  here to help. How are you feeling today?</div>
+              </div>
+            </div>
+
+            <div class="assistant-footer">
+              <div class="quick-prompts">
+                <button class="quick-prompt-btn">Check my status</button>
+                <button class="quick-prompt-btn">How are you?</button>
+                <button class="quick-prompt-btn">Health tips</button>
+                <button class="quick-prompt-btn">What can you do?</button>
+              </div>
+              <div class="assistant-input-wrap">
+                <input type="text" id="assistant-input" placeholder="Type a message to Baymax..." autocomplete="off" />
+                <button class="assistant-send-btn" id="assistant-send">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5 reveal-on-scroll reveal-delay-2">
+          <div class="assistant-feature-info d-flex flex-column gap-4">
+            <div>
+              <span class="section-tag">Response Time</span>
+              <div class="big-number">0.3<span style="font-size:2rem;color:var(--mid-gray)">s</span></div>
+              <p class="section-subtitle mt-2" style="font-size:0.88rem">Average response latency across all interaction
+                types.</p>
+            </div>
+            <div class="divider"></div>
+            <div>
+              <span class="section-tag">Live Status</span>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-family:var(--font-body);font-size:0.85rem;color:var(--dark-gray)">Natural
+                    Language</span>
+                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#4CAF50">ACTIVE</span>
+                </div>
+                <div style="height:3px;background:var(--off-white);border-radius:2px;overflow:hidden">
+                  <div style="height:100%;width:96%;background:var(--charcoal);border-radius:2px"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-family:var(--font-body);font-size:0.85rem;color:var(--dark-gray)">Emotion
+                    Detection</span>
+                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#4CAF50">ACTIVE</span>
+                </div>
+                <div style="height:3px;background:var(--off-white);border-radius:2px;overflow:hidden">
+                  <div style="height:100%;width:89%;background:var(--charcoal);border-radius:2px"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-family:var(--font-body);font-size:0.85rem;color:var(--dark-gray)">Health
+                    Analysis</span>
+                  <span style="font-family:var(--font-mono);font-size:0.7rem;color:#4CAF50">ACTIVE</span>
+                </div>
+                <div style="height:3px;background:var(--off-white);border-radius:2px;overflow:hidden">
+                  <div style="height:100%;width:99%;background:var(--charcoal);border-radius:2px"></div>
+                </div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div>
+              <p
+                style="font-family:var(--font-body);font-weight:300;font-size:0.88rem;color:var(--mid-gray);line-height:1.7">
+                Baymax processes over <strong style="color:var(--black);font-weight:500">2 million</strong> health data
+                points per session using a secure on-device neural engine.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section section-padding" id="about">
+    <div class="container">
+      <div class="row gy-5 align-items-center">
+        <div class="col-lg-5 reveal-on-scroll">
+          <div class="about-image-frame">
+            <div style="text-align:center;padding:20px 0;">
+              <svg width="180" height="220" viewBox="0 0 180 220" fill="none">
+                <ellipse cx="90" cy="145" rx="68" ry="72" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"
+                  stroke-width="1" />
+                <ellipse cx="90" cy="72" rx="52" ry="52" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"
+                  stroke-width="1" />
+                <ellipse cx="74" cy="70" rx="9" ry="5.5" fill="rgba(255,255,255,0.7)" />
+                <ellipse cx="106" cy="70" rx="9" ry="5.5" fill="rgba(255,255,255,0.7)" />
+                <path d="M73 86 Q90 94 107 86" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"
+                  fill="none" />
+                <rect x="72" y="126" width="36" height="4" rx="2" fill="rgba(255,255,255,0.08)" />
+              </svg>
+              <div style="margin-top:24px">
+                <div class="text-mono"
+                  style="font-size:0.65rem;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:8px">
+                  Diagnostic Complete</div>
+                <div
+                  style="font-family:var(--font-display);font-weight:700;font-size:2.4rem;color:rgba(255,255,255,0.9)">
+                  87<span style="font-size:1.2rem;color:rgba(255,255,255,0.4)">/100</span></div>
+                <div style="font-size:0.82rem;color:rgba(255,255,255,0.4);margin-top:4px;font-family:var(--font-body)">
+                  Overall Wellness Score</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7 about-content reveal-on-scroll reveal-delay-2">
+          <span class="section-tag">Our Philosophy</span>
+          <h2 class="section-title light mb-4">Technology that <br>understands you</h2>
+          <p class="mb-4"
+            style="font-family:var(--font-body);font-weight:300;font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;max-width:500px">
+            Baymax AI was built on a single belief: that artificial intelligence should feel warm, not cold. Every
+            interaction is designed to put human wellbeing first.
+          </p>
+
+          <div class="large-quote mb-5">
+            <span class="quote-dim">"</span>There is always something we can do.<span class="quote-dim">"</span>
+          </div>
+
+          <div class="about-tag-list">
+            <div class="about-tag-item">
+              <div class="check-icon"><svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              Human-centered AI design with emotional intelligence at its core
+            </div>
+            <div class="about-tag-item">
+              <div class="check-icon"><svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              Privacy-first architecture — your data never leaves your device
+            </div>
+            <div class="about-tag-item">
+              <div class="check-icon"><svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              Clinically validated health monitoring algorithms
+            </div>
+            <div class="about-tag-item">
+              <div class="check-icon"><svg viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg></div>
+              Accessible to everyone regardless of technical expertise
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-section section-padding" id="dashboard">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-lg-6 reveal-on-scroll">
+          <span class="section-tag">Live Dashboard</span>
+          <h2 class="section-title">Your vitals,<br>at a glance</h2>
+        </div>
+        <div class="col-lg-6 d-flex align-items-end reveal-on-scroll reveal-delay-2">
+          <p class="section-subtitle">A futuristic interface giving you complete visibility into your health metrics,
+            all in one place.</p>
+        </div>
+      </div>
+
+      <div class="dashboard-grid reveal-on-scroll reveal-delay-1">
+        <div class="metric-card health-score-wrap">
+          <div class="metric-label">Wellness Score</div>
+          <div class="health-score-ring-wrap">
+            <svg viewBox="0 0 130 130">
+              <circle class="ring-bg" cx="65" cy="65" r="54" />
+              <circle id="health-score-ring" class="ring-progress" cx="65" cy="65" r="54" />
+            </svg>
+            <div class="health-score-label">
+              <div class="health-score-num">87</div>
+              <div class="health-score-unit">SCORE</div>
+            </div>
+          </div>
+          <div class="metric-delta positive mt-2" style="font-size:0.75rem">↑ +3 from last week</div>
+        </div>
+
+        <div class="metric-card sparkline-wrap">
+          <div class="metric-label">Heart Rate — Live</div>
+          <div class="metric-value">72 <span class="metric-unit">BPM</span></div>
+          <canvas id="heartrate-sparkline" width="400" height="60"></canvas>
+          <div class="metric-delta positive">↑ Normal range</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Sleep Quality</div>
+          <div class="metric-value" data-counter="94" data-suffix="%">0%</div>
+          <div class="metric-delta positive">↑ Excellent</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Daily Steps</div>
+          <div class="metric-value" data-counter="8420" data-suffix="">0</div>
+          <div class="metric-delta">→ 84% of daily goal</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Blood Oxygen</div>
+          <div class="metric-value" data-counter="99" data-suffix="%">0%</div>
+          <div class="metric-delta positive">↑ Optimal</div>
+        </div>
+
+        <div class="metric-card big-metric-card">
+          <div>
+            <div class="metric-label">Active Monitoring</div>
+            <div class="metric-value" data-counter="247" data-suffix="d">0d</div>
+            <div style="font-family:var(--font-body);font-size:0.82rem;color:rgba(255,255,255,0.4);margin-top:6px">
+              Consecutive days tracked</div>
+          </div>
+          <div class="flex-grow-1">
+            <div class="dashboard-status-bar">
+              <div class="status-chip active">Heartbeat</div>
+              <div class="status-chip active">Breathing</div>
+              <div class="status-chip active">Sleep</div>
+              <div class="status-chip active">Activity</div>
+              <div class="status-chip active">Hydration</div>
+              <div class="status-chip">Nutrition</div>
+              <div class="status-chip active">Mood</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider-line"></div>
+
+  <section class="contact-section section-padding" id="contact">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-12 reveal-on-scroll">
+          <span class="section-tag">Get In Touch</span>
+          <h2 class="section-title">We'd love to<br>hear from you</h2>
+        </div>
+      </div>
+
+      <div class="row gy-4">
+        <div class="col-lg-7 reveal-on-scroll">
+          <div class="contact-form-wrap">
+            <div class="row gy-3">
+              <div class="col-md-6">
+                <label class="form-label-custom">First Name</label>
+                <input type="text" class="form-control-custom" placeholder="John" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-custom">Last Name</label>
+                <input type="text" class="form-control-custom" placeholder="Doe" />
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Email Address</label>
+                <input type="email" class="form-control-custom" placeholder="john@example.com" />
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Subject</label>
+                <input type="text" class="form-control-custom" placeholder="How can we help?" />
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">Message</label>
+                <textarea class="form-control-custom" rows="5" placeholder="Tell us more..."></textarea>
+              </div>
+              <div class="col-12 mt-2">
+                <button class="btn-primary-custom magnetic-btn w-100" style="justify-content:center">
+                  Send Message
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5 reveal-on-scroll reveal-delay-2">
+          <div class="contact-info-wrap">
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Location</div>
+                <div class="contact-info-value">San Fransokyo, CA 94102</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Email</div>
+                <div class="contact-info-value">hello@baymaxai.com</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3-8.69A2 2 0 012.22 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Phone</div>
+                <div class="contact-info-value">+1 (415) 000-0000</div>
+              </div>
+            </div>
+
+            <div class="divider my-4"></div>
+
+            <div>
+              <div class="form-label-custom mb-3">Follow Us</div>
+              <div>
+                <a href="#" class="social-icon" style="border-color:var(--silver);background:var(--off-white)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--dark-gray)"
+                    stroke-width="1.5">
+                    <path
+                      d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                  </svg>
+                </a>
+                <a href="#" class="social-icon" style="border-color:var(--silver);background:var(--off-white)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--dark-gray)"
+                    stroke-width="1.5">
+                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
+                <a href="#" class="social-icon" style="border-color:var(--silver);background:var(--off-white)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--dark-gray)"
+                    stroke-width="1.5">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row gy-5">
+        <div class="col-lg-4">
+          <div class="footer-brand">Baymax<span style="font-weight:300">AI</span></div>
+          <p class="footer-desc">Your calm, intelligent, and emotionally aware AI health companion — always ready to
+            help.</p>
+        </div>
+        <div class="col-lg-2 col-6 footer-col">
+          <div class="footer-heading">Product</div>
+          <a href="#features" class="footer-link">Features</a>
+          <a href="#assistant" class="footer-link">Assistant</a>
+          <a href="#dashboard" class="footer-link">Dashboard</a>
+          <a href="#" class="footer-link">Pricing</a>
+        </div>
+        <div class="col-lg-2 col-6 footer-col">
+          <div class="footer-heading">Company</div>
+          <a href="../004/pages/about.html" class="footer-link">About</a>
+          <a href="../004/pages/contact.html" class="footer-link">Contact</a>
+          <a href="#" class="footer-link">Careers</a>
+          <a href="#" class="footer-link">Press</a>
+        </div>
+        <div class="col-lg-2 col-6 footer-col">
+          <div class="footer-heading">Legal</div>
+          <a href="#" class="footer-link">Privacy</a>
+          <a href="#" class="footer-link">Terms</a>
+          <a href="#" class="footer-link">Security</a>
+          <a href="#" class="footer-link">Cookies</a>
+        </div>
+        <div class="col-lg-2 col-6 footer-col">
+          <div class="footer-heading">Connect</div>
+          <a href="#" class="footer-link">Twitter</a>
+          <a href="#" class="footer-link">LinkedIn</a>
+          <a href="#" class="footer-link">Instagram</a>
+          <a href="#" class="footer-link">GitHub
+        </div>
+      </div>
+    </div>
+
+    <hr class="footer-divider" />
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <span class="footer-copy">© 2025 BaymaxAI. All rights reserved.</span>
+      <div class="d-flex align-items-center gap-2">
+        <span class="status-dot"></span>
+        <span class="footer-copy">All systems operational</span>
+      </div>
+    </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../004/js/main.js"></script>
+  <script src="../004/js/animation.js"></script>
+  <script src="../004/js/interaction.js"></script>
+</body>
+
+</html>
