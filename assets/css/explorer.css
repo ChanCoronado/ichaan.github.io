@@ -1,0 +1,152 @@
+/* ABOUT EXPLORER (interactive photo and topic switcher) */
+.explorer-block {
+    padding: clamp(6rem, 10vh, 10rem) clamp(2rem, 6vw, 10%);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.explorer {
+    margin-top: 4rem;
+}
+
+.explorer-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2.4rem;
+}
+
+.explorer-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10rem;
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.explorer-tab i {
+    font-size: 2rem;
+}
+
+.explorer-tab:hover {
+    color: var(--text-tertiary);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.explorer-tab.active {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: var(--bg-primary);
+}
+
+.explorer-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 4vw, 4.8rem);
+    align-items: center;
+}
+
+.explorer-photos {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--border-hover);
+    border-radius: 1.8rem;
+    background: var(--bg-secondary);
+    box-shadow: 0 0 40px var(--accent-glow);
+}
+
+.explorer-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 0.45s ease, transform 0.6s ease;
+}
+
+.explorer-photo.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.explorer-panel {
+    animation: explorerFade 0.4s ease;
+}
+
+.explorer-panel[hidden] {
+    display: none;
+}
+
+.explorer-title {
+    margin: 0 0 1.2rem;
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 2.6vw, 3rem);
+    font-weight: 700;
+    color: var(--text-tertiary);
+}
+
+.explorer-panel p {
+    margin: 0;
+    font-size: 1.65rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+@keyframes explorerFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* PUP seal in the education timeline */
+.timeline-logo {
+    display: block;
+    width: 7rem;
+    height: 7rem;
+    margin-bottom: 1.2rem;
+    object-fit: contain;
+}
+
+@media (max-width: 800px) {
+    .explorer-stage {
+        grid-template-columns: 1fr;
+    }
+
+    .explorer-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.6rem;
+        scrollbar-width: none;
+    }
+
+    .explorer-tab {
+        flex: 0 0 auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .explorer-photo,
+    .explorer-panel {
+        transition: none;
+        animation: none;
+    }
+}
