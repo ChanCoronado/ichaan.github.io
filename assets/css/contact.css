@@ -104,7 +104,8 @@
     transition: var(--theme-transition);
 }
 
-.contact-card-compact h4 {
+.contact-card-compact h4,
+.contact-card-compact h3 {
     font-family: var(--font-heading);
     font-size: clamp(1.6rem, 1.4vw, 1.8rem);
     color: var(--text-tertiary);
@@ -332,7 +333,8 @@ textarea.form-input-compact {
         font-size: 1.8rem;
     }
 
-    .contact-card-compact h4 {
+    .contact-card-compact h4,
+    .contact-card-compact h3 {
         font-size: 1.4rem;
         margin-bottom: 0.4rem;
     }
@@ -446,5 +448,111 @@ textarea.form-input-compact {
 
     .contact-info-compact {
         gap: 1.5rem;
+    }
+}
+/* Form honeypot and status message */
+.form-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.form-status {
+    min-height: 2.4rem;
+    margin: 1.2rem 0 0;
+    font-size: 1.4rem;
+    color: var(--text-secondary);
+}
+
+.form-status.is-success {
+    color: var(--accent-primary);
+}
+
+.form-status.is-error {
+    color: #ef4444;
+}
+
+
+/* Quick actions */
+.contact-lead {
+    margin: 1rem 0 0;
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.contact-quick {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.6rem 0 2rem;
+}
+
+.btn-quick {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    border: 1px solid var(--border-hover);
+    border-radius: 1rem;
+    background: var(--card-bg);
+    color: var(--text-tertiary);
+    font-family: var(--font-body);
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.btn-quick:hover {
+    background: var(--accent-glow);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+    color: var(--text-tertiary);
+}
+
+/* One-page fit on desktop */
+@media screen and (min-width: 1025px) {
+    .contact-wrapper-oneview {
+        padding-top: calc(var(--header-height) + 1rem);
+        padding-bottom: 1rem;
+    }
+
+    .contact-lead {
+        margin-top: 0.4rem;
+    }
+
+    .contact-quick {
+        margin: 1rem 0 1.4rem;
+    }
+
+    .contact-card-compact {
+        padding: 1rem 1.2rem;
+    }
+}
+
+@media screen and (min-width: 1025px) and (max-height: 820px) {
+    .contact-lead {
+        display: none;
+    }
+
+    .contact-quick {
+        margin: 0.8rem 0 1rem;
+    }
+
+    .contact-info-compact {
+        gap: 0.8rem;
+    }
+
+    .contact-card-compact {
+        padding: 0.7rem 1rem;
+    }
+
+    .contact-card-compact .contact-icon-compact {
+        display: none;
     }
 }
