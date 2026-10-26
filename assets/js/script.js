@@ -49,6 +49,12 @@ function resizeGrid() {
 resizeGrid();
 window.addEventListener('resize', resizeGrid);
 
+// Background canvases run at ~30fps, and draw once when reduced motion is requested
+const canvasReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CANVAS_FRAME_MS = 33;
+let lastGridFrame = 0;
+let lastFallingFrame = 0;
+
 const gridSize = 50;
 let gridOffset = { x: 0, y: 0 };
 let gridAnimationFrame;
@@ -65,6 +71,8 @@ function updateCanvasColors(theme) {
 }
 
 function clearAndRedrawCanvas() {
+    cancelAnimationFrame(gridAnimationFrame);
+    cancelAnimationFrame(fallingAnimationFrame);
     gridCtx.clearRect(0, 0, gridWidth, gridHeight);
     fallingCtx.clearRect(0, 0, fallingWidth, fallingHeight);
     gridOffset = { x: 0, y: 0 };
@@ -72,7 +80,12 @@ function clearAndRedrawCanvas() {
     drawFallingText();
 }
 
-function drawGrid() {
+function drawGrid(now = 0) {
+    if (!canvasReduceMotion && now - lastGridFrame < CANVAS_FRAME_MS) {
+        gridAnimationFrame = requestAnimationFrame(drawGrid);
+        return;
+    }
+    lastGridFrame = now;
     gridCtx.clearRect(0, 0, gridWidth, gridHeight);
 
     gridCtx.strokeStyle = gridColor;
@@ -96,7 +109,7 @@ function drawGrid() {
     gridOffset.x += speed;
     gridOffset.y += speed;
 
-    gridAnimationFrame = requestAnimationFrame(drawGrid);
+    if (!canvasReduceMotion) gridAnimationFrame = requestAnimationFrame(drawGrid);
 }
 
 drawGrid();
@@ -116,8 +129,8 @@ resizeFalling();
 window.addEventListener('resize', resizeFalling);
 
 const textPool = [
-    'CHRISTIAN', 'CORONADO', 'CHAN', 'IT', 'STUDENT', 'WEB', 'DEV',
-    'HTML', 'CSS', 'JS', 'REACT', 'NODE', 'CODE', 'PYTHON', 'JAVA',
+    'CHRISTIAN', 'CORONADO', 'CHAN', 'WEB', 'DEV',
+    'HTML', 'CSS', 'JS', 'PHP', 'CODE', 'PYTHON', 'JAVA',
     'SQL', 'API', 'UI', 'UX', 'DESIGN', 'BUILD', 'CREATE',
     '010', '101', '001', '110', '011', '100', '111', '000',
     '{', '}', '[', ']', '(', ')', '<', '>', '/', '*', '+', '-', '=',
@@ -141,7 +154,12 @@ for (let i = 0; i < columns; i++) {
 
 let fallingAnimationFrame;
 
-function drawFallingText() {
+function drawFallingText(now = 0) {
+    if (!canvasReduceMotion && now - lastFallingFrame < CANVAS_FRAME_MS) {
+        fallingAnimationFrame = requestAnimationFrame(drawFallingText);
+        return;
+    }
+    lastFallingFrame = now;
     const isLightMode = body.classList.contains('light-mode');
 
     const bgColor = isLightMode
@@ -176,7 +194,7 @@ function drawFallingText() {
         }
     });
 
-    fallingAnimationFrame = requestAnimationFrame(drawFallingText);
+    if (!canvasReduceMotion) fallingAnimationFrame = requestAnimationFrame(drawFallingText);
 }
 
 drawFallingText();
@@ -211,7 +229,7 @@ if (menuToggle) {
     menuToggle.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (navigator.vibrate) navigator.vibrate(10);
+        if (navigator.vibrate && navigator.userActivation && navigator.userActivation.hasBeenActive) navigator.vibrate(10);
         menuToggle.classList.add('active');
         if (mobileMenu) mobileMenu.classList.add('active');
         lockScroll();
@@ -219,7 +237,7 @@ if (menuToggle) {
 }
 
 function closeMobileMenu() {
-    if (navigator.vibrate) navigator.vibrate(10);
+    if (navigator.vibrate && navigator.userActivation && navigator.userActivation.hasBeenActive) navigator.vibrate(10);
     if (menuToggle) menuToggle.classList.remove('active');
     if (mobileMenu) mobileMenu.classList.remove('active');
     setTimeout(() => unlockScroll(), 100);
@@ -261,7 +279,7 @@ function switchSection(targetSection) {
 
     setTimeout(() => {
         barsBox.classList.add('active');
-    }, 200);
+    }, 60);
 
     setTimeout(() => {
         sections.forEach(section => section.classList.remove('active', 'transitioning-out'));
@@ -271,12 +289,12 @@ function switchSection(targetSection) {
         if (sectionInner) sectionInner.scrollTop = 0;
 
         checkSectionOverflow();
-    }, 600);
+    }, 340);
 
     setTimeout(() => {
         barsBox.classList.remove('active');
         isTransitioning = false;
-    }, 1200);
+    }, 620);
 }
 
 navLinks.forEach((link) => {
@@ -298,7 +316,7 @@ mobileNavLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         if (isTransitioning) return;
-        if (navigator.vibrate) navigator.vibrate(15);
+        if (navigator.vibrate && navigator.userActivation && navigator.userActivation.hasBeenActive) navigator.vibrate(15);
         const sectionId = link.getAttribute('data-section');
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
@@ -466,18 +484,69 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-/* CONTACT FORM */
+/* CONTACT FORM (Formspree) */
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    const formStatus = document.getElementById('formStatus');
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    function setFormStatus(message, type) {
+        if (!formStatus) return;
+        formStatus.textContent = message;
+        formStatus.className = 'form-status' + (type ? ' is-' + type : '');
+    }
+
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        alert(`Thank you for your message, ${name}! I will get back to you soon.`);
-        contactForm.reset();
+
+        // The form is not connected until the Formspree ID replaces the placeholder
+        if (contactForm.action.includes('YOUR_FORM_ID')) {
+            setFormStatus('The form is not connected yet. Please email me directly.', 'error');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        setFormStatus('Sending...', '');
+
+        try {
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: new FormData(contactForm),
+                headers: { Accept: 'application/json' }
+            });
+
+            if (response.ok) {
+                contactForm.reset();
+                setFormStatus('Thanks for your message. I will get back to you soon.', 'success');
+            } else {
+                setFormStatus('Something went wrong. Please email me directly.', 'error');
+            }
+        } catch (err) {
+            setFormStatus('Network error. Please email me directly.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+        }
     });
 }
+
+/* EMAIL LINK (assembled in JS so the address is not in the page source) */
+const emailLink = document.getElementById('emailLink');
+
+if (emailLink) {
+    const address = emailLink.dataset.user + '@' + emailLink.dataset.domain;
+    emailLink.href = 'mailto:' + address;
+    emailLink.textContent = address;
+}
+
+/* IN-PAGE SECTION LINKS (buttons that jump to another section) */
+document.querySelectorAll('[data-goto]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const nav = document.querySelector(`.nav-link[data-section="${el.dataset.goto}"]`);
+        if (nav) nav.click();
+    });
+});
 
 /* SCROLL ANIMATIONS (About section)  */
 const observerOptions = {

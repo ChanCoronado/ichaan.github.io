@@ -5,7 +5,7 @@
     const el = document.getElementById('roleScramble');
     if (!el) return;
 
-    const roles   = ['IT Student', 'Developer', 'Designer', 'Creator'];
+    const roles   = ['Junior Software Engineer', 'Full-Stack Web Developer'];
     const chars   = '@#$%&*<>[]{}|/\\~^';
     let current   = 0;
 
@@ -48,6 +48,38 @@
         current = (current + 1) % roles.length;
         el.textContent = '';
         await pause(180);
+      }
+    }
+
+    cycle();
+  }
+
+  function initTyping() {
+    const el = document.getElementById('roleTyped');
+    if (!el) return;
+
+    const roles = ['Junior Software Engineer', 'Full-Stack Web Developer'];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    let current = 0;
+    const pause = ms => new Promise(r => setTimeout(r, ms));
+
+    async function cycle() {
+      el.textContent = '';
+      while (true) {
+        const text = roles[current];
+        for (let i = 1; i <= text.length; i++) {
+          el.textContent = text.slice(0, i);
+          await pause(70);
+        }
+        await pause(2000);
+        for (let i = text.length - 1; i >= 0; i--) {
+          el.textContent = text.slice(0, i);
+          await pause(32);
+        }
+        await pause(350);
+        current = (current + 1) % roles.length;
       }
     }
 
@@ -104,7 +136,7 @@
       triggerGlitch();
       setTimeout(randomGlitch, 6000 + Math.random() * 6000);
     }
-    setTimeout(randomGlitch, 4000);
+    setTimeout(randomGlitch, 15000);
   }
 
   function initParallax() {
@@ -147,7 +179,7 @@
   }
 
   function init() {
-    initScrambleText();
+    initTyping();
     initGlitchEffect();
     initParallax();
   }

@@ -2743,3 +2743,233 @@
         transition: none;
     }
 }
+/* ABOUT SUB-NAVIGATION */
+.about-subnav {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 20;
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1.2rem clamp(1.6rem, 4vw, 4rem);
+    border-bottom: 1px solid var(--border-color);
+    background: var(--header-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.about-subnav a {
+    padding: 0.7rem 1.6rem;
+    border: 1px solid transparent;
+    border-radius: 10rem;
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.about-subnav a:hover {
+    color: var(--text-tertiary);
+    border-color: var(--border-hover);
+}
+
+.about-subnav a.active {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+}
+
+@media (max-width: 800px) {
+    .about-subnav {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .about-subnav a {
+        flex: 0 0 auto;
+    }
+}
+
+/* Hero stats on one row */
+.about-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+}
+
+@media (max-width: 600px) {
+    .about-hero-stats {
+        grid-template-columns: repeat(2, auto);
+    }
+}
+
+/* EDUCATION */
+.edu-card {
+    display: flex;
+    align-items: center;
+    gap: clamp(2rem, 3vw, 3.2rem);
+    max-width: 900px;
+    margin: 3.2rem auto 0;
+    padding: clamp(2rem, 3vw, 3.2rem);
+    border: 1px solid var(--border-hover);
+    border-radius: 1.8rem;
+    background: var(--card-bg);
+    box-shadow: 0 0 40px var(--accent-glow);
+}
+
+.edu-logo {
+    position: relative;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    color: var(--accent-primary);
+    font-size: 5rem;
+}
+
+.edu-logo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+}
+
+.edu-title {
+    margin: 0.4rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 2.6vw, 3rem);
+    font-weight: 700;
+    color: var(--text-tertiary);
+}
+
+.edu-school {
+    margin: 0 0 1.4rem;
+    font-size: 1.6rem;
+    color: var(--text-secondary);
+}
+
+.edu-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.edu-badges li {
+    padding: 0.5rem 1.3rem;
+    border: 1px solid var(--border-hover);
+    border-radius: 10rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+}
+
+.edu-earlier {
+    max-width: 900px;
+    margin: 2rem auto 0;
+}
+
+.edu-earlier summary {
+    cursor: pointer;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+}
+
+.edu-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.edu-list li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.6rem;
+    padding: 1.2rem 0;
+    border-top: 1px solid var(--border-color);
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.edu-list em {
+    flex-basis: 100%;
+    font-style: normal;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 600px) {
+    .edu-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .edu-badges {
+        justify-content: center;
+    }
+}
+
+/* EDUCATION GRID (three schools, each with a logo) */
+.edu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 3.2rem auto 0;
+}
+
+.edu-grid .edu-card {
+    margin: 0;
+    max-width: none;
+}
+
+.edu-grid .edu-featured {
+    grid-column: 1 / -1;
+}
+
+.edu-grid .edu-card:not(.edu-featured) {
+    box-shadow: none;
+    border-color: var(--border-color);
+}
+
+.edu-grid .edu-card:not(.edu-featured) .edu-logo {
+    width: 8rem;
+    height: 8rem;
+    font-size: 2.2rem;
+}
+
+.edu-grid .edu-card:not(.edu-featured) .edu-title {
+    font-size: 1.9rem;
+}
+
+/* Initials show until the real logo file loads */
+.edu-logo::before {
+    content: attr(data-initials);
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.edu-grid .edu-card:not(.edu-featured) .edu-logo::before {
+    font-size: 1.6rem;
+}
+
+@media (max-width: 800px) {
+    .edu-grid {
+        grid-template-columns: 1fr;
+    }
+}
