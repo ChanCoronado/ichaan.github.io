@@ -85,12 +85,12 @@ body.light-mode {
 
     /* Typography */
     --text-primary: #800000;
-    --text-secondary: #996515;
+    --text-secondary: #7A4F0F;
     --text-tertiary: #800000;
     --text-white: #FFFFFF;
 
     /* Accent Colors - Gold */
-    --accent-primary: #B8860B;
+    --accent-primary: #8A6508;
     --accent-secondary: #DAA520;
     --accent-glow: #B8860B4d;
     --text-pup: #800000;
@@ -300,6 +300,7 @@ header {
 .logo img {
     height: 50px;
     width: auto;
+    object-fit: contain;
     filter: var(--logo-filter);
     transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s var(--transition-smooth);
 }
@@ -538,33 +539,33 @@ nav {
 }
 
 .bars-box.active .bar:nth-child(1) {
-    animation: barSmoothSlide 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation: barSmoothSlide 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
     animation-delay: 0s;
 }
 
 .bars-box.active .bar:nth-child(2) {
-    animation: barSmoothSlide 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-    animation-delay: 0.05s;
+    animation: barSmoothSlide 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: 0.02s;
 }
 
 .bars-box.active .bar:nth-child(3) {
-    animation: barSmoothSlide 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-    animation-delay: 0.1s;
+    animation: barSmoothSlide 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: 0.04s;
 }
 
 .bars-box.active .bar:nth-child(4) {
-    animation: barSmoothSlide 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-    animation-delay: 0.15s;
+    animation: barSmoothSlide 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: 0.06s;
 }
 
 .bars-box.active .bar:nth-child(5) {
-    animation: barSmoothSlide 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-    animation-delay: 0.2s;
+    animation: barSmoothSlide 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: 0.08s;
 }
 
 .bars-box.active .bar:nth-child(6) {
-    animation: barSmoothSlide 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-    animation-delay: 0.25s;
+    animation: barSmoothSlide 0.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: 0.1s;
 }
 
 @keyframes barSmoothSlide {
@@ -598,7 +599,7 @@ nav {
     opacity: 0;
     visibility: hidden;
     transform: translateY(30px);
-    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out, visibility 0s 0.6s;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s 0.3s;
     overflow: hidden;
     z-index: 100;
 }
@@ -607,13 +608,13 @@ nav {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    transition: opacity 0.6s ease-in-out 0.3s, transform 0.6s ease-in-out 0.3s, visibility 0s 0s;
+    transition: opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s, visibility 0s 0s;
 }
 
 .section.transitioning-out {
     opacity: 0;
     transform: translateY(-30px);
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .section-inner {
@@ -1192,4 +1193,31 @@ nav {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+}
+/* ACCESSIBILITY: skip link and keyboard focus */
+.skip-link {
+    position: fixed;
+    top: -6rem;
+    left: 1.6rem;
+    z-index: 3000;
+    padding: 1rem 1.6rem;
+    border-radius: 0.8rem;
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 1.6rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 3px;
 }
