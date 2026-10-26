@@ -1,128 +1,68 @@
-<div align="center">
+# Christian "Chan" Coronado
 
-<!-- Animated Header Wave -->
-![Header](https://capsule-render.vercel.app/api?type=waving&color=128b44&height=200&section=header&text=CHAN%20CORONADO&fontSize=70&fontColor=fff&animation=twinkling&fontAlignY=35)
+Junior Software Engineer | Full-Stack Web Developer
 
-<!-- Typing Animation -->
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=128B44&center=true&vCenter=true&width=600&lines=IT+Student+%7C+Web+Developer;Creating+Digital+Experiences;Building+the+Future+with+Code" alt="Typing SVG" /></a>
+BS Information Technology graduate (Magna Cum Laude, 2026), Polytechnic University of the Philippines, Sto. Tomas Campus.
+Based in Nagcarlan, Laguna, Philippines. Available for opportunities, open to any work setup (hybrid preferred).
 
-<br/>
+Live site: https://ichaan-github-io.vercel.app/
 
-<!-- Animated Badges -->
-<p>
-  <img src="https://img.shields.io/badge/Age-22-128b44?style=for-the-badge&logo=person&logoColor=white" alt="age"/>
-  <img src="https://img.shields.io/badge/Location-Nagcarlan_Laguna-128b44?style=for-the-badge&logo=google-maps&logoColor=white" alt="location"/>
-  <img src="https://img.shields.io/badge/Focus-Web%20Development-128b44?style=for-the-badge&logo=code&logoColor=white" alt="focus"/>
-</p>
+## About
 
+I turn ideas into working web apps. I use AI tools to learn faster and work smarter, and I enjoy troubleshooting hardware (TESDA NC II in Computer Systems Servicing).
 
-<!-- Profile Views Counter -->
-<img src="https://komarev.com/ghpvc/?username=ichaaan&color=128b44&style=for-the-badge&label=PROFILE+VIEWS" alt="profile views" />
+## Featured work
 
-</div>
+| Project | Role | Stack |
+|---|---|---|
+| Saisyd Cafe: QR Code POS & Inventory Management System (Capstone) | Full-Stack Developer & QA | PHP, JavaScript, CSS, Bootstrap, HTML, MySQL |
+| Notarial Document System (confidential contract for a law office) | Full-Stack Web Developer | PHP, MySQL, JavaScript, GitHub Actions |
+| The Fourth Lens: Media and Information Literacy Learning Website (freelance) | Web Developer | HTML, CSS, JavaScript |
 
-<br/>
+More projects on the site: Chan's Typing Test, Student Life Organizer, NEONBREAK, and an Academic Archive of college coursework.
 
-<!-- Animated Divider -->
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+## Experience
 
-## 🎮 LEVEL UP: DEVELOPER JOURNEY
+- **Full-Stack Web Developer (contract)**, Notarial Document System, July 2026 - September 2026
+- **IT Intern, Team Lead Assistant (Remote)**, Knowles Training Institute, February 2026 - May 2026 (500 hours)
 
-```ascii
-╔═══════════════════════════════════════════════════════════════╗
-║                    CHARACTER STATUS                           ║
-╠═══════════════════════════════════════════════════════════════╣
-║                                                               ║
-║  👨‍💻 Name: Christian "Chan" Coronado                          ║
-║  🎓 Class: BSIT Student                                       ║
-║  🏫 Guild: Polytechnic University of the Philippines         ║
-║  📍 Base: Sto. Tomas Campus                                   ║
-║  ⚔️ Specialty: Frontend Development                          ║
-║                                                               ║
-║  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━     ║
-║                                                               ║
-║  💚 SKILLS UNLOCKED:                                         ║
-║  [████████████████████████████] Web Development    90%        ║
-║  [██████████████████████░░░░░] UI/UX Design        85%        ║
-║  [███████████████████░░░░░░░░] JavaScript          80%        ║
-║  [██████████████████████░░░░░] Responsive Design   90%        ║
-║  [████████████████████░░░░░░░] Creative Coding     75%        ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
-```
+## Skills
 
-## ⚡ TECH STACK & WEAPONS
+- **Front-End & UI:** HTML, CSS, JavaScript, Bootstrap
+- **Back-End & Programming:** PHP, Java, Python, C++
+- **Database & Data Management:** MySQL, SQL Server, phpMyAdmin, XAMPP
+- **Development Workflow:** Git, GitHub, GitHub Actions (CI), VS Code, Visual Studio
+- **Design & Web Platforms:** Figma, Canva, Adobe Photoshop, WordPress, Vercel, Google Search Console
+- **IT Support & Hardware:** Hardware Servicing, Networking, OS Troubleshooting
 
-<div align="center">
+## This repository
 
-### 🎨 FRONTEND ARSENAL
-
-<table>
-<tr>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=html" width="48" height="48" alt="HTML5" />
-<br>HTML5
-</td>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=css" width="48" height="48" alt="CSS3" />
-<br>CSS3
-</td>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=js" width="48" height="48" alt="JavaScript" />
-<br>JavaScript
-</td>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=bootstrap" width="48" height="48" alt="Bootstrap" />
-<br>Bootstrap
-</td>
-</tr>
-</table>
-
-### 🛠️ TOOLS & UTILITIES
-
-<table>
-<tr>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=git" width="48" height="48" alt="Git" />
-<br>Git
-</td>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=github" width="48" height="48" alt="GitHub" />
-<br>GitHub
-</td>
-<td align="center" width="96">
-<img src="https://skillicons.dev/icons?i=vscode" width="48" height="48" alt="VS Code" />
-<br>VS Code
-</td>
-<td align="center" width="96">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" width="48" alt="Figma Icon" />
-<br>Figma
-</td>
-</tr>
-</table>
-
-</div>
-
-<!-- Animated Line Break -->
-<img src="https://www.animatedimages.org/data/media/562/animated-line-image-0184.gif" width="100%">
-
-</div>
-
-<!-- Animated Code GIF -->
-<div align="center">
-<img src="https://user-images.githubusercontent.com/74038190/229223263-cf2e4b07-2615-4f87-9c38-e37600f8381a.gif" width="400">
-</div>
-
-### 📬 REACH OUT
+A static portfolio site built with HTML5, CSS3, vanilla JavaScript and Bootstrap 5. No build step, deployed on Vercel.
 
 ```
-📧 Email: coronadochristian415@gmail.com
-📱 Phone: +63 909 143 6435
-📍 Location: Nagcarlan, Laguna, Philippines
+index.html          Single-page portfolio (Home, About, Experience, Projects, Contact)
+404.html            Custom not-found page
+assets/css/         Styles split by section (styles, home, about, skills, experience, projects, contact, footer)
+assets/js/          Scripts split by feature
+assets/img/         WebP images
+assets/files/       CV (PDF)
+projects/           Demo projects (001 Typing Test, 002 Student Life Organizer, 003 NEONBREAK)
 ```
-<br/>
 
-<!-- Footer Animation -->
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=128b44&height=120&section=footer)
-<br/>
-</div>
+### Run locally
+
+```bash
+python -m http.server 8000
+```
+
+Then open http://localhost:8000/.
+
+### Contact form
+
+The form posts to Formspree. Replace `YOUR_FORM_ID` in the `#contactForm` action in `index.html` with your form ID.
+
+## Contact
+
+- Email: via the contact form on the site, or the address shown in the Contact section
+- LinkedIn: https://www.linkedin.com/in/christian-coronado-82a426390/
+- GitHub: https://github.com/ChanCoronado
