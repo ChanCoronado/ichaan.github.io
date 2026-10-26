@@ -9,171 +9,11 @@ function initAboutSection() {
     initAchievementLightbox();
     initAchievementsFilter();
     initAboutInViewAnimations();
-    initFlipCards();
     initCounters();
+    initExplorer();
     initScrollIndicator();
     initAboutScrollTop();
-    initFunFactsSwipeStack();
 
-    function initFunFactsSwipeStack() {
-    const container = document.querySelector('.funfacts-swipe-stack');
-    if (!container) return;
-
-    const CARDS = [
-        { icon: 'bx bx-code-block', front: 'Favorite Stack', back: 'HTML · CSS · JavaScript · PHP · Bootstrap · MySQL' },
-        { icon: 'bx bx-bulb', front: 'How I Started', back: 'Started with TVL-ICT in SHS, fell in love with coding, then pursued BSIT at PUP Sto. Tomas.' },
-        { icon: 'bx bx-heart', front: 'My Philosophy', back: '"Still learning, still building, still improving."' },
-        { icon: 'bx bx-walk', front: 'How I Relax', back: 'Strolling with friends and catching up with my special person.' },
-        { icon: 'bx bx-coffee', front: 'Off the Clock', back: 'Mobile games, relaxing, and hobbies outside of tech.' },
-        { icon: 'bx bx-moon', front: 'Night Owl or Early Bird?', back: 'Night Owl 🦉' },
-    ];
-
-    const TILTS = [0, -3, 1.5, -2, 2, -1];
-    const SCALES = [1, 0.97, 0.94, 0.91, 0.88, 0.85];
-    const YOFFS = [0, 10, 20, 30, 40, 50];
-    let current = 0, flipped = false, startX = 0, startY = 0, dragX = 0, isDragging = false;
-    let topCard = null;
-
-    const deckEl = container.querySelector('.ff-deck-area');
-    const dotsEl = container.querySelector('.ff-swipe-dots');
-    const counterEl = container.querySelector('.ff-swipe-counter');
-
-    // Block long-press context menu on the deck
-    deckEl.style.webkitUserSelect = 'none';
-    deckEl.style.userSelect = 'none';
-    deckEl.style.webkitTouchCallout = 'none';
-    deckEl.addEventListener('contextmenu', e => e.preventDefault());
-    function buildDeck() {
-        deckEl.innerHTML = '';
-        const visible = Math.min(3, CARDS.length);
-        for (let i = visible - 1; i >= 0; i--) {
-            const idx = (current + i) % CARDS.length;
-            const card = document.createElement('div');
-            card.className = 'ff-swipe-card';
-            card.style.zIndex = visible - i;
-            if (i === 0) {
-                card.style.transform = 'rotate(0deg) scale(1) translateY(0)';
-                card.innerHTML = `
-                    <span class="ff-swipe-label">tap to flip</span>
-                    <div class="ff-swipe-icon"><i class='${CARDS[idx].icon}'></i></div>
-                    <span class="ff-swipe-title">${CARDS[idx].front}</span>
-                    <span class="ff-swipe-hint">swipe to skip</span>`;
-                topCard = card;
-            } else {
-                card.style.transform = `rotate(${TILTS[i]}deg) scale(${SCALES[i]}) translateY(${YOFFS[i]}px)`;
-                card.innerHTML = `<span class="ff-swipe-title" style="opacity:0.35">${CARDS[(current + i) % CARDS.length].front}</span>`;
-            }
-            deckEl.appendChild(card);
-        }
-        flipped = false;
-        updateDots();
-    }
-
-    function updateDots() {
-        dotsEl.innerHTML = '';
-        CARDS.forEach((_, i) => {
-            const d = document.createElement('div');
-            d.className = 'ff-swipe-dot' + (i === current ? ' active' : '');
-            dotsEl.appendChild(d);
-        });
-        if (counterEl) counterEl.textContent = (current + 1) + ' / ' + CARDS.length;
-    }
-
-    function flipTop() {
-        if (!topCard) return;
-        flipped = !flipped;
-        const idx = current;
-        if (flipped) {
-            topCard.innerHTML = `<span class="ff-swipe-back-text">${CARDS[idx].back}</span>`;
-            topCard.style.borderColor = 'var(--accent-primary)';
-            topCard.style.boxShadow = '0 12px 40px var(--accent-glow)';
-        } else {
-            topCard.innerHTML = `
-                <span class="ff-swipe-label">tap to flip</span>
-                <div class="ff-swipe-icon"><i class='${CARDS[idx].icon}'></i></div>
-                <span class="ff-swipe-title">${CARDS[idx].front}</span>
-                <span class="ff-swipe-hint">swipe to skip</span>`;
-            topCard.style.borderColor = '';
-            topCard.style.boxShadow = '';
-        }
-    }
-
-    function goTo(dir) {
-        current = (((current + dir) % CARDS.length) + CARDS.length) % CARDS.length;
-        buildDeck();
-    }
-
-    function swipeOut(dir) {
-        if (!topCard) return;
-        topCard.style.transition = 'transform 0.35s ease, opacity 0.35s';
-        topCard.style.transform = `translateX(${dir * 450}px) rotate(${dir * 18}deg)`;
-        topCard.style.opacity = '0';
-        setTimeout(() => goTo(dir), 320);
-    }
-
-    // ── Mouse events ──
-    deckEl.addEventListener('mousedown', e => {
-        isDragging = true; startX = e.clientX; startY = e.clientY; dragX = 0;
-        if (topCard) topCard.style.transition = 'none';
-    });
-    deckEl.addEventListener('mousemove', e => {
-        if (!isDragging || !topCard) return;
-        dragX = e.clientX - startX;
-        topCard.style.transform = `translateX(${dragX}px) rotate(${dragX * 0.07}deg)`;
-    });
-    deckEl.addEventListener('mouseup', e => {
-        if (!isDragging) return; isDragging = false;
-        const movedY = Math.abs(e.clientY - startY);
-        if (Math.abs(dragX) < 12 && movedY < 12) { flipTop(); if (topCard) topCard.style.transform = ''; return; }
-        if (Math.abs(dragX) > 70) swipeOut(dragX > 0 ? 1 : -1);
-        else if (topCard) { topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
-    });
-    deckEl.addEventListener('mouseleave', () => {
-        if (isDragging && topCard) { isDragging = false; topCard.style.transition = 'transform 0.3s'; topCard.style.transform = ''; }
-    });
-
-    // ── Touch events (instant tap = flip, swipe = skip) ──
-    let touchMoved = false;
-
-    deckEl.addEventListener('touchstart', e => {
-        e.preventDefault(); // blocks long-press context menu
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        dragX = 0;
-        touchMoved = false;
-    }, { passive: false }); // must be false to allow preventDefault
-
-    deckEl.addEventListener('touchmove', e => {
-        if (!topCard) return;
-        dragX = e.touches[0].clientX - startX;
-        const movedY = Math.abs(e.touches[0].clientY - startY);
-        if (Math.abs(dragX) > 15 || movedY > 15) {
-            touchMoved = true;
-        }
-        if (touchMoved) {
-            topCard.style.transition = 'none';
-            topCard.style.transform = `translateX(${dragX}px) rotate(${dragX * 0.07}deg)`;
-        }
-    }, { passive: true });
-
-    deckEl.addEventListener('touchend', e => {
-        if (!topCard) return;
-        if (!touchMoved) {
-            // Instant tap — flip immediately
-            flipTop();
-            return;
-        }
-        // Swipe gesture
-        if (Math.abs(dragX) > 70) {
-            swipeOut(dragX > 0 ? 1 : -1);
-        } else {
-            topCard.style.transition = 'transform 0.3s';
-            topCard.style.transform = '';
-        }
-    });
-
-    buildDeck();
-}
 }
 
 function initAboutImageTouch() {
@@ -429,6 +269,8 @@ function initAchievementLightbox() {
         const rawImgs = (card.dataset.imgs || '').trim();
         const imgList = rawImgs ? rawImgs.split(',').map(s => s.trim()).filter(Boolean) : [];
 
+        if (!imgList.length) return;
+
         card.addEventListener('click', () => {
             if (lbIcon) lbIcon.className = card.dataset.icon || 'bx bxs-trophy';
             if (lbDate) lbDate.textContent = card.dataset.date || '';
@@ -572,34 +414,64 @@ function initAboutInViewAnimations() {
     targets.forEach(el => observer.observe(el));
 }
 
-function initFlipCards() {
-    const flipCards = document.querySelectorAll('.funfact-flip-card');
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+function initExplorer() {
+    const tabs = Array.from(document.querySelectorAll('.explorer-tab'));
+    if (!tabs.length) return;
 
-    if (isTouchDevice) {
-        flipCards.forEach(card => {
-            card.addEventListener('click', () => {
-                card.classList.toggle('flipped');
-            });
+    function select(tab) {
+        const key = tab.dataset.target;
+
+        tabs.forEach(t => {
+            const on = t === tab;
+            t.classList.toggle('active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.tabIndex = on ? 0 : -1;
+        });
+
+        document.querySelectorAll('.explorer-photo').forEach(img => {
+            img.classList.toggle('active', img.dataset.photo === key);
+        });
+
+        document.querySelectorAll('.explorer-panel').forEach(panel => {
+            panel.hidden = panel.id !== 'panel-' + key;
         });
     }
+
+    tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => select(tab));
+
+        // Arrow keys move between tabs, as in a standard tablist
+        tab.addEventListener('keydown', (e) => {
+            let next = null;
+            if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+            if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+            if (next) {
+                e.preventDefault();
+                select(next);
+                next.focus();
+            }
+        });
+    });
 }
 
 function initCounters() {
-    const counterNumbers = document.querySelectorAll('.counter-number[data-target]');
+    const counterNumbers = document.querySelectorAll('.hero-stat-number[data-target]');
+    if (!counterNumbers.length) return;
+
+    // The real number is already in the HTML. Reduced motion or no observer support keeps it as is.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
 
     function animateCounter(el) {
-        const target = parseInt(el.getAttribute('data-target'));
+        const target = parseInt(el.getAttribute('data-target'), 10);
         const suffix = el.getAttribute('data-suffix') || '';
-        const duration = 1800;
+        const duration = 1400;
         const startTime = performance.now();
 
         function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
+            const progress = Math.min((currentTime - startTime) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.floor(eased * target);
-            el.textContent = current + suffix;
+            el.textContent = Math.floor(eased * target) + suffix;
             if (progress < 1) {
                 requestAnimationFrame(update);
             } else {
@@ -610,11 +482,6 @@ function initCounters() {
         requestAnimationFrame(update);
     }
 
-    const aboutSection = document.getElementById('about');
-    if (!aboutSection) return;
-    const sectionInner = aboutSection.querySelector('.section-inner');
-    if (!sectionInner) return;
-
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -622,7 +489,7 @@ function initCounters() {
                 counterObserver.unobserve(entry.target);
             }
         });
-    }, { root: sectionInner, threshold: 0.5 });
+    }, { threshold: 0.5 });
 
     counterNumbers.forEach(el => counterObserver.observe(el));
 }
@@ -676,31 +543,9 @@ function fixFilterBarStacking() {
     document.head.appendChild(style);
 }
 
-const aboutNavLink = document.querySelector('.nav-link[data-section="about"]');
-if (aboutNavLink) {
-    aboutNavLink.addEventListener('click', () => {
-        setTimeout(() => {
-            initAboutSection();
-        }, 900);
-    });
-}
-
-const mobileAboutLink = document.querySelector('.mobile-nav-link[data-section="about"]');
-if (mobileAboutLink) {
-    mobileAboutLink.addEventListener('click', () => {
-        setTimeout(() => {
-            initAboutSection();
-        }, 1300);
-    });
-}
-
 window.addEventListener('DOMContentLoaded', () => {
     fixFilterBarStacking();
-
-    const hash = window.location.hash.substring(1) || 'home';
-    if (hash === 'about') {
-        setTimeout(initAboutSection, 600);
-    }
+    initAboutSection();
 });
 
 function initSkillsCollapse() {
